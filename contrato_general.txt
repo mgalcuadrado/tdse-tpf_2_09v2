@@ -1,0 +1,40 @@
+tda rgb
+
+{
+  uint8_t r;
+  uint8_t g;
+  uint8_t b;
+}casilla
+  
+  
+matriz_teselas{
+  matriz de f x c
+} la matriz es de datos casilla
+
+secuencia va a ser un arreglo de 2 columnas x s cantidad de filas, siendo s la cantidad de elementos en la secuencia.
+también va a tener que tener un seguidor de posición actual en la secuencia, un índice.
+
+  para el pixel art 
+
+
+DIVISIÓN DE TAREAS: 
+MECHI: Pasaje de matriz a tablero RGB, definir pinout de la matriz y cómo prender colores. 
+MARTÍN: EEPROM HECHO, hay que adaptarlo a los nuevos requerimientos (funciones para leer y escribir un tablero T completo)
+      Comunicación i2c coordinada entre la eeprom y el display (se lo da Mechi a Martín a la brevedad, tentativamene lunes; y sumar 4 botones para protoboard y protoboard)
+BAUTI: MODO SECUENCIA 
+CLO: Matriz, potenciometros mappear a colores (puede ser más adelante) FALTAN TESTS TANTO DE ACCESO A MATRIZ COMO DE POTENCIOMETROS
+
+FALTA DEFINIR QUIEN HACE LO SIGUIENTE: 
+  Armar menú tanto del modo secuencia como del modo pixel art (Bau)
+  Armar mappeo de botones? (Mechi) 
+  Integración (importante) 
+  
+
+para el modo secuencia cada casilla va a ser de 4x4 pixeles, que va a armar un tablero de 8x8 casillas 
+pixel art puede tener agrupados de a 1x1, 2x2 o 4x4 al pintar sin problema
+
+tablero{
+  ancho 
+  alto
+}
+
