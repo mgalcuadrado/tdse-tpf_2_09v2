@@ -1,0 +1,4 @@
+../Core/Src/mem.c:22:19:memEscribir	40	static
+../Core/Src/mem.c:57:19:memLeer	32	static
+../Core/Src/mem.c:67:19:memEscribirMatriz	16	static
+../Core/Src/mem.c:73:19:memLeerMatriz	16	static
