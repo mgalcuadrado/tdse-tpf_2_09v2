@@ -53,9 +53,9 @@ void matrizGetColorCasillero(Matriz_t* matrizEntrada, uint8_t fila, uint8_t col,
 //Lleno la matriz de un color
 void matrizLlenar(Matriz_t* matrizEntrada, uint8_t r, uint8_t g, uint8_t b){
 
-	for(uint8_t y=0;y<MATRIZ_FILAS;y++){
-		for(uint8_t x=0;x<MATRIZ_COLUMNAS;x++){
-			matrizSetCasillero(matrizEntrada, x,y,r,g,b);
+	for(uint8_t fila=0;fila<MATRIZ_FILAS;fila++){
+		for(uint8_t columna=0;columna<MATRIZ_COLUMNAS;columna++){
+			matrizSetCasillero(matrizEntrada, fila,columna,r,g,b);
 		}
 	}
 }
