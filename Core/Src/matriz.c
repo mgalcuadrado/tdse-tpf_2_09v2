@@ -14,7 +14,7 @@
 Matriz_t* matrizCrear(void) {
     Matriz_t* nuevaMatriz = (Matriz_t*)malloc(sizeof(Matriz_t));
     if (nuevaMatriz == NULL) {
-        printf("Error creando la matriz \r\n");
+        //printf("Error creando la matriz \r\n");
     }
     return nuevaMatriz;
 }
@@ -33,7 +33,7 @@ void matrizSetCasillero(Matriz_t* matrizEntrada, uint8_t fila, uint8_t col, uint
         matrizEntrada->grilla[fila][col].g = g;
         matrizEntrada->grilla[fila][col].b = b;
     }else{
-    	printf("Fuera de las dimensiones de la matriz \r\n");
+    	//printf("Fuera de las dimensiones de la matriz \r\n");
     }
 }
 

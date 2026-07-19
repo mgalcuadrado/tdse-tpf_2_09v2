@@ -14,3 +14,9 @@ La placa se diseñó en EasyEDA el 16 de julio del 2026 y [el proyecto se puede 
 
 Nótese que el LD1 cuando se está trabajando con alimentación externa se prenderá y apagará intermitentemente. Esto es adecuado para la utilización de alimentación externa ya que es indicadora de que no se detecta comunicación por UART.
 
+## IDCs DE LAS PANTALLAS LED PROVISTOS POR EL FABRICANTE
+Nótese que en los IDCs provistos por el fabricante de las pantallas LED uno de los dos IDCs tiene los cables insertados en sentido inverso, lo que implica un funcionamiento espejado. Esto no se notó previo a la fabricación del PCB "TdSEv1", pero sí se tomará en cuenta para próximas iteraciones. 
+
+## Correcto funcionamiento de las pantallas 
+Se corroboró que ambas pantallas encienden satisfactoriamente. No se reportan LEDs quemados o rotos. 
+![Pantalla LED](img/pantalla_led_encendida.jpg)
