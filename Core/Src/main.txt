@@ -1,5 +1,4 @@
 /* USER CODE BEGIN Header */
-/* ESTE EN REALIDAD ES MI MAIN.C DE DONDE YO CORRO EL PROGRAMA PERO LO DEJO ACÁ PARA QUE LO PUEDAN VER*/
 /**
   ******************************************************************************
   * @file           : main.c
@@ -48,6 +47,8 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+TIM_HandleTypeDef htim3;
+
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -58,6 +59,7 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -86,8 +88,8 @@ int main(void)
 	Matriz_t * matriz = matrizCrear();
 	matrizLlenar(matriz, 0,0,0);
 	frameBufferUpdate(matriz);
-	uint32_t timer = 1;
-	int contador = 0;
+	//uint32_t timer = 1;
+	//int contador = 0;
 
   /* USER CODE END 1 */
 
@@ -110,8 +112,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim3); // PARA ARRANCAR EL TIMER 3
   /* Application Init */
   //app_init();
 
@@ -125,14 +128,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  hub75Refresh();
-	  if (timer == 0xF0){
-		  matrizSetCasillero(matriz, 4, contador, 255, 255, 255);
-		  contador+=1;
-		  frameBufferUpdate(matriz);
-		  timer = 0;
-	  }
-	  timer++;
+
+
    /*  Application Update */
     //app_update();
   }
@@ -175,6 +172,51 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 71;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 1249;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+
 }
 
 /**
@@ -290,7 +332,14 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    // Si salta el timer 3
+    if (htim->Instance == TIM3) {
 
+        hub75Refresh(); // Llamamos al refresh del hub75 y carga una fila
+
+    }
+}
 /* USER CODE END 4 */
 
 /**

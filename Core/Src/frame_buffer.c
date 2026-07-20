@@ -20,15 +20,16 @@ uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
 void frameBufferInit(void)
 {
     //para probar voy a prender en rojo toda la matriz al principio... a ver si sobrevive
-    //uint32_t casilla_inicial1 = (( G1_Pin | B1_Pin | G2_Pin | B2_Pin)<<16) | R1_Pin | R2_Pin;
+    uint32_t casilla_inicial1 = (( G1_Pin | B1_Pin | G2_Pin | B2_Pin)<<16) | R1_Pin | R2_Pin;
     uint32_t casilla_inicial2 = (( G1_Pin | R1_Pin | G2_Pin | R2_Pin)<<16) | B1_Pin | B2_Pin;
     //casillas en negro: todos los pines_rgb se apagan (los pines están movidos al sector de reset)
     uint32_t casilla_negro = (pines_rgb<<16);
     for (int f = 0; f < BUFFER_FILAS; f++){
         for (int c = 0; c < BUFFER_COLUMNAS; c++){
-            framebuffer[f][c] = casilla_negro;
-        	/*if (c == f) framebuffer[f][c] = casilla_inicial2;
-        	else framebuffer[f][c] = casilla_negro;*/
+            //framebuffer[f][c] = casilla_negro;
+        	if (f %3 == 0) framebuffer[f][c] = casilla_inicial2;
+        	else if (f %3 == 1) framebuffer[f][c] = casilla_negro;
+        	else framebuffer[f][c] = casilla_inicial1;
         }
     }
 }

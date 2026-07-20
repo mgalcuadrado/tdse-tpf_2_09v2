@@ -45,10 +45,16 @@ BU6 | PC5
 
 ```
 
+```TIM3```
 
+```
+Se usa el Timer3 ara correr el tiemo del refresh. Acá después agrego notas de la configuracion del timer orque no las recuerdo en este instante.
+```
 
 Si hubiese que cambiar alguno, los siguientes pines NO se pueden utilizar: 
 - ```PA2``` y ```PA3```: Los usan los printfs.
 - ```PA5``` LED de usuario.
 - ```PA13``` y ```PA14```: Programación y debugging.
 - ```PC13```: Botón azul de usuario. 
+
+
