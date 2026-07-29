@@ -3,8 +3,7 @@
 
 #include "stm32f1xx_hal.h"
 
-// Dirección física I2C del adaptador PCF8574 (0x27 desplazado 1 bit a la izquierda)
-// Si la pantalla no enciende/muestra texto, probar cambiando a (0x3F << 1)
+// Dirección I2C del adaptador desplazado 1 a la izquierda
 #define LCD_I2C_ADDR (0x27 << 1)
 
 
