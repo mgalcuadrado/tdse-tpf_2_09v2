@@ -24,6 +24,7 @@
 
 #include "matriz.h"
 #include "mem.h"
+#include "lcd.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -104,8 +105,26 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+  //pantalla
+  // 1. Inicializar la pantalla
+    lcdInicializar(&hi2c1);
 
-  printf("\r\n==================================================\r\n");
+    // 2. Testear las 4 filas del display 2004
+    lcdSetearCursor(0, 0);
+    lcdPrint("Pedazo de Wachin");
+
+    lcdSetearCursor(0, 1);
+    lcdPrint("Tirate un paso");
+
+    lcdSetearCursor(0, 2);
+    lcdPrint("Bauti gay");
+
+    lcdSetearCursor(0, 3);
+    lcdPrint("Wachinadas: 0");
+
+
+//eeprom
+    printf("\r\n==================================================\r\n");
     printf("   INICIANDO TEST GLOBAL: TDA MATRIZ + EEPROM\r\n");
     printf("==================================================\r\n");
 
@@ -226,8 +245,14 @@ int main(void)
 
     // Liberar la memoria final para no dejar fugas (Memory Leaks)
     matrizBorrar(matrizLeida);
+
+
+
   /* USER CODE END 2 */
 
+    /* Variables para la prueba en bucle */
+    uint32_t contadorSegundos = 0;
+    char buffer[21];
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -236,6 +261,15 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  HAL_Delay(1000);
+	  contadorSegundos++;
+
+	  // actualizo la fila3
+	  snprintf(buffer, sizeof(buffer), "Wachinadas: %lu   ", contadorSegundos);
+
+	  lcdSetearCursor(0, 3);
+	  lcdPrint(buffer);
+
   }
   /* USER CODE END 3 */
 }
