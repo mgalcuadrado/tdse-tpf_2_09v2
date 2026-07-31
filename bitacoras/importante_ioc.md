@@ -11,12 +11,12 @@ I2C1(SCA) | PB7
 
 ```HUB75 ```
 ```
-R1  | PC6
-G1  | PC7
+R1   | PC6
+G1   | PC7
 BL1  | PC5
-R2  | PC9
-G2  | PC10
-B2  | PC11
+R2   | PC9
+G2   | PC10
+B2   | PC11
 
 A   | PB10
 CLK | PB13
