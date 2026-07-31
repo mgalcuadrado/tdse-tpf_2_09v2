@@ -13,8 +13,8 @@
 #include "matriz.h"
 
 //mgalcuadrado: acá hardcodeé esto en 16x32 para trabajar con solo una matriz
-#define BUFFER_FILAS 16/2//MATRIZ_FILAS/2
-#define BUFFER_COLUMNAS 32 //MATRIZ_COLUMNAS*2
+#define BUFFER_FILAS 2//ESCANEO 1/2 DE LAS PANTALLAS P10
+#define BUFFER_COLUMNAS 128 //CADA FILA TIENE QUE ESCRIBIR MATRIZ_FILAS/BUFFER_FILAS DE 32 COLUMNAS (2 PIXELES A LA VEZ)
 
 extern uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
 
