@@ -13,13 +13,12 @@ I2C1(SCA) | PB7
 ```
 R1  | PC6
 G1  | PC7
-B1  | PC5
+BL1  | PC5
 R2  | PC9
 G2  | PC10
 B2  | PC11
 
 A   | PB10
-B   | PB14
 CLK | PB13
 LAT | PA6
 OE  | PA8
