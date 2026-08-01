@@ -8,64 +8,76 @@
 #include <stdio.h>
 #include "mem.h"
 #include "matriz.h"
+#include "secuencia.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include "frame_buffer.h"
+#include "lcd.h"
 
-char seleccion_pixelart (char seleccionado[7], int indice_seleccion) {
+char seleccion_pixelart (char seleccion[7], int indice_seleccion) {
     char input = ' ';
-    printf("(%c) Limpiar Tablero \n", seleccionado[0]);
-    printf("(%c) Guardar Dibujo \n", seleccionado[1]);
-    printf("(%c) Cargar Dibujo \n", seleccionado[2]);
-    printf("(%c) Nuevo Dibujo \n", seleccionado[3]);
-    printf("(%c) Cambiar Pincel \n", seleccionado[4]);
-    printf("(%c) Modo Secuencia \n", seleccionado[5]);
+
+    char mensaje1[50];
+    char mensaje2[50];
+    char mensaje3[50];
+    char mensaje4[50];
+
+    if (indice_seleccion < 4) {
+		snprintf(mensaje1, sizeof(mensaje1), "(%c) Limpiar Tablero \n", seleccion[0]);
+		snprintf(mensaje2, sizeof(mensaje2), "(%c) Guardar Dibujo \n", seleccion[1]);
+		snprintf(mensaje3, sizeof(mensaje3), "(%c) Cargar Dibujo \n", seleccion[2]);
+		snprintf(mensaje4, sizeof(mensaje4), "(%c) Nuevo Dibujo \n", seleccion[3]);
+
+		lcdSetearCursor(0, 0);
+		lcdPrint(mensaje1);
+
+		lcdSetearCursor(0, 1);
+		lcdPrint(mensaje2);
+
+		lcdSetearCursor(0, 2);
+		lcdPrint(mensaje3);
+
+		lcdSetearCursor(0, 3);
+		lcdPrint(mensaje4);
+    } else if (3 < indice_seleccion && indice_seleccion < 7){
+    	snprintf(mensaje1, sizeof(mensaje1), "(%c) Cambiar Pincel \n", seleccion[4]);
+    	snprintf(mensaje2, sizeof(mensaje2), "(%c) Modo Secuencia \n", seleccion[5]);
+
+    	lcdSetearCursor(0, 0);
+    	lcdPrint(mensaje1);
+
+    	lcdSetearCursor(0, 1);
+    	lcdPrint(mensaje2);
+    } else {
+    	printf("Error en el Display/Menu");
+    }
         
     scanf("%c", &input); //Se va a cambiar por el input de algun boton
     return input;
 }
 
-void interaccion_menu_pixelart (char input, char seleccion[7], int indice_seleccion, Matriz_t* matriz) {
-    switch (input) {
-            case 's':
-                seleccionado[indice_seleccion] = ' ';
-                if (indice_seleccion >= 5 ) {    
-                    indice_seleccion = 0;
-                } else {
-                    indice_seleccion++;
-                }
-                seleccionado[indice_seleccion] = '*';
-                break;
-            case 'w':
-                seleccionado[indice_seleccion] = ' ';
-                if (indice_seleccion <= 0) {
-                    indice_seleccion = 5;
-                } else {
-                    indice_seleccion--;
-                }
-                seleccionado[indice_seleccion] = '*';
-                break;
-            case ' ': //Boton Rojo de aceptar
-                opcion_elegida_pixerlart(indice_seleccion, matriz);
-                break;
-            case 'b': //Boton Negro para atras
-                //volver a dibujar - PixelArt
-                break;
-    }        
-}
-
-char seleccion_secuencia(char seleccionado[3], int indice_seleccion) {
+char seleccion_secuencia(char seleccion[3], int indice_seleccion) {
     char input = ' ';
-    printf("(%c) Limpiar Secuencia \n", seleccionado[0]);
-    printf("(%c) Modo Pixelart \n", seleccionado[1]);
+
+    char mensaje1[50];
+    char mensaje2[50];
+
+    snprintf(mensaje1, sizeof(mensaje1), "(%c) Limpiar Secuencia \n", seleccion[0]);
+    snprintf(mensaje2, sizeof(mensaje2), "(%c) Modo Pixelart \n", seleccion[1]);
         
-    printf("%d \n", indice_seleccion);
+
+    lcdSetearCursor(0, 0);
+    lcdPrint(mensaje1);
+
+    lcdSetearCursor(0, 1);
+    lcdPrint(mensaje2);
+
+
     scanf("%c", &input); //Se va a cambiar por el input de algun boton
 
-    return input
+    return input;
 }
-
-// void tipo_pincel()
 
 void opcion_elegida_pixelart (int indice_seleccion, Matriz_t* matriz){
     switch (indice_seleccion)
@@ -75,12 +87,15 @@ void opcion_elegida_pixelart (int indice_seleccion, Matriz_t* matriz){
             break;
         case 1: // Guardar Dibujo
             memEscribirMatriz(0x0000, matriz); //Placeholder 0x0000, en la implementacion va a variar 
+            frameBufferUpdate(matriz);
             break;
         case 2: // Cargar Dibujo
             memLeerMatriz(0x0000, matriz); //Placeholder 0x0000, en la implementacion va a variar
+            frameBufferUpdate(matriz);
             break;
         case 3: //Nuevo Dibujo
             matriz = matrizCrear();
+            frameBufferUpdate(matriz);
             break;
         case 4: //Cambiar Pincel
             //tipo_pincel(wasd)
@@ -89,7 +104,6 @@ void opcion_elegida_pixelart (int indice_seleccion, Matriz_t* matriz){
             menu_secuencia();
             break;
     }
-    return
 }
 
 void opcion_elegida_secuencia (int indice_seleccion, Secuencia_t* sec) {
@@ -105,29 +119,59 @@ void opcion_elegida_secuencia (int indice_seleccion, Secuencia_t* sec) {
     }
 }
 
-
-void menu_pixelart () {
-    Matriz_t* matriz = matrizcrear(); //Se puede cambiar de lugar dependiendo de la implementacio / Esta para futuras pruebas
-    char seleccionado[7] = {'*',' ',' ',' ',' ',' '}; // 6 opciones en el menu + 1 por el /n
-    int indice_seleccion = 0;
-
-    while (1) {
-        char input = seleccion_pixelart (seleccionado[7], indice_seleccion);
-        interaccion_menu_pixelart(input, seleccionado[7], indice_seleccion, matriz);
-        
+void interaccion_menu_pixelart (char input, char seleccion[7], int indice_seleccion, Matriz_t* matriz) {
+    switch (input) {
+            case 's':
+                seleccion[indice_seleccion] = ' ';
+                if (indice_seleccion >= 5 ) {
+                    indice_seleccion = 0;
+                } else {
+                    indice_seleccion++;
+                }
+                seleccion[indice_seleccion] = '*';
+                break;
+            case 'w':
+                seleccion[indice_seleccion] = ' ';
+                if (indice_seleccion <= 0) {
+                    indice_seleccion = 5;
+                } else {
+                    indice_seleccion--;
+                }
+                seleccion[indice_seleccion] = '*';
+                break;
+            case ' ': //Boton Rojo de aceptar
+                opcion_elegida_pixerlart(indice_seleccion, matriz);
+                break;
+            case 'b': //Boton Negro para atras
+                //volver a dibujar - PixelArt
+                break;
     }
-    return 0;
 }
 
 
-void menu_secuencia () {
-    Secuencia_t* secuencia = crearSecuencia();
-    char seleccionado[3] = {'*',' '}; // 2 opciones en el menu + se agrega el resto para reusar una funcion
+// void tipo_pincel()
+
+void menu_pixelart() {
+    Matriz_t* matriz = matrizCrear(); //Se puede cambiar de lugar dependiendo de la implementacio / Esta para futuras pruebas
+    frameBufferUpdate(matriz);
+    char seleccion[7] = {'*',' ',' ',' ',' ',' '}; // 6 opciones en el menu + 1 por el /n
     int indice_seleccion = 0;
 
     while (1) {
-        char input = seleccion_secuencia(seleccionado, indice_seleccion);
-        interaccion_menu_secuencia(input, seleccionado, indice_seleccion, secuencia);
+        char input = seleccion_pixelart (seleccion, indice_seleccion);
+        interaccion_menu_pixelart(input, seleccion, indice_seleccion, matriz);
+        
     }
-    return 0
+}
+
+
+void menu_secuencia() {
+    Secuencia_t* secuencia = crearSecuencia();
+    char seleccion[3] = {'*',' '}; // 2 opciones en el menu + se agrega el resto para reusar una funcion
+    int indice_seleccion = 0;
+
+    while (1) {
+        char input = seleccion_secuencia(seleccion, indice_seleccion);
+        interaccion_menu_secuencia(input, seleccion, indice_seleccion, secuencia);
+    }
 }
