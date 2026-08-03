@@ -12,16 +12,17 @@
 #include "main.h"
 #include "matriz.h"
 
-//mgalcuadrado: acá hardcodeé esto en 16x32 para trabajar con solo una matriz
-#define BUFFER_FILAS 2//ESCANEO 1/2 DE LAS PANTALLAS P10
-#define BUFFER_COLUMNAS 128 //CADA FILA TIENE QUE ESCRIBIR MATRIZ_FILAS/BUFFER_FILAS DE 32 COLUMNAS (2 PIXELES A LA VEZ)
+#define BUFFER_FILAS 2
+#define BUFFER_COLUMNAS 256
 
-extern uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
+extern volatile uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
 
 
 
 // frameBufferInit crea una trama de datos para la pantalla en negro (todo apagado)
 void frameBufferInit(void);
-void frameBufferUpdate(Matriz_t*);
-
+void frameBufferUpdateCasilla(Matriz_t*, int, int);
+//void frameBufferUpdateAll(Matriz_t *);
+void testBarridoCompleto(Matriz_t *);
+void testBarridoBuffer(void);
 #endif

@@ -8,10 +8,10 @@
 
 
 
-#include "hub75.h" //de acá saca el tamaño del buffer
+#include "hub75.h" //de acá saca el buffer
 #include <stdio.h>
 
-#include "pixeles.h" //de aca saca casillas distintas para pruebas
+//#include "pixeles.h" //de aca saca pares de pixeles distintos para pruebas
 #define MASK_A 0x01
 
 /* Nota importante: hub75 está considerando que cada uno de estos pines
@@ -24,13 +24,47 @@ static int fila_actual = 0;
 void hub75Init(void){
 	GPIOA -> BSRR = OE_Pin | (LAT_Pin<<16);
 	GPIOB -> BSRR = (A_Pin | B_Pin | CLK_Pin)<<16;
-	GPIOC->BSRR= casilla_negro;
-	//GPIOC->BSRR= casilla_R1;
+	GPIOC->BSRR= (R1_Pin | G1_Pin | BL1_Pin | R2_Pin | G2_Pin | B2_Pin)<<16;
+	//GPIOC->BSRR= parpixeles_R1;
 
 
 }
-static int contador = 0;
+const uint32_t B1_R2 = BL1_Pin | R2_Pin  | (( B2_Pin | G2_Pin | G1_Pin | R1_Pin)<<16);
+const uint32_t G1_G2 = G1_Pin | G2_Pin  | (( B2_Pin | R2_Pin | R1_Pin | BL1_Pin)<<16);
+
 void hub75Refresh(void){
+	GPIOA -> BSRR = OE_Pin; //prender el OE implica apagar la pantalla (lógica invertida)
+	//Direccionamiento
+	GPIOB -> BSRR = (A_Pin | B_Pin )<<16; //se apagan todos los pines
+	uint32_t direccion = 0;
+	if (fila_actual & MASK_A) direccion |= A_Pin;
+	GPIOB -> BSRR = direccion;
+	//Grabado de datos en la pantalla
+//	uint32_t buffer_actual[BUFFER_COLUMNAS] = framebuffer[fila_actual];
+	for (int columna = 0;columna < BUFFER_COLUMNAS; columna++){
+		//uint32_t buffer = framebuffer[fila_actual][columna];
+		GPIOC->BSRR= framebuffer[fila_actual][columna];
+	//	GPIOC->BSRR= buffer_actual[columna];
+		// GPIOC->BSRR = B1_R2;
+		//__NOP(); __NOP();__NOP();__NOP();
+		GPIOB->BSRR = CLK_Pin;
+		//__NOP(); __NOP();__NOP();__NOP();
+		GPIOB->BSRR = (CLK_Pin)<<16;
+		//__NOP(); __NOP();__NOP();__NOP();
+
+	}
+	//Fijado de datos de la línea completa
+	GPIOA -> BSRR = LAT_Pin; //se fijan los datos previos con un pulso
+	//__NOP(); __NOP();__NOP();__NOP();
+	GPIOA -> BSRR = (LAT_Pin)<<16;
+	//__NOP(); __NOP();__NOP();__NOP();
+	GPIOA -> BSRR = (OE_Pin<<16); //apago OE para prender pantalla (lógica inversa)
+
+	fila_actual++;
+	if (fila_actual == BUFFER_FILAS) fila_actual = 0;
+}
+
+void hub75RefreshSinBuffer(void){
     GPIOA -> BSRR = OE_Pin; //prender el OE implica apagar la pantalla (lógica invertida)
 	GPIOB -> BSRR = (A_Pin | B_Pin )<<16; //se apagan todos los pines
 	uint32_t direccion = 0;
@@ -38,20 +72,18 @@ void hub75Refresh(void){
 	GPIOB -> BSRR = direccion;
 
 	for (int columna = 0;columna < BUFFER_COLUMNAS; columna++){
-		//uint32_t buffer = framebuffer[fila_actual][columna];
 		//GPIOC->BSRR= framebuffer[fila_actual][columna];
-		if (columna %2 == 0) GPIOC->BSRR=casilla_R1_R2;
-		else GPIOC->BSRR=casilla_G1_G2;
-		// GPIOC->BSRR=casilla_negro;
+		//GPIOC->BSRR=parpixeles_R1; //esto está comentado porque saqué la dependencia a pixeles.h
+		 //GPIOC->BSRR=parpixeles_negro;
 		//pulso de clock para indicar inicio del pasaje de datos
+
 		GPIOB->BSRR = CLK_Pin;
 		GPIOB->BSRR = (CLK_Pin)<<16;
+
 	}
 	GPIOA -> BSRR = LAT_Pin; //se fijan los datos previos con un pulso
 	GPIOA -> BSRR = (LAT_Pin)<<16;
 	GPIOA -> BSRR = (OE_Pin<<16); //apago OE para prender pantalla (lógica inversa)
-	contador++;
-	if (contador == 2*BUFFER_COLUMNAS) contador = 0;
 	fila_actual++;
 	if (fila_actual == BUFFER_FILAS) fila_actual = 0;
 }

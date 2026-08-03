@@ -8,84 +8,95 @@
 
 
 #include "frame_buffer.h"
+#include "pixeles.h"
 #define LIMITE 127
-/* cada uint32_t en framebuffer una lógica de Bit Set/Reset Register (BSRR):
-    Bits 0 al 15 son de SETteo (un 1 en la posición i implica settear ese pin a 1 (encendido)).
-        Ej: |**************** ***************1| implica encender el pin asociado a la posición 0. 
-    Bits 16 al 31 son de RESETteo (un 1 en la posición i<<16 implica resettear ese pin (apagado))
-        Ej: |***************1 ****************| implica apagar el pin asociado a la posición 0. 
-*/
-uint32_t pines_rgb = R1_Pin | G1_Pin | B1_Pin | R2_Pin | G2_Pin | B2_Pin;
-uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
+
+//uint32_t pines_rgb = R1_Pin | G1_Pin | BL1_Pin | R2_Pin | G2_Pin | B2_Pin;
+volatile uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
 void frameBufferInit(void)
 {
-    //para probar voy a prender en rojo toda la matriz al principio... a ver si sobrevive
-    uint32_t casilla_inicial1 = (( G1_Pin | B1_Pin | G2_Pin | B2_Pin)<<16) | R1_Pin | R2_Pin;
-    uint32_t casilla_inicial2 = (( G1_Pin | R1_Pin | G2_Pin | R2_Pin)<<16) | B1_Pin | B2_Pin;
-    //casillas en negro: todos los pines_rgb se apagan (los pines están movidos al sector de reset)
-    uint32_t casilla_negro = (pines_rgb<<16);
+   	//par de pixeles en negro: todos los pines_rgb se apagan (los pines están movidos al sector de reset)
     for (int f = 0; f < BUFFER_FILAS; f++){
         for (int c = 0; c < BUFFER_COLUMNAS; c++){
-            //framebuffer[f][c] = casilla_negro;
-        	if (f %3 == 0) framebuffer[f][c] = casilla_inicial2;
-        	else if (f %3 == 1) framebuffer[f][c] = casilla_negro;
-        	else framebuffer[f][c] = casilla_inicial1;
+        	//if (f== 0&& c == 255) framebuffer[f][c] = parpixeles_B1;
+        	//else
+        	framebuffer[f][c] = parpixeles_negro;
+        	//amebuffer[f][c] = parpixeles_B1_R2;
         }
     }
 }
 
-void frameBufferUpdate(Matriz_t * matriz){
-    for (int f = 0; f < BUFFER_FILAS; f++){
-        for (int c = 0; c < BUFFER_COLUMNAS; c++){
-            uint8_t r=0, g=0, b=0;
-            matrizGetColorCasillero(matriz, f, c, &r, &g, &b);
-            if (r > LIMITE) {
-            	framebuffer[f][c] |= R1_Pin;
-            	//framebuffer[f][c] |= !(R1_Pin <<16)
-            }
-            else {
-            	framebuffer[f][c] |= (R1_Pin <<16);
-            	//framebuffer[f][c] |= !R1_Pin;
-            }
-            if (g > LIMITE){
-            	framebuffer[f][c] |= G1_Pin;
-            	//framebuffer[f][c] |= !(G1_Pin <<16)
-            }
-            else {
-            	framebuffer[f][c] |= (G1_Pin <<16);
-            	//framebuffer[f][c] |= !G1_Pin;
-            }
-            if (b > LIMITE){
-            	framebuffer[f][c] |= B1_Pin;
-            }
-			else{
-				framebuffer[f][c] |= (B1_Pin <<16);
-			}
-            matrizGetColorCasillero(matriz, f+BUFFER_FILAS, c, &r, &g, &b);
-			if (r > LIMITE) {
-				framebuffer[f][c] |= R2_Pin;
-				//framebuffer[f][c] |= !(R2_Pin <<16)
-			}
-			else {
-				framebuffer[f][c] |= (R2_Pin <<16);
-				//framebuffer[f][c] |= !R2_Pin;
-			}
-			if (g > LIMITE){
-				framebuffer[f][c] |= G2_Pin;
-				//framebuffer[f][c] |= !(G2_Pin <<16)
-			}
-			else {
-				framebuffer[f][c] |= (G2_Pin <<16);
-				//framebuffer[f][c] |= !G2_Pin;
-			}
-			if (b > LIMITE){
-				framebuffer[f][c] |= B2_Pin;
-			}
-			else{
-				framebuffer[f][c] |= (B2_Pin <<16);
-           }
+const uint32_t rgb1 = R1_Pin | BL1_Pin | G1_Pin |((R1_Pin | BL1_Pin | G1_Pin)<<16);
+const uint32_t rgb2 = R2_Pin | B2_Pin | G2_Pin |((R2_Pin | B2_Pin | G2_Pin)<<16);
 
-        }
+void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_matriz){
+	uint8_t inf = 1;
+	if (fila_matriz%16 < 8)inf=0; //para saber si va en rgb1 o rgb2
+	uint8_t pantalla = 1;
+		if (fila_matriz >= 16)  pantalla = 2;	//para saber si va a la pantalla 1 o a la pantalla 2
+	uint8_t f = fila_matriz %2;
+	uint8_t c = 0;
+	if (!inf) c = (pantalla==1)?((int)(fila_matriz /2))*MATRIZ_COLUMNAS + columna_matriz : ((int)((fila_matriz-8)/2))*MATRIZ_COLUMNAS + columna_matriz;
+	else c = (pantalla==1)?(((int)((fila_matriz-8)/2)))*MATRIZ_COLUMNAS+ columna_matriz: ((int)((fila_matriz-16)/2))*MATRIZ_COLUMNAS+ columna_matriz;
+	uint8_t r=0, g=0, b=0;
+	 matrizGetColorCasillero(matriz, fila_matriz, columna_matriz, &r, &g, &b);
+	 uint32_t color = 0;
+	 switch (inf){
+		case 0:
+			//los datos van en RGB1
+			if (r > LIMITE) color |= R1_Pin;
+			else color |= (R1_Pin <<16);
+			if (g > LIMITE) color |= G1_Pin;
+			else color |= (G1_Pin <<16);
+			if (b > LIMITE) color |= B1_Pin;
+			else color |= (B1_Pin <<16);
+			break;
+		case 1:
+			if (r > LIMITE) color |= R2_Pin;
+			else color |= (R2_Pin <<16);
+			if (g > LIMITE) color |= G2_Pin;
+			else color |= (G2_Pin <<16);
+			if (b > LIMITE) color |= B2_Pin;
+			else color |= (B2_Pin <<16);
+			break;
+		default:
+			break;
+	}
+
+	 uint32_t buffer= framebuffer[f][c];
+	 buffer&= ~(inf == 0 ? rgb1 : rgb2); //SE LIMPIAN LOS BITS YA GUARDADOS PARA ESTA CASILLA EN EL BUFFER
+	 buffer|= color;
+	 framebuffer[f][c] = buffer;
+
+}
+
+static int fila_test = 0;
+static int columna_test = 0;
+void testBarridoCompleto(Matriz_t * matriz){
+	uint8_t r = 0,g = 0,b = 0;
+	if (fila_test <8) r=255;
+	else if (fila_test < 16) g = 255;
+	else if (fila_test < 24) r = 255;
+	else {
+		//r=255;
+		g=255;//b=255;
+	}
+	matrizSetCasillero(matriz, fila_test, columna_test, r,g,b);
+    frameBufferUpdateCasilla(matriz, fila_test, columna_test);
+    columna_test++;
+    if (columna_test == MATRIZ_COLUMNAS){
+    	columna_test = 0;
+    	fila_test++;
+    	if (fila_test == MATRIZ_FILAS) fila_test = 0;
     }
 }
 
+void testBarridoBuffer(void){
+	framebuffer[fila_test][columna_test] = parpixeles_B1_R2;
+	columna_test++;
+	    if (columna_test == BUFFER_COLUMNAS){
+	    	columna_test = 0;
+	    	fila_test++;
+	    	if (fila_test == BUFFER_FILAS) fila_test = 0;
+	    }
+}
