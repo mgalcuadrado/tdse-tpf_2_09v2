@@ -165,10 +165,19 @@ void menu_pixelart() {
 }
 
 
+
 void menu_secuencia() {
     Secuencia_t* secuencia = crearSecuencia();
     char seleccion[3] = {'*',' '}; // 2 opciones en el menu + se agrega el resto para reusar una funcion
     int indice_seleccion = 0;
+
+    //Esto esta para verificar el funcionamiento de los botones - Se va a modificar las siguientes 5 lineas de codigo
+    if (HAL_GPIO_ReadPin(B1_GPIO_Port,B1_Pin) == GPIO_PIN_RESET) {
+    	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+    } else {
+    	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+    }
+
 
     while (1) {
         char input = seleccion_secuencia(seleccion, indice_seleccion);
