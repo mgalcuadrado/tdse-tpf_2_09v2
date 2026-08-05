@@ -27,3 +27,5 @@ void opcion_elegida_pixelart (int indice_seleccion, Matriz_t* matriz);
 
 void opcion_elegida_secuencia (int indice_seleccion, Secuencia_t* matriz);
 
+#endif
+
