@@ -11,6 +11,8 @@
 #include "pixeles.h"
 #define LIMITE 127
 
+void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz, int * fila_buffer, int * columna_buffer, uint8_t * pines_rgb);
+
 //uint32_t pines_rgb = R1_Pin | G1_Pin | BL1_Pin | R2_Pin | G2_Pin | B2_Pin;
 volatile uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
 void frameBufferInit(void)
@@ -30,19 +32,15 @@ const uint32_t rgb1 = R1_Pin | BL1_Pin | G1_Pin |((R1_Pin | BL1_Pin | G1_Pin)<<1
 const uint32_t rgb2 = R2_Pin | B2_Pin | G2_Pin |((R2_Pin | B2_Pin | G2_Pin)<<16);
 
 void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_matriz){
-	uint8_t inf = 1;
-	if (fila_matriz%16 < 8)inf=0; //para saber si va en rgb1 o rgb2
-	uint8_t pantalla = 1;
-		if (fila_matriz >= 16)  pantalla = 2;	//para saber si va a la pantalla 1 o a la pantalla 2
-	uint8_t f = fila_matriz %2;
-	uint8_t c = 0;
-	if (!inf) c = (pantalla==1)?((int)(fila_matriz /2))*MATRIZ_COLUMNAS + columna_matriz : ((int)((fila_matriz-8)/2))*MATRIZ_COLUMNAS + columna_matriz;
-	else c = (pantalla==1)?(((int)((fila_matriz-8)/2)))*MATRIZ_COLUMNAS+ columna_matriz: ((int)((fila_matriz-16)/2))*MATRIZ_COLUMNAS+ columna_matriz;
-	uint8_t r=0, g=0, b=0;
+	 if (fila_matriz > MATRIZ_FILAS || columna_matriz > MATRIZ_COLUMNAS || matriz == NULL)
+		 return;
+	 int f =0, c=0;
+	 uint8_t r=0, g=0, b=0,pines_rgb =0;
+	 conversorPosicionMatrizAPosicionBuffer(fila_matriz, columna_matriz, &f, &c, &pines_rgb);
 	 matrizGetColorCasillero(matriz, fila_matriz, columna_matriz, &r, &g, &b);
 	 uint32_t color = 0;
-	 switch (inf){
-		case 0:
+	 switch (pines_rgb){
+		case 1:
 			//los datos van en RGB1
 			if (r > LIMITE) color |= R1_Pin;
 			else color |= (R1_Pin <<16);
@@ -51,7 +49,7 @@ void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_ma
 			if (b > LIMITE) color |= B1_Pin;
 			else color |= (B1_Pin <<16);
 			break;
-		case 1:
+		case 2:
 			if (r > LIMITE) color |= R2_Pin;
 			else color |= (R2_Pin <<16);
 			if (g > LIMITE) color |= G2_Pin;
@@ -64,22 +62,119 @@ void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_ma
 	}
 
 	 uint32_t buffer= framebuffer[f][c];
-	 buffer&= ~(inf == 0 ? rgb1 : rgb2); //SE LIMPIAN LOS BITS YA GUARDADOS PARA ESTA CASILLA EN EL BUFFER
+	 buffer&= ~(pines_rgb == 1 ? rgb1 : rgb2); //SE LIMPIAN LOS BITS YA GUARDADOS PARA ESTA CASILLA EN EL BUFFER
 	 buffer|= color;
 	 framebuffer[f][c] = buffer;
 
 }
+
+
+void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz, int * fila_buffer, int * columna_buffer, uint8_t * pines_rgb){
+	*pines_rgb = 2;
+	if (fila_matriz < 8 ||fila_matriz >= 24) *pines_rgb = 1;
+	uint8_t pantalla = 2;
+	if (fila_matriz < 16) pantalla = 1;
+	*fila_buffer  = 0, *columna_buffer = 0;
+	switch (pantalla){
+			case 2:
+				if (fila_matriz % 2 == 1) *fila_buffer  = 1;
+				break;
+			case 1:
+				if (fila_matriz % 2 == 0) *fila_buffer  = 1;
+				break;
+			default:
+				break;
+	}
+	int fila_map = fila_matriz % 8;
+	//llegados a este unto ya se conoce si la fila a utilizar es la par o la impar
+
+	switch (pantalla){
+				case 2:
+
+					/* A continuacion se puede ver el valor que tienen en las columnas del framebuffer los bloques de misma fila del buffer
+					 * (pares subsiguientes desde el 16, impares desde el 17) en funcion de esta distribucion de serpentina.
+					 * Se muestran en el orden de las columnas en la matriz (CM) para mayor claridad visual.
+					 * Como luego se trabajara con estos valores modulo 4, se indicarian las filas (FM) 0 y 2,
+					 * correspondientes a ese bloque de la pantalla, en el diagrama a continuacion:
+					 *
+					 * pANTALLA 2
+					 * CM	 00	..... 07   08 ..... 15	 16 ..... 23   24 ..... 31
+					 * FM
+					 * 	0 || 63 <---- 56 | 47 <---- 40 | 31 <---- 24 | 15 <---- 08 ||
+					 *  2 || 48 ----> 56 | 32 ----> 56 | 16 ----> 23 | 00 ----> 07 ||
+					 */
+
+					if (*fila_buffer == 1) fila_map -= 1;
+					if (fila_map >= 4) *columna_buffer += MATRIZ_COLUMNAS * 2;
+					if (fila_map % 4 == 0) {
+						//DESpLAZAMIENTO HACIA IZQUIERDA. LAS 4 COLUMNAS "ARRANCAN" A LA DERECHA
+						if (columna_matriz < 8) *columna_buffer += 56;
+						else if (columna_matriz < 16) *columna_buffer += 40;
+						else if (columna_matriz < 24) *columna_buffer += 24;
+						else *columna_buffer += 8;
+						*columna_buffer += 8 - (columna_matriz % 8);
+					}
+					else  {
+						//DESpLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
+						if (columna_matriz >= 24) *columna_buffer +=0; //si es mayor a 24 se suman cero... lo agrego para no poner 2 condiciones en el if nada mas
+						else if (columna_matriz  >= 16) *columna_buffer += 16;
+						else if (columna_matriz >= 8) *columna_buffer += 32;
+						else *columna_buffer += 48;
+						*columna_buffer += columna_matriz % 8;
+					}
+					break;
+				case 1:
+
+					/* A continuacion se puede ver el valor que tienen en las columnas del framebuffer los bloques de misma fila del buffer
+					 * en funcion de esta distribucion de serpentina.
+					 * Se muestran en el orden de las columnas en la matriz (CM) para mayor claridad visual.
+					 * Como luego se trabajara con estos valores modulo 4, se indicarian las filas (FM) 0 y 2,
+					 * correspondientes a ese bloque de la pantalla, en el diagrama a continuacion:
+					 *
+					 * pANTALLA 1
+					 * CM	 00	..... 07   08 ..... 15	 16 ..... 23   24 ..... 31
+					 * FM
+					 * 	2 || 07 <---- 00 | 23 <---- 16 | 39 <---- 32 | 55 <---- 48 ||
+					 *  0 || 08 ----> 15 | 24 ----> 31 | 40 ----> 47 | 63 ----> 56 ||
+					 */
+
+					if (*fila_buffer == 0) fila_map -= 1;
+					if (fila_map <= 4) *columna_buffer += MATRIZ_COLUMNAS * 2;
+					if (fila_map % 4 == 2) {
+						//DESLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
+						if (columna_matriz < 8) *columna_buffer += 8;
+						else if (columna_matriz < 16) *columna_buffer += 24;
+						else if (columna_matriz < 24) *columna_buffer += 40;
+						else *columna_buffer += 56;
+						*columna_buffer += columna_matriz % 8;
+					}
+					else  {
+						//DESLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
+						if (columna_matriz >= 24) *columna_buffer += 48; //si es mayor a 24 se suman cero... lo agrego para no poner 2 condiciones en el if nada mas
+						else if (columna_matriz  >= 16) *columna_buffer += 32;
+						else if (columna_matriz >= 8) *columna_buffer += 16;
+						else *columna_buffer += 0;
+						*columna_buffer += 8 - (columna_matriz % 8);
+					}
+
+					break;
+				default:
+					break;
+		}
+	if (pantalla == 1) *columna_buffer += BUFFER_COLUMNAS; //rimero se escribe toda la antalla 2 y desues la 1.
+	
+}
+
 
 static int fila_test = 0;
 static int columna_test = 0;
 void testBarridoCompleto(Matriz_t * matriz){
 	uint8_t r = 0,g = 0,b = 0;
 	if (fila_test <8) r=255;
-	else if (fila_test < 16) g = 255;
+	else if (fila_test < 16) b=255;
 	else if (fila_test < 24) r = 255;
 	else {
-		//r=255;
-		g=255;//b=255;
+		r=255;g=255;b=255;
 	}
 	matrizSetCasillero(matriz, fila_test, columna_test, r,g,b);
     frameBufferUpdateCasilla(matriz, fila_test, columna_test);
@@ -92,7 +187,7 @@ void testBarridoCompleto(Matriz_t * matriz){
 }
 
 void testBarridoBuffer(void){
-	framebuffer[fila_test][columna_test] = parpixeles_B1_R2;
+	framebuffer[fila_test][columna_test] = parpixeles_B1_W2;
 	columna_test++;
 	    if (columna_test == BUFFER_COLUMNAS){
 	    	columna_test = 0;
@@ -100,3 +195,4 @@ void testBarridoBuffer(void){
 	    	if (fila_test == BUFFER_FILAS) fila_test = 0;
 	    }
 }
+
