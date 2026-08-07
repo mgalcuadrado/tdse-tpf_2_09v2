@@ -75,8 +75,12 @@ A continuación se puede ver el valor que tienen en las columnas del framebuffer
 
 >Nota importante: por cada fila del frame buffer, primero se escribe toda la pantalla 2 y luego la 1. Además, la pantalla 1 y la pantalla 2 se colocaron una invertida con respecto a la otra por el largo del cable IDC originalmente dado por el proveedor de las pantallas LED.
 
-Se muestran en el orden de las columnas en la matriz (CM) para mayor claridad visual.
-Como luego se trabajará con estos valores módulo 4, se indican las filas (FM) 0 y 2,
+Se trabajará analizando bloques de 4x16, ya que siguen la misma lógica dentro de la misma pantalla independientemente de su fila en el framebuffer. Los bloques de 4x16 se condicen al siguiente orden del framebuffer (esto se verificó usando el test `void testBarridoBuffer(void)`, que se presentará más adelante.)
+
+![Secuencia bloques pantallas](img/secuencia_bloques_pantallas.png)
+
+Dependiendo de la pantalla analizada el mappeo de los datos dentro del bloque de 4x16 diferirá por la posición elegida para las pantallas (una está invertida con respecto a la otra). 
+Se muestran en el orden de las columnas en la matriz (CM) para mayor claridad visual. Como luego se trabajará con estos valores (bloques de 4 filas y 32 columnas), se indican las filas (FM) 0 y 2,
 correspondientes a ese bloque de la pantalla, en el bocetado del patrón de serpentina mostrado a continuación:
 
 #### PANTALLA 2
