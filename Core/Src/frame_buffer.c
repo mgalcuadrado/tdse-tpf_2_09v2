@@ -74,9 +74,10 @@ void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_ma
  * son las comprendidas dentro de la misma. La lógica del mappeo en serpentina se describe en frame_buffer.txt
  */
 
- void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz, int * fila_buffer, int * columna_buffer, uint8_t * pines_rgb){
-	*pines_rgb = (fila_matriz < 8 ||fila_matriz >= 24) ? 1 : 2;
-	uint8_t pantalla = (fila_matriz < 16) ? 1 : 2;
+
+void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz, int * fila_buffer, int * columna_buffer, uint8_t * pines_rgb){
+	*pines_rgb = (fila_matriz < (MATRIZ_FILAS/4) ||fila_matriz >= (3*MATRIZ_FILAS/4)) ? 1 : 2;
+	uint8_t pantalla = (fila_matriz < (MATRIZ_FILAS/2)) ? 1 : 2;
 	switch (pantalla){
 			case 2:
 				 *fila_buffer  = (fila_matriz % 2 == 1) ? 1 : 0;
@@ -88,56 +89,54 @@ void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_ma
 				break;
 	}
 	*columna_buffer = 0;
-	int fila_map = fila_matriz % 8;
+	int fila_map = fila_matriz % (MATRIZ_FILAS/4);
 	switch (pantalla){
 				case 2: //esta es la pantalla en la que escribe primero el buffer
 					if (*fila_buffer == 1) fila_map -= 1;
-					if (fila_map >= 4) *columna_buffer += MATRIZ_COLUMNAS * 2;
-					if (fila_map % 4 == 0) {
+					if (fila_map >= (COLUMNAS_SERPENTINA/2)) *columna_buffer += MATRIZ_COLUMNAS * 2;
+					if (fila_map % (FILAS_SERPENTINA * 2) == 0) {
 						//DESpLAZAMIENTO HACIA IZQUIERDA. LAS 4 COLUMNAS "ARRANCAN" A LA DERECHA
-						if (columna_matriz < 8) *columna_buffer += 56;
-						else if (columna_matriz < 16) *columna_buffer += 40;
-						else if (columna_matriz < 24) *columna_buffer += 24;
-						else *columna_buffer += 8;
-						*columna_buffer += 7 - (columna_matriz % 8);
+						if (columna_matriz < COLUMNAS_SERPENTINA) *columna_buffer += (7*COLUMNAS_SERPENTINA);
+						else if (columna_matriz < (2*COLUMNAS_SERPENTINA)) *columna_buffer += (5*COLUMNAS_SERPENTINA);
+						else if (columna_matriz < (3*COLUMNAS_SERPENTINA)) *columna_buffer += (3*COLUMNAS_SERPENTINA);
+						else *columna_buffer += COLUMNAS_SERPENTINA;
+						*columna_buffer += COLUMNAS_SERPENTINA  - 1 - (columna_matriz % COLUMNAS_SERPENTINA);
 					}
 					else  {
 						//DESpLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
-						if (columna_matriz >= 24) *columna_buffer +=0; //si es mayor a 24 se suman cero... lo agrego para no poner 2 condiciones en el if nada mas
-						else if (columna_matriz  >= 16) *columna_buffer += 16;
-						else if (columna_matriz >= 8) *columna_buffer += 32;
-						else *columna_buffer += 48;
-						*columna_buffer += columna_matriz % 8;
+						if (columna_matriz >= (3*COLUMNAS_SERPENTINA)) *columna_buffer +=0; //si es mayor a 24 se suman cero... lo agrego para no poner 2 condiciones en el if nada mas
+						else if (columna_matriz  >= (2*COLUMNAS_SERPENTINA)) *columna_buffer += (2*COLUMNAS_SERPENTINA);
+						else if (columna_matriz >= COLUMNAS_SERPENTINA) *columna_buffer += (4*COLUMNAS_SERPENTINA);
+						else *columna_buffer += (6*COLUMNAS_SERPENTINA);
+						*columna_buffer += columna_matriz % COLUMNAS_SERPENTINA;
 					}
 					break;
 				case 1:
 
 					if (*fila_buffer == 0) fila_map -= 1;
-					if (fila_map < 4) *columna_buffer += MATRIZ_COLUMNAS * 2;
-					if (fila_map % 4 == 2) {
+					if (fila_map < (COLUMNAS_SERPENTINA/2)) *columna_buffer += MATRIZ_COLUMNAS * 2;
+					if (fila_map % (FILAS_SERPENTINA * 2) == FILAS_SERPENTINA) {
 						//DESLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
-						if (columna_matriz < 8) *columna_buffer += 8;
-						else if (columna_matriz < 16) *columna_buffer += 24;
-						else if (columna_matriz < 24) *columna_buffer += 40;
-						else *columna_buffer += 56;
-						*columna_buffer += columna_matriz % 8;
+						if (columna_matriz < COLUMNAS_SERPENTINA) *columna_buffer += COLUMNAS_SERPENTINA;
+						else if (columna_matriz < 2*COLUMNAS_SERPENTINA) *columna_buffer += 3*COLUMNAS_SERPENTINA;
+						else if (columna_matriz < 3*COLUMNAS_SERPENTINA) *columna_buffer += 5*COLUMNAS_SERPENTINA;
+						else *columna_buffer += 7*COLUMNAS_SERPENTINA;
+						*columna_buffer += columna_matriz % COLUMNAS_SERPENTINA;
 					}
 					else  {
 						//DESLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
-						if (columna_matriz >= 24) *columna_buffer += 48; //si es mayor a 24 se suman cero... lo agrego para no poner 2 condiciones en el if nada mas
-						else if (columna_matriz  >= 16) *columna_buffer += 32;
-						else if (columna_matriz >= 8) *columna_buffer += 16;
+						if (columna_matriz >= 3*COLUMNAS_SERPENTINA) *columna_buffer += 6*COLUMNAS_SERPENTINA; //si es mayor a 24 se suman cero... lo agrego para no poner 2 condiciones en el if nada mas
+						else if (columna_matriz  >= 2*COLUMNAS_SERPENTINA) *columna_buffer += 4*COLUMNAS_SERPENTINA;
+						else if (columna_matriz >= COLUMNAS_SERPENTINA) *columna_buffer += 2*COLUMNAS_SERPENTINA;
 						else *columna_buffer += 0;
-						*columna_buffer += 7 - (columna_matriz % 8);
+						*columna_buffer += COLUMNAS_SERPENTINA  - 1  - (columna_matriz % COLUMNAS_SERPENTINA);
 					}
 
 					break;
 				default:
 					break;
 		}
-	if (pantalla == 1) *columna_buffer += (BUFFER_COLUMNAS/2); //rimero se escribe toda la antalla 2 y desues la 1.
-	//llegados a este unto ya se conoce si la fila a utilizar es la par o la impar
-
+	if (pantalla == 1) *columna_buffer += (BUFFER_COLUMNAS/2); //primero se escribe toda la pantalla 2 y después la 1.
 }
 
 
