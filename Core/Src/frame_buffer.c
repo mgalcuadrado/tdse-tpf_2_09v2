@@ -45,8 +45,8 @@ void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_ma
 			else color |= (R1_Pin <<16);
 			if (g > LIMITE) color |= G1_Pin;
 			else color |= (G1_Pin <<16);
-			if (b > LIMITE) color |= B1_Pin;
-			else color |= (B1_Pin <<16);
+			if (b > LIMITE) color |= BL1_Pin;
+			else color |= (BL1_Pin <<16);
 			break;
 		case 2:
 			if (r > LIMITE) color |= R2_Pin;
@@ -76,11 +76,12 @@ void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_ma
 
 
 void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz, int * fila_buffer, int * columna_buffer, uint8_t * pines_rgb){
+	//el primer y el cuarto cuarto usan rgb1 y el segundo y el tercero usan rgb2
 	*pines_rgb = (fila_matriz < (MATRIZ_FILAS/4) ||fila_matriz >= (3*MATRIZ_FILAS/4)) ? 1 : 2;
 	uint8_t pantalla = (fila_matriz < (MATRIZ_FILAS/2)) ? 1 : 2;
 	switch (pantalla){
 			case 2:
-				 *fila_buffer  = (fila_matriz % 2 == 1) ? 1 : 0;
+				*fila_buffer  = (fila_matriz % 2 == 1) ? 1 : 0;
 				break;
 			case 1:
 				*fila_buffer  =  (fila_matriz % 2 == 0) ? 1 : 0;
@@ -92,10 +93,17 @@ void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz,
 	int fila_map = fila_matriz % (MATRIZ_FILAS/4);
 	switch (pantalla){
 				case 2: //esta es la pantalla en la que escribe primero el buffer
+					/* Explicado en detalle en bitacoras>bitacora_general.md
+					* PANTALLA 2
+					* CM	 00	..... 07   08 ..... 15	 16 ..... 23   24 ..... 31
+					* FM
+					* 	0 || 63 <---- 56 | 47 <---- 40 | 31 <---- 24 | 15 <---- 08 ||
+					*  2 || 48 ----> 56 | 32 ----> 56 | 16 ----> 23 | 00 ----> 07 ||
+					*/
 					if (*fila_buffer == 1) fila_map -= 1;
 					if (fila_map >= (COLUMNAS_SERPENTINA/2)) *columna_buffer += MATRIZ_COLUMNAS * 2;
 					if (fila_map % (FILAS_SERPENTINA * 2) == 0) {
-						//DESpLAZAMIENTO HACIA IZQUIERDA. LAS 4 COLUMNAS "ARRANCAN" A LA DERECHA
+						//DESPLAZAMIENTO HACIA IZQUIERDA. LAS 4 COLUMNAS "ARRANCAN" A LA DERECHA
 						if (columna_matriz < COLUMNAS_SERPENTINA) *columna_buffer += (7*COLUMNAS_SERPENTINA);
 						else if (columna_matriz < (2*COLUMNAS_SERPENTINA)) *columna_buffer += (5*COLUMNAS_SERPENTINA);
 						else if (columna_matriz < (3*COLUMNAS_SERPENTINA)) *columna_buffer += (3*COLUMNAS_SERPENTINA);
@@ -103,7 +111,7 @@ void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz,
 						*columna_buffer += COLUMNAS_SERPENTINA  - 1 - (columna_matriz % COLUMNAS_SERPENTINA);
 					}
 					else  {
-						//DESpLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
+						//DESPLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
 						if (columna_matriz >= (3*COLUMNAS_SERPENTINA)) *columna_buffer +=0; //si es mayor a 24 se suman cero... lo agrego para no poner 2 condiciones en el if nada mas
 						else if (columna_matriz  >= (2*COLUMNAS_SERPENTINA)) *columna_buffer += (2*COLUMNAS_SERPENTINA);
 						else if (columna_matriz >= COLUMNAS_SERPENTINA) *columna_buffer += (4*COLUMNAS_SERPENTINA);
@@ -112,11 +120,17 @@ void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz,
 					}
 					break;
 				case 1:
-
+					/* Explicado en detalle en bitacoras>bitacora_general.md
+					* PANTALLA 1
+					* CM	 00	..... 07   08 ..... 15	 16 ..... 23   24 ..... 31
+					* FM
+					* 	2 || 07 <---- 00 | 23 <---- 16 | 39 <---- 32 | 55 <---- 48 ||
+					*  0 || 08 ----> 15 | 24 ----> 31 | 40 ----> 47 | 63 ----> 56 ||
+					*/
 					if (*fila_buffer == 0) fila_map -= 1;
 					if (fila_map < (COLUMNAS_SERPENTINA/2)) *columna_buffer += MATRIZ_COLUMNAS * 2;
 					if (fila_map % (FILAS_SERPENTINA * 2) == FILAS_SERPENTINA) {
-						//DESLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
+						//DESPLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
 						if (columna_matriz < COLUMNAS_SERPENTINA) *columna_buffer += COLUMNAS_SERPENTINA;
 						else if (columna_matriz < 2*COLUMNAS_SERPENTINA) *columna_buffer += 3*COLUMNAS_SERPENTINA;
 						else if (columna_matriz < 3*COLUMNAS_SERPENTINA) *columna_buffer += 5*COLUMNAS_SERPENTINA;
@@ -124,7 +138,7 @@ void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz,
 						*columna_buffer += columna_matriz % COLUMNAS_SERPENTINA;
 					}
 					else  {
-						//DESLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
+						//DESPLAZAMIENTO HACIA IZQUIERDA. LAS 4 COLUMNAS "ARRANCAN" A LA DERECHA
 						if (columna_matriz >= 3*COLUMNAS_SERPENTINA) *columna_buffer += 6*COLUMNAS_SERPENTINA; //si es mayor a 24 se suman cero... lo agrego para no poner 2 condiciones en el if nada mas
 						else if (columna_matriz  >= 2*COLUMNAS_SERPENTINA) *columna_buffer += 4*COLUMNAS_SERPENTINA;
 						else if (columna_matriz >= COLUMNAS_SERPENTINA) *columna_buffer += 2*COLUMNAS_SERPENTINA;
