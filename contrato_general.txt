@@ -26,7 +26,8 @@ CLO: Matriz, potenciometros mappear a colores (puede ser más adelante) FALTAN T
 
 FALTA DEFINIR QUIEN HACE LO SIGUIENTE: 
   Armar menú tanto del modo secuencia como del modo pixel art (Bau)
-  Armar mappeo de botones? (Mechi) 
+  Armar mappeo de botones
+  
   Integración (importante) 
   
 
