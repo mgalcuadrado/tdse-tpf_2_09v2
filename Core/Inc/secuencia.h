@@ -5,6 +5,8 @@
 #include <stdbool.h>
 
 #define CANT_ELEMENTOS 16 // 32 x 32 dado un pincel de 8 x 8 = 4 x 4 casilleros
+#define TAM_PINCEL_SECUENCIA 8
+#define DIM_SECUENCIA 4 // 4 x 4 la matriz de secuencia
 
 //Cambiar casillero
 
