@@ -17,10 +17,10 @@
 #include "menu_principal.h"
 #include "menu_secuencia.h"
 
-BotonEvento_t seleccionSecuencia(char seleccion[3], int indice_seleccion) {
+BotonEvento_t menuSecuenciaSeleccion(char seleccion[3], int indice_seleccion) {
 
-    char mensaje1[50];
-    char mensaje2[50];
+    char mensaje1[MAX_CARACTERES_MENSAJE];
+    char mensaje2[MAX_CARACTERES_MENSAJE];
 
     snprintf(mensaje1, sizeof(mensaje1), "(%c) Completar Secuencia", seleccion[0]);
     snprintf(mensaje2, sizeof(mensaje2), "(%c) Limpiar Secuencia", seleccion[1]);
@@ -37,7 +37,7 @@ BotonEvento_t seleccionSecuencia(char seleccion[3], int indice_seleccion) {
     return input;
 }
 
-void interaccionMenuSecuencia (BotonEvento_t input, char seleccion[3], int* indice_seleccion, Secuencia_t* secuencia, Matriz_t* matriz) {
+void menuSecuenciaInteraccion (BotonEvento_t input, char seleccion[3], int* indice_seleccion, Secuencia_t* secuencia, Matriz_t* matriz) {
 	switch (input) {
 		case BOTON_ABAJO:
 		case BOTON_ARRIBA:
@@ -50,7 +50,7 @@ void interaccionMenuSecuencia (BotonEvento_t input, char seleccion[3], int* indi
 			seleccion[*indice_seleccion] = '*';
 			break;
 		case BOTON_ACEPTAR:
-			opcionElegidaSecuencia (*indice_seleccion, secuencia, matriz);
+			menuSecuenciaOpcionElegida (*indice_seleccion, secuencia, matriz);
 			break;
 		case BOTON_ATRAS:
 		    printf("Falla en salir del menu secuencia \n");
@@ -60,20 +60,20 @@ void interaccionMenuSecuencia (BotonEvento_t input, char seleccion[3], int* indi
 		}
 }
 
-void opcionElegidaSecuencia (int indice_seleccion, Secuencia_t* secuencia, Matriz_t* matriz) {
+void menuSecuenciaOpcionElegida (int indice_seleccion, Secuencia_t* secuencia, Matriz_t* matriz) {
     switch (indice_seleccion) {
         case 0: //Completar Secuencia
-        	completarSecuencia(secuencia, matriz);
+        	menuSecuenciaCompletar(secuencia, matriz);
             break;
         case 1: // Limpiar Secuencia
-            vaciarSecuencia(secuencia);
+            secuenciaVaciar(secuencia);
             matrizLlenar(matriz, 0, 0, 0);
             frameBufferUpdate(matriz);
             break;
     }
 }
 
-void completarSecuencia(Secuencia_t* secuencia, Matriz_t* matriz) {
+void menuSecuenciaCompletar(Secuencia_t* secuencia, Matriz_t* matriz) {
 	while (1) {
 		BotonEvento_t input = botonLeer();
 		switch (input) {
@@ -81,35 +81,36 @@ void completarSecuencia(Secuencia_t* secuencia, Matriz_t* matriz) {
 			case BOTON_ABAJO:
 			case BOTON_IZQUIERDA:
 			case BOTON_DERECHA:
-				avanzarSecuencia(secuencia, input);
+				secuenciaAvanzar(secuencia, input);
 				break;
 			case BOTON_ACEPTAR: {
 				uint8_t fil = (secuencia->indice_sec / DIM_SECUENCIA)*TAM_PINCEL_SECUENCIA;
 				uint8_t col = (secuencia->indice_sec % DIM_SECUENCIA)*TAM_PINCEL_SECUENCIA;
-				if (elementoActualSecuencia(secuencia) == 0) {
-					insertarElemento(secuencia, 255, matriz, fil, col); //Prendido
+				if (secuenciaElementoActual(secuencia) == 0) {
+					secuenciaInsertarElemento(secuencia, 255, matriz, fil, col);
+		            frameBufferUpdate(matriz); //Prendido
 				} else {
-					insertarElemento(secuencia, 0, matriz, fil, col);	//Apagado
+					secuenciaInsertarElemento(secuencia, 0, matriz, fil, col);	//Apagado
+		            frameBufferUpdate(matriz);
 				}
 				break;
 			}
 			case BOTON_ATRAS:
 				return;
 			default:
-				printf("Error al leer el boton al dibujar \n");
-			break;
+				break;
 		}
 		if (secuenciaCompleta(secuencia)) {
 			lcdSetearCursor(0, 0);
-			lcdPrint("Secuencia Completa :) Yippiee!");
+			lcdPrint("Secuencia Completa :)");
 		}
 
 	}
 }
 
 
-void menuSecuencia (void) {
-    Secuencia_t* secuencia = crearSecuencia();
+void menuSecuenciaMain (void) {
+    Secuencia_t* secuencia = secuenciaCrear();
     if (secuencia == NULL){
     	printf("Error al crear secuencia \n");
     	return;
@@ -121,14 +122,18 @@ void menuSecuencia (void) {
     }
     char seleccion[3] = {'*',' '}; // 2 opciones en el menu + se agrega el resto para reusar una funcion
     int indice_seleccion = 0;
-
+    BotonEvento_t input = menuSecuenciaSeleccion(seleccion, indice_seleccion);
     while (1) {
-        BotonEvento_t input = seleccionSecuencia(seleccion, indice_seleccion);
         if (input == BOTON_ATRAS) {
             secuenciaBorrar(secuencia);
             matrizBorrar(matriz);
             return;
         }
-        interaccionMenuSecuencia(input, seleccion, &indice_seleccion, secuencia, matriz);
+        menuSecuenciaInteraccion(input, seleccion, &indice_seleccion, secuencia, matriz);
+        if (input == BOTON_ABAJO || input == BOTON_ARRIBA) {
+        	input = menuSecuenciaSeleccion(seleccion, indice_seleccion);
+        } else {
+        	input = botonLeer();
+        }
     }
 }

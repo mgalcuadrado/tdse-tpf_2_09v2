@@ -15,7 +15,7 @@
 #include <string.h>
 #include "lcd.h"
 
-Dibujo_t* crearDibujo(void) {
+Dibujo_t* dibujoCrear(void) {
 	Dibujo_t* dibujo = (Dibujo_t*)malloc(sizeof(Dibujo_t));
 	if (dibujo == NULL) {
 		printf("Error al crear tablero");
@@ -51,14 +51,14 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 		if (dibujo->indice_col / dibujo->tam_pincel > 0){
 			dibujo->indice_col -= dibujo->tam_pincel;
 		} else {
-			dibujo->indice_col = MATRIZ_COLUMNAS - 1;
+			dibujo->indice_col = MATRIZ_COLUMNAS - dibujo->tam_pincel;
 		}
 		break;
 	case BOTON_ABAJO:
 		if (dibujo->indice_fil / dibujo->tam_pincel > 0){
 			dibujo->indice_fil -= dibujo->tam_pincel;
 		} else {
-			dibujo->indice_fil = MATRIZ_FILAS - 1;
+			dibujo->indice_fil = MATRIZ_FILAS - dibujo->tam_pincel;
 		}
 		break;
 	case BOTON_DERECHA:
@@ -100,12 +100,8 @@ void dibujoPintar(Dibujo_t* dibujo, uint8_t red, uint8_t green, uint8_t blue) {
 
 void dibujoCambiarPincel(Dibujo_t* dibujo) {
 	while (1) {
-		if (dibujo->tam_pincel > 8){
-			dibujo->tam_pincel = 1;
-		} else if (dibujo->tam_pincel < 1) {
-			dibujo->tam_pincel = 8;
-		}
-		char mensaje1[50];
+
+		char mensaje1[MAX_CARACTERES_MENSAJE];
 
 		snprintf(mensaje1, sizeof(mensaje1), "Tamaño de Pincel (%d x %d)", dibujo->tam_pincel, dibujo->tam_pincel);
 		lcdSetearCursor(0, 0);
@@ -126,6 +122,15 @@ void dibujoCambiarPincel(Dibujo_t* dibujo) {
 		default:
 			break;
 		}
+
+		if (dibujo->tam_pincel > 8){
+			dibujo->tam_pincel = 1;
+		} else if (dibujo->tam_pincel < 1) {
+			dibujo->tam_pincel = 8;
+		}
+
+		dibujo->indice_fil = (dibujo->indice_fil / dibujo->tam_pincel) * dibujo->tam_pincel;
+		dibujo->indice_col = (dibujo->indice_col / dibujo->tam_pincel) * dibujo->tam_pincel;
 	}
 }
 

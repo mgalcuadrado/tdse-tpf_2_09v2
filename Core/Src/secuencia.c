@@ -14,7 +14,7 @@
 #include "boton.h"
 
 /*Funciones*/
-Secuencia_t* crearSecuencia() {
+Secuencia_t* secuenciaCrear() {
     Secuencia_t* s = (Secuencia_t*)malloc(sizeof(Secuencia_t));
     if (s == NULL){
         printf("Error al crear Secuencia \n");
@@ -22,7 +22,7 @@ Secuencia_t* crearSecuencia() {
     }
 
     s->indice_sec = 0;
-    vaciarSecuencia(s);
+    secuenciaVaciar(s);
 
     for (uint8_t i = 0; i < CANT_ELEMENTOS; i++){
         uint8_t ran = rand() % 2; //Se usar srand(GetTickCount()) en el main que funcione adecuadamente
@@ -33,7 +33,7 @@ Secuencia_t* crearSecuencia() {
 
 
 
-void insertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col) {
+void secuenciaInsertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col) {
 	if (fil >= MATRIZ_FILAS || col >= MATRIZ_COLUMNAS) {
 		printf("Error al acceder matriz \n");
 		return;
@@ -55,8 +55,8 @@ void insertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t
     }
 }
 
-void avanzarSecuencia(Secuencia_t* sec, BotonEvento_t input) {
-	if (sec->indice_sec < 0 || sec->indice_sec >= (DIM_SECUENCIA * DIM_SECUENCIA)) {
+void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input) {
+	if (sec->indice_sec >= (DIM_SECUENCIA * DIM_SECUENCIA)) {
 		printf("Error al acceder Secuencia \n");
 		return;
 	}
@@ -94,12 +94,12 @@ void avanzarSecuencia(Secuencia_t* sec, BotonEvento_t input) {
 	}
 }
 
-uint8_t elementoActualSecuencia(Secuencia_t* sec) {
+uint8_t secuenciaElementoActual(Secuencia_t* sec) {
 	return sec->lista_sec[1][sec->indice_sec];
 }
 
 
-void printSecuencia(Secuencia_t* sec) {
+void secuenciaPrint(Secuencia_t* sec) {
     printf("%d Indice \n", sec->indice_sec);
     for (uint8_t i = 0; i<CANT_ELEMENTOS; i++) {
         printf("%d Objetivo %d \n", sec->lista_sec[0][i], i);
@@ -107,7 +107,7 @@ void printSecuencia(Secuencia_t* sec) {
     }
 }
 
-void vaciarSecuencia(Secuencia_t* sec) {
+void secuenciaVaciar(Secuencia_t* sec) {
     for (uint8_t i = 0; i < CANT_ELEMENTOS; i++)
     {
         sec->lista_sec[1][i]= 0;

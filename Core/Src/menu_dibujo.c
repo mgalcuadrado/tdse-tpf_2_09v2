@@ -17,11 +17,11 @@
 #include "boton.h"
 #include "menu_dibujo.h"
 
-BotonEvento_t seleccionDibujo (char seleccion[6], int indice_seleccion) {
+BotonEvento_t menuDibujoSeleccion (char seleccion[6], int indice_seleccion) {
 
-    char mensaje1[50];
-    char mensaje2[50];
-    char mensaje3[50];
+    char mensaje1[MAX_CARACTERES_MENSAJE];
+    char mensaje2[MAX_CARACTERES_MENSAJE];
+    char mensaje3[MAX_CARACTERES_MENSAJE];
 
     if (indice_seleccion < 3) {
 		snprintf(mensaje1, sizeof(mensaje1), "(%c) Dibujar", seleccion[0]);
@@ -55,10 +55,10 @@ BotonEvento_t seleccionDibujo (char seleccion[6], int indice_seleccion) {
     return input;
 }
 
-void opcionElegidaDibujo (int indice_seleccion, Dibujo_t* dibujo){
+void menuDibujoOpcionElegida (int indice_seleccion, Dibujo_t* dibujo){
     switch (indice_seleccion) {
     	case 0: // Dibujar
-    		dibujar(dibujo);
+    		menuDibujoDibujar(dibujo);
     		break;
         case 1: //Nuevo Dibujo
             dibujoReiniciar(dibujo);
@@ -78,7 +78,7 @@ void opcionElegidaDibujo (int indice_seleccion, Dibujo_t* dibujo){
 }
 
 
-void interaccionMenuDibujo (BotonEvento_t input, char seleccion[6], int* indice_seleccion, Dibujo_t* dibujo) {
+void menuDibujoInteraccion (BotonEvento_t input, char seleccion[6], int* indice_seleccion, Dibujo_t* dibujo) {
     switch (input) {
             case BOTON_ABAJO:
                 seleccion[*indice_seleccion] = ' ';
@@ -99,7 +99,7 @@ void interaccionMenuDibujo (BotonEvento_t input, char seleccion[6], int* indice_
                 seleccion[*indice_seleccion] = '*';
                 break;
             case BOTON_ACEPTAR: //Boton Rojo de aceptar
-                opcionElegidaDibujo(*indice_seleccion, dibujo);
+                menuDibujoOpcionElegida(*indice_seleccion, dibujo);
                 break;
             case BOTON_ATRAS:
             	printf("Falla en salir del menu dibujo \n");
@@ -109,7 +109,7 @@ void interaccionMenuDibujo (BotonEvento_t input, char seleccion[6], int* indice_
     }
 }
 
-void dibujar (Dibujo_t* dibujo) {
+void menuDibujoDibujar (Dibujo_t* dibujo) {
 	while (1) {
 		BotonEvento_t input = botonLeer();
 		switch (input) {
@@ -122,31 +122,38 @@ void dibujar (Dibujo_t* dibujo) {
 		case BOTON_ACEPTAR:
 			//Lectura de potes para obtener valores R, G Y B
 			//dibujoPintar(dibujo, r, g, b);
+			//frameBufferUpdate(dibujo->matriz);
 			break;
 		case BOTON_ATRAS:
 			return;
 		default:
-			printf("Error al leer el boton al dibujar \n");
 			break;
 		}
 
 	}
 }
 
-void menuDibujo() {
-    Dibujo_t* dibujo = crearDibujo();
+void menuDibujoMain() {
+    Dibujo_t* dibujo = dibujoCrear();
+    if (dibujo == NULL){
+		printf("Error al crear secuencia \n");
+		return;
+	}
     frameBufferUpdate(dibujo->matriz);
     char seleccion[6] = {'*',' ',' ',' ',' '}; // 5 opciones en el menu + 1 por el /n
     int indice_seleccion = 0;
-
+    BotonEvento_t input = menuDibujoSeleccion (seleccion, indice_seleccion);
     while (1) {
-        BotonEvento_t input = seleccionDibujo (seleccion, indice_seleccion);
         if (input == BOTON_ATRAS) {
         	dibujoBorrar(dibujo);
         	return;
         }
-        interaccionMenuDibujo(input, seleccion, &indice_seleccion, dibujo);
-        
+        menuDibujoInteraccion(input, seleccion, &indice_seleccion, dibujo);
+        if (input == BOTON_ABAJO || input == BOTON_ARRIBA) {
+			input = menuDibujoSeleccion(seleccion, indice_seleccion);
+		} else {
+			input = botonLeer();
+		}
     }
 }
 
