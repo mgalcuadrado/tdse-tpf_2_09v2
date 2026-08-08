@@ -21,7 +21,9 @@
 #include "menu_dibujo.h"
 #include "menu_secuencia.h"
 
+#define MAX_CARACTERES_MENSAJE 50
 
-void menuPrincipal (void);
+void menuPrincipalMain (void);
+void menuPrincipalPrint(char seleccion[3], int indice_seleccion);
 #endif
 

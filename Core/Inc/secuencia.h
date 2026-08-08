@@ -18,12 +18,12 @@ typedef struct Secuencia_t {
 } Secuencia_t;
 
 
-Secuencia_t* crearSecuencia(void);
-void insertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col);
-uint8_t elementoActualSecuencia(Secuencia_t* sec);
-void avanzarSecuencia(Secuencia_t* sec, BotonEvento_t input);
-void printSecuencia(Secuencia_t* sec);
-void vaciarSecuencia(Secuencia_t* sec);
+Secuencia_t* secuenciaCrear(void);
+void secuenciaInsertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col);
+uint8_t secuenciaElementoActual(Secuencia_t* sec);
+void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input);
+void secuenciaPrint(Secuencia_t* sec);
+void secuenciaVaciar(Secuencia_t* sec);
 bool secuenciaCompleta(Secuencia_t* sec);
 void secuenciaBorrar(Secuencia_t* sec);
 #endif

@@ -20,15 +20,16 @@
 #include "boton.h"
 #include "menu_principal.h"
 
+#define MAX_CARACTERES_MENSAJE 50
 
-BotonEvento_t seleccionSecuencia(char seleccion[3], int indice_seleccion);
+BotonEvento_t menuSecuenciaSeleccion(char seleccion[3], int indice_seleccion);
 
-void interaccionMenuSecuencia (BotonEvento_t input, char seleccion[3], int* indice_seleccion, Secuencia_t* secuencia, Matriz_t* matriz);
+void menuSecuenciaInteraccion (BotonEvento_t input, char seleccion[3], int* indice_seleccion, Secuencia_t* secuencia, Matriz_t* matriz);
 
-void opcionElegidaSecuencia (int indice_seleccion, Secuencia_t* secuencia, Matriz_t* matriz);
+void menuSecuenciaOpcionElegida (int indice_seleccion, Secuencia_t* secuencia, Matriz_t* matriz);
 
-void completarSecuencia(Secuencia_t* secuencia, Matriz_t* matriz);
+void menuSecuenciaCompletar(Secuencia_t* secuencia, Matriz_t* matriz);
 
-void menuSecuencia (void);
+void menuSecuenciaMain (void);
 #endif
 

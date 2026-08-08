@@ -19,15 +19,17 @@
 #include "frame_buffer.h"
 #include "lcd.h"
 
-BotonEvento_t seleccionDibujo (char seleccion[6], int indice_seleccion);
+#define MAX_CARACTERES_MENSAJE 50
 
-void interaccionMenuDibujo (BotonEvento_t input, char seleccion[6], int* indice_seleccion, Dibujo_t* dibujo);
+BotonEvento_t menuDibujoSeleccion (char seleccion[6], int indice_seleccion);
 
-void opcionElegidaDibujo (int indice_seleccion, Dibujo_t* dibujo);
+void menuDibujoOpcionElegida (int indice_seleccion, Dibujo_t* dibujo);
 
-void dibujar(Dibujo_t* dibujo);
+void menuDibujoInteraccion (BotonEvento_t input, char seleccion[6], int* indice_seleccion, Dibujo_t* dibujo);
 
-void menuDibujo (void);
+void menuDibujoDibujar(Dibujo_t* dibujo);
+
+void menuDibujoMain (void);
 
 #endif
 

@@ -25,7 +25,7 @@ typedef struct  {
 } Dibujo_t;
 
 
-Dibujo_t* crearDibujo();
+Dibujo_t* dibujoCrear();
 void dibujoBorrar(Dibujo_t* dibujo);
 void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input);
 void dibujoReiniciar(Dibujo_t* dibujo);
