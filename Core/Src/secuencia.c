@@ -11,32 +11,35 @@
 #include "secuencia.h"
 #include <string.h>
 #include "matriz.h"
+#include "boton.h"
 
 /*Funciones*/
 Secuencia_t* crearSecuencia() {
     Secuencia_t* s = (Secuencia_t*)malloc(sizeof(Secuencia_t));
     if (s == NULL){
-        printf("Error al crear Secuencia");
+        printf("Error al crear Secuencia \n");
         return NULL;
     }
 
     s->indice_sec = 0;
-    vaciar_secuencia(s);
+    vaciarSecuencia(s);
 
     for (uint8_t i = 0; i < CANT_ELEMENTOS; i++){
-        uint8_t ran = rand() % 2;
+        uint8_t ran = rand() % 2; //Se usar srand(GetTickCount()) en el main que funcione adecuadamente
         s->lista_sec[0][i] = (ran == 0) ? 0 : 255;
     }
     return s;
 }
 
-void insertar_elemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col) {
+
+
+void insertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col) {
 	if (fil >= MATRIZ_FILAS || col >= MATRIZ_COLUMNAS) {
-		printf("Error al acceder matriz");
+		printf("Error al acceder matriz \n");
 		return;
 	}
 
-	uint8_t pos = fil/TAM_PINCEL_SECUENCIA + col/TAM_PINCEL_SECUENCIA * DIM_SECUENCIA; //Calcula la posicion en la secuencia de la matriz
+	uint8_t pos = col/TAM_PINCEL_SECUENCIA + fil/TAM_PINCEL_SECUENCIA * DIM_SECUENCIA; //Calcula la posicion en la secuencia de la matriz
     sec->lista_sec[1][pos] = color;
     uint8_t red = 0;
     uint8_t green = 0;
@@ -52,15 +55,59 @@ void insertar_elemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_
     }
 }
 
-void print_secuencia(Secuencia_t* sec) {
-    printf("%d Indice\n", sec->indice_sec);
+void avanzarSecuencia(Secuencia_t* sec, BotonEvento_t input) {
+	if (sec->indice_sec < 0 || sec->indice_sec >= (DIM_SECUENCIA * DIM_SECUENCIA)) {
+		printf("Error al acceder Secuencia \n");
+		return;
+	}
+	switch (input) {
+	case BOTON_IZQUIERDA:
+		if (sec->indice_sec % DIM_SECUENCIA > 0){
+			sec->indice_sec -= 1;
+		} else {
+			sec->indice_sec += DIM_SECUENCIA - 1;
+		}
+		break;
+	case BOTON_ABAJO:
+		if (sec->indice_sec / DIM_SECUENCIA > 0){
+			sec->indice_sec -= DIM_SECUENCIA;
+		} else {
+			sec->indice_sec += (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
+		}
+		break;
+	case BOTON_DERECHA:
+		if (sec->indice_sec % DIM_SECUENCIA < DIM_SECUENCIA - 1){
+			sec->indice_sec += 1;
+		} else {
+			sec->indice_sec -= DIM_SECUENCIA - 1;
+		}
+		break;
+	case BOTON_ARRIBA:
+		if (sec->indice_sec / DIM_SECUENCIA < DIM_SECUENCIA - 1){
+			sec->indice_sec += DIM_SECUENCIA;
+		} else {
+			sec->indice_sec -= (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+uint8_t elementoActualSecuencia(Secuencia_t* sec) {
+	return sec->lista_sec[1][sec->indice_sec];
+}
+
+
+void printSecuencia(Secuencia_t* sec) {
+    printf("%d Indice \n", sec->indice_sec);
     for (uint8_t i = 0; i<CANT_ELEMENTOS; i++) {
-        printf("%d Objetivo %d\n", sec->lista_sec[0][i], i);
-        printf("%d Usuario %d\n", sec->lista_sec[1][i], i);
+        printf("%d Objetivo %d \n", sec->lista_sec[0][i], i);
+        printf("%d Usuario %d \n", sec->lista_sec[1][i], i);
     }
 }
 
-void vaciar_secuencia(Secuencia_t* sec) {
+void vaciarSecuencia(Secuencia_t* sec) {
     for (uint8_t i = 0; i < CANT_ELEMENTOS; i++)
     {
         sec->lista_sec[1][i]= 0;
@@ -68,7 +115,7 @@ void vaciar_secuencia(Secuencia_t* sec) {
     
 }
 
-bool secuencia_completa(Secuencia_t* sec) {
+bool secuenciaCompleta(Secuencia_t* sec) {
     for (uint8_t i = 0; i < CANT_ELEMENTOS; i++){
         if (sec->lista_sec[0][i] != sec->lista_sec[1][i]){
             return false;

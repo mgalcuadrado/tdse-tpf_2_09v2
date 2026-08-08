@@ -8,107 +8,124 @@
 #include <stdio.h>
 #include "dibujo.h"
 #include "matriz.h"
+#include "boton.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include "lcd.h"
 
-Tablero_t* crearTablero(void) {
-	Tablero_t* tablero = (Tablero_t* )malloc(sizeof(Tablero_t));
-	if (tablero == NULL) {
+Dibujo_t* crearDibujo(void) {
+	Dibujo_t* dibujo = (Dibujo_t*)malloc(sizeof(Dibujo_t));
+	if (dibujo == NULL) {
 		printf("Error al crear tablero");
 		return NULL;
 	}
-	tablero->matriz = matrizCrear();
-	if (tablero->matriz == NULL) {
+	dibujo->matriz = matrizCrear();
+	if (dibujo->matriz == NULL) {
 		printf("Error al crear tablero");
-		free(tablero);
+		free(dibujo);
 		return NULL;
 	}
-	tablero->indice_fil = 0;
-	tablero->indice_col = 0;
-	tablero->tam_pincel = 1;
-	return tablero;
+	dibujo->indice_fil = 0;
+	dibujo->indice_col = 0;
+	dibujo->tam_pincel = 1;
+	return dibujo;
 }
 
-void tableroBorrar(Tablero_t* tablero) {
-	if (tablero == NULL) {
+void dibujoBorrar(Dibujo_t* dibujo) {
+	if (dibujo == NULL) {
 		return;
 	}
-	if (tablero->matriz != NULL){
-		matrizBorrar(tablero->matriz);
+	if (dibujo->matriz != NULL){
+		matrizBorrar(dibujo->matriz);
 	}
-	if (tablero != NULL) {
-		free(tablero);
+	if (dibujo != NULL) {
+		free(dibujo);
 	}
 }
 
-void tableroAvanzar(Tablero_t* tablero, uint8_t direcc){
-	switch (direcc) {
-	case 0: // "a"
-		if (tablero->indice_fil / tablero->tam_pincel > 0){
-			tablero->indice_fil -= tablero->tam_pincel;
+void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
+	switch (input) {
+	case BOTON_IZQUIERDA:
+		if (dibujo->indice_col / dibujo->tam_pincel > 0){
+			dibujo->indice_col -= dibujo->tam_pincel;
 		} else {
-			tablero->indice_fil = MATRIZ_FILAS - 1;
+			dibujo->indice_col = MATRIZ_COLUMNAS - 1;
 		}
-	case 1: //"s"
-		if (tablero->indice_col / tablero->tam_pincel > 0){
-			tablero->indice_col -= tablero->tam_pincel;
+		break;
+	case BOTON_ABAJO:
+		if (dibujo->indice_fil / dibujo->tam_pincel > 0){
+			dibujo->indice_fil -= dibujo->tam_pincel;
 		} else {
-			tablero->indice_col = MATRIZ_COLUMNAS - 1;
+			dibujo->indice_fil = MATRIZ_FILAS - 1;
 		}
-	case 2: //"d"
-		if ((tablero->indice_fil/tablero->tam_pincel) < ((MATRIZ_FILAS - 1)/tablero->tam_pincel)){
-			tablero->indice_fil += tablero->tam_pincel;
+		break;
+	case BOTON_DERECHA:
+		if ((dibujo->indice_col/dibujo->tam_pincel) < ((MATRIZ_COLUMNAS - 1)/dibujo->tam_pincel)){
+			dibujo->indice_col += dibujo->tam_pincel;
 		} else {
-			tablero->indice_fil = 0;
+			dibujo->indice_col = 0;
 		}
-	case 3: //"w"
-		if ((tablero->indice_col/tablero->tam_pincel) < ((MATRIZ_COLUMNAS - 1)/tablero->tam_pincel)){
-			tablero->indice_col += tablero->tam_pincel;
+		break;
+	case BOTON_ARRIBA:
+		if ((dibujo->indice_fil/dibujo->tam_pincel) < ((MATRIZ_FILAS - 1)/dibujo->tam_pincel)){
+			dibujo->indice_fil += dibujo->tam_pincel;
 		} else {
-			tablero->indice_col = 0;
+			dibujo->indice_fil = 0;
 		}
+		break;
+	default:
+		printf("Error al moverse en la matriz \n");
+		return;
 	}
 }
-void tableroReiniciar(Tablero_t* tablero) {
-	matrizLlenar(tablero->matriz, 0, 0, 0);
-	tablero->indice_col = 0;
-	tablero->indice_fil = 0;
+void dibujoReiniciar(Dibujo_t* dibujo) {
+	matrizLlenar(dibujo->matriz, 0, 0, 0); //Apago todas las LED´s de la matriz
+	dibujo->indice_col = 0;
+	dibujo->indice_fil = 0;
 }
 
-void tableroPintar(Tablero_t* tablero, uint8_t fil, uint8_t col, uint8_t red, uint8_t green, uint8_t blue) {
-	uint8_t base_fil = (fil/tablero->tam_pincel) * tablero->tam_pincel;
-	uint8_t base_col = (col/tablero->tam_pincel) * tablero->tam_pincel;
-	for (uint8_t i = 0; i < tablero->tam_pincel; i++) {
-	        for(uint8_t j = 0; j < tablero->tam_pincel; j++) {
-	            matrizSetCasillero(tablero->matriz, base_fil + i, base_col + j, red, green, blue);
+// Se puede revisar la dinamica, reduciendo las restricciones.
+
+void dibujoPintar(Dibujo_t* dibujo, uint8_t red, uint8_t green, uint8_t blue) {
+	uint8_t base_fil = (dibujo->indice_fil/dibujo->tam_pincel) * dibujo->tam_pincel;
+	uint8_t base_col = (dibujo->indice_col/dibujo->tam_pincel) * dibujo->tam_pincel;
+	for (uint8_t i = 0; i < dibujo->tam_pincel; i++) {
+	        for(uint8_t j = 0; j < dibujo->tam_pincel; j++) {
+	            matrizSetCasillero(dibujo->matriz, base_fil + i, base_col + j, red, green, blue);
 	        }
 	}
 }
 
-void tableroCambiarPincel(Tablero_t* tablero, int decision) {
+void dibujoCambiarPincel(Dibujo_t* dibujo) {
 	while (1) {
-		if (tablero->tam_pincel > 8){
-			tablero->tam_pincel = 1;
-		} else if (tablero->tam_pincel < 1) {
-			tablero->tam_pincel = 8;
+		if (dibujo->tam_pincel > 8){
+			dibujo->tam_pincel = 1;
+		} else if (dibujo->tam_pincel < 1) {
+			dibujo->tam_pincel = 8;
 		}
+		char mensaje1[50];
 
-		switch (decision){
-		case 0://"w"
-			tablero->tam_pincel = tablero->tam_pincel;
-			continue;
-		case 1:  //"s"
-			tablero->tam_pincel--;
-			continue;
-		case 2: //"aceptar"
+		snprintf(mensaje1, sizeof(mensaje1), "Tamaño de Pincel (%d x %d)", dibujo->tam_pincel, dibujo->tam_pincel);
+		lcdSetearCursor(0, 0);
+		lcdPrint(mensaje1);
+
+		BotonEvento_t input = botonLeer();
+		switch (input){
+		case BOTON_ARRIBA:
+			dibujo->tam_pincel = dibujo->tam_pincel * 2;
+			break;
+		case BOTON_ABAJO:
+			dibujo->tam_pincel = dibujo->tam_pincel / 2 ;
+			break;
+		case BOTON_ACEPTAR:
 			return;
-		case 3: //"atras"
+		case BOTON_ATRAS:
 			return;
+		default:
+			break;
 		}
 	}
 }
-void tableroElementoActual(Tablero_t* tablero, Casillero_t* salida) {
-	matrizGetCasillero(tablero->matriz, tablero->indice_fil, tablero->indice_col, salida);
-}
+
