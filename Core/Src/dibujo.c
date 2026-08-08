@@ -3,14 +3,13 @@
  *
  * Created on: Ago 3, 2026
  *      Author: Bauti
+ * Migrado a no bloqueante: Ago 2026
 */
 
 #include <stdio.h>
 #include "dibujo.h"
 #include "matriz.h"
 #include "boton.h"
-#include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include "lcd.h"
@@ -40,9 +39,7 @@ void dibujoBorrar(Dibujo_t* dibujo) {
 	if (dibujo->matriz != NULL){
 		matrizBorrar(dibujo->matriz);
 	}
-	if (dibujo != NULL) {
-		free(dibujo);
-	}
+	free(dibujo);
 }
 
 void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
@@ -80,8 +77,9 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 		return;
 	}
 }
+
 void dibujoReiniciar(Dibujo_t* dibujo) {
-	matrizLlenar(dibujo->matriz, 0, 0, 0); //Apago todas las LED´s de la matriz
+	matrizLlenar(dibujo->matriz, 0, 0, 0); // Apago todas las LED's de la matriz
 	dibujo->indice_col = 0;
 	dibujo->indice_fil = 0;
 }
@@ -98,39 +96,36 @@ void dibujoPintar(Dibujo_t* dibujo, uint8_t red, uint8_t green, uint8_t blue) {
 	}
 }
 
-void dibujoCambiarPincel(Dibujo_t* dibujo) {
-	while (1) {
-
-		char mensaje1[MAX_CARACTERES_MENSAJE];
-
-		snprintf(mensaje1, sizeof(mensaje1), "Tamaño de Pincel (%d x %d)", dibujo->tam_pincel, dibujo->tam_pincel);
-		lcdSetearCursor(0, 0);
-		lcdPrint(mensaje1);
-
-		BotonEvento_t input = botonLeer();
-		switch (input){
-		case BOTON_ARRIBA:
-			dibujo->tam_pincel = dibujo->tam_pincel * 2;
-			break;
-		case BOTON_ABAJO:
-			dibujo->tam_pincel = dibujo->tam_pincel / 2 ;
-			break;
-		case BOTON_ACEPTAR:
-			return;
-		case BOTON_ATRAS:
-			return;
-		default:
-			break;
-		}
-
-		if (dibujo->tam_pincel > 8){
-			dibujo->tam_pincel = 1;
-		} else if (dibujo->tam_pincel < 1) {
-			dibujo->tam_pincel = 8;
-		}
-
-		dibujo->indice_fil = (dibujo->indice_fil / dibujo->tam_pincel) * dibujo->tam_pincel;
-		dibujo->indice_col = (dibujo->indice_col / dibujo->tam_pincel) * dibujo->tam_pincel;
+// Antes: dibujoCambiarPincel(dibujo) con un while(1) interno que no soltaba
+// la CPU hasta ACEPTAR/ATRAS. Ahora: procesa un solo evento por llamada.
+bool dibujoCambiarPincelTick(Dibujo_t* dibujo, BotonEvento_t input) {
+	switch (input) {
+	case BOTON_ARRIBA:
+		dibujo->tam_pincel = dibujo->tam_pincel * 2;
+		break;
+	case BOTON_ABAJO:
+		dibujo->tam_pincel = dibujo->tam_pincel / 2;
+		break;
+	case BOTON_ACEPTAR:
+	case BOTON_ATRAS:
+		return true; // Terminó: que el llamador vuelva al menú
+	default:
+		break;
 	}
-}
 
+	if (dibujo->tam_pincel > 8){
+		dibujo->tam_pincel = 1;
+	} else if (dibujo->tam_pincel < 1) {
+		dibujo->tam_pincel = 8;
+	}
+
+	dibujo->indice_fil = (dibujo->indice_fil / dibujo->tam_pincel) * dibujo->tam_pincel;
+	dibujo->indice_col = (dibujo->indice_col / dibujo->tam_pincel) * dibujo->tam_pincel;
+
+	char mensaje1[MAX_CARACTERES_MENSAJE];
+	snprintf(mensaje1, sizeof(mensaje1), "Tamaño de Pincel: (%d x %d)", dibujo->tam_pincel, dibujo->tam_pincel);
+	lcdSetearCursor(0, 0);
+	lcdPrint(mensaje1);
+
+	return false; // Todavía eligiendo pincel
+}
