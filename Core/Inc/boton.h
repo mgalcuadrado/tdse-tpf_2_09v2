@@ -17,8 +17,10 @@ typedef enum  {
         BOTON_NINGUNO = 0,
         BOTON_ARRIBA,
         BOTON_ABAJO,
-        BOTON_OK,
-        BOTON_BACK
+		BOTON_IZQUIERDA,
+		BOTON_DERECHA,
+        BOTON_ACEPTAR,
+        BOTON_ATRAS
 }BotonEvento_t;
 // Tiempo mínimo para captar una respuesta
 #define DEBOUNCE_MS 50

@@ -3,6 +3,8 @@
 
 #include "matriz.h"
 #include <stdbool.h>
+#include "boton.h"
+
 
 #define CANT_ELEMENTOS 16 // 32 x 32 dado un pincel de 8 x 8 = 4 x 4 casilleros
 #define TAM_PINCEL_SECUENCIA 8
@@ -17,9 +19,11 @@ typedef struct Secuencia_t {
 
 
 Secuencia_t* crearSecuencia(void);
-void insertar_elemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col);
-void print_secuencia(Secuencia_t* sec);
-void vaciar_secuencia(Secuencia_t* sec);
-bool secuencia_completa(Secuencia_t* sec);
+void insertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col);
+uint8_t elementoActualSecuencia(Secuencia_t* sec);
+void avanzarSecuencia(Secuencia_t* sec, BotonEvento_t input);
+void printSecuencia(Secuencia_t* sec);
+void vaciarSecuencia(Secuencia_t* sec);
+bool secuenciaCompleta(Secuencia_t* sec);
 void secuenciaBorrar(Secuencia_t* sec);
 #endif
