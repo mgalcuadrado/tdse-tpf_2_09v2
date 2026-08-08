@@ -1,8 +1,9 @@
 /*
- * menu.c
+ * dibujo.h
  *
  * Created on: Ago 3, 2026
  *      Author: Bauti
+ * Migrado a no bloqueante: Ago 2026
 */
 #ifndef DIBUJO_H
 #define DIBUJO_H
@@ -10,7 +11,6 @@
 
 #include <stdio.h>
 #include "matriz.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
@@ -24,11 +24,17 @@ typedef struct  {
         uint8_t tam_pincel;
 } Dibujo_t;
 
+#define MAX_CARACTERES_MENSAJE 50
 
 Dibujo_t* dibujoCrear();
 void dibujoBorrar(Dibujo_t* dibujo);
 void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input);
 void dibujoReiniciar(Dibujo_t* dibujo);
 void dibujoPintar(Dibujo_t* dibujo, uint8_t red, uint8_t green, uint8_t blue);
-void dibujoCambiarPincel(Dibujo_t* dibujo);
+
+// Reemplaza a dibujoCambiarPincel(Dibujo_t*): procesa UN evento y vuelve.
+// Devuelve true cuando el usuario terminó de elegir pincel (ACEPTAR o ATRAS),
+// momento en el que quien la llama debe volver al menú anterior.
+bool dibujoCambiarPincelTick(Dibujo_t* dibujo, BotonEvento_t input);
+
 #endif

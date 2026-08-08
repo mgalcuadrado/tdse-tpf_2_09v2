@@ -1,8 +1,9 @@
 /*
- * menu_dibujo.c
+ * menu_dibujo.h
  *
  * Created on: Aug 7, 2026
  *      Author: Bauti
+ * Migrado a no bloqueante: Ago 2026
 */
 
 #ifndef MENU_DIBUJO_H
@@ -13,7 +14,6 @@
 #include "matriz.h"
 #include "secuencia.h"
 #include "dibujo.h"
-#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 #include "frame_buffer.h"
@@ -21,15 +21,16 @@
 
 #define MAX_CARACTERES_MENSAJE 50
 
-BotonEvento_t menuDibujoSeleccion (char seleccion[6], int indice_seleccion);
+void menuDibujoEntrar(void);
 
-void menuDibujoOpcionElegida (int indice_seleccion, Dibujo_t* dibujo);
+void menuDibujoTick(BotonEvento_t input);
 
-void menuDibujoInteraccion (BotonEvento_t input, char seleccion[6], int* indice_seleccion, Dibujo_t* dibujo);
+void menuDibujoDibujarTick(BotonEvento_t input);
 
-void menuDibujoDibujar(Dibujo_t* dibujo);
+void menuDibujoCambiarPincelTick(BotonEvento_t input);
 
-void menuDibujoMain (void);
+void menuDibujoMostrar(char seleccion[6], int indice_seleccion);
+
+void menuDibujoOpcionElegida(int indice_seleccion);
 
 #endif
-

@@ -1,8 +1,9 @@
 /*
- * menu_secuencia.c
+ * menu_secuencia.h
  *
  * Created on: Aug 7, 2026
  *      Author: Bauti
+ * Migrado a no bloqueante: Ago 2026
 */
 
 #ifndef MENU_SECUENCIA_H
@@ -12,24 +13,22 @@
 #include "mem.h"
 #include "matriz.h"
 #include "secuencia.h"
-#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 #include "frame_buffer.h"
 #include "lcd.h"
 #include "boton.h"
-#include "menu_principal.h"
 
 #define MAX_CARACTERES_MENSAJE 50
 
-BotonEvento_t menuSecuenciaSeleccion(char seleccion[3], int indice_seleccion);
+void menuSecuenciaEntrar(void);
 
-void menuSecuenciaInteraccion (BotonEvento_t input, char seleccion[3], int* indice_seleccion, Secuencia_t* secuencia, Matriz_t* matriz);
+void menuSecuenciaTick(BotonEvento_t input);
 
-void menuSecuenciaOpcionElegida (int indice_seleccion, Secuencia_t* secuencia, Matriz_t* matriz);
+void menuSecuenciaCompletarTick(BotonEvento_t input);
 
-void menuSecuenciaCompletar(Secuencia_t* secuencia, Matriz_t* matriz);
+void menuSecuenciaMostrar(char seleccion[3], int indice_seleccion);
 
-void menuSecuenciaMain (void);
+void menuSecuenciaOpcionElegida(int indice_seleccion);
+
 #endif
-
