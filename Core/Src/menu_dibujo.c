@@ -77,6 +77,9 @@ void menuDibujoMostrar(char seleccion[6], int indice_seleccion) {
 void menuDibujoOpcionElegida(int indice_seleccion) {
     switch (indice_seleccion) {
         case 0: // Dibujar
+            lcdBorrar();
+            lcdSetearCursor(0, 0);
+            lcdPrint("Dibujando...");
             sistemaCambiarEstado(ESTADO_DIBUJANDO);
             break;
         case 1: // Nuevo Dibujo
