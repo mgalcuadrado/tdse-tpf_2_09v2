@@ -109,7 +109,7 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
         lcdSetearCursor(0, 0);
         lcdPrint("Secuencia Completa :)");
         static uint32_t ultimoTiempo = 0;
-        if ((HAL_GetTick() - ultimoTiempo) < DEBOUNCE_MS * 40) {
+        if ((HAL_GetTick() - ultimoTiempo) > DEBOUNCE_MS * 40) {
 			sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
 		} else {
 			ultimoTiempo = HAL_GetTick();
