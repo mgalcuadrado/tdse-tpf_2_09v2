@@ -3,7 +3,7 @@
  *
  * Created on: Ago 3, 2026
  *      Author: Bauti
- * Migrado a no bloqueante: Ago 2026
+ *
 */
 
 #include <stdio.h>
@@ -53,9 +53,9 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 		break;
 	case BOTON_ABAJO:
 		if (dibujo->indice_fil / dibujo->tam_pincel > 0){
-			dibujo->indice_fil -= dibujo->tam_pincel;
+			dibujo->indice_fil += dibujo->tam_pincel;
 		} else {
-			dibujo->indice_fil = MATRIZ_FILAS - dibujo->tam_pincel;
+			dibujo->indice_fil = 0;
 		}
 		break;
 	case BOTON_DERECHA:
@@ -67,9 +67,9 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 		break;
 	case BOTON_ARRIBA:
 		if ((dibujo->indice_fil/dibujo->tam_pincel) < ((MATRIZ_FILAS - 1)/dibujo->tam_pincel)){
-			dibujo->indice_fil += dibujo->tam_pincel;
+			dibujo->indice_fil -= dibujo->tam_pincel;
 		} else {
-			dibujo->indice_fil = 0;
+			dibujo->indice_fil = MATRIZ_FILAS - dibujo->tam_pincel;
 		}
 		break;
 	default:

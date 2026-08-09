@@ -1,7 +1,7 @@
 /*
  * estado.c
- *
- *      Author: Bauti (migración no bloqueante)
+ *		Created on: Aug 8, 2026
+ *      Author: Bauti
 */
 
 #include "estado.h"

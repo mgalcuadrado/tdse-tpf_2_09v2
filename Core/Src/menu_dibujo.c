@@ -37,6 +37,7 @@ void menuDibujoEntrar(void) {
 
     indice_seleccion = 0;
     seleccion[0] = '*';
+    lcdBorrar();
     menuDibujoMostrar(seleccion, indice_seleccion);
 }
 
@@ -104,12 +105,14 @@ void menuDibujoTick(BotonEvento_t input) {
             seleccion[indice_seleccion] = ' ';
             indice_seleccion = (indice_seleccion >= 4) ? 0 : indice_seleccion + 1;
             seleccion[indice_seleccion] = '*';
+            lcdBorrar();
             menuDibujoMostrar(seleccion, indice_seleccion);
             break;
         case BOTON_ARRIBA:
             seleccion[indice_seleccion] = ' ';
             indice_seleccion = (indice_seleccion <= 0) ? 4 : indice_seleccion - 1;
             seleccion[indice_seleccion] = '*';
+            lcdBorrar();
             menuDibujoMostrar(seleccion, indice_seleccion);
             break;
         case BOTON_ACEPTAR:
@@ -140,6 +143,7 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
             break;
         case BOTON_ATRAS:
             sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
+            lcdBorrar();
             menuDibujoMostrar(seleccion, indice_seleccion); // reimprime el menú al volver
             break;
         default:
@@ -150,6 +154,7 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
 void menuDibujoCambiarPincelTick(BotonEvento_t input) {
     if (dibujoCambiarPincelTick(dibujo_actual, input)) {
         sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
+        lcdBorrar();
         menuDibujoMostrar(seleccion, indice_seleccion);
     }
 }

@@ -3,7 +3,7 @@
  *
  * Created on: Aug 7, 2026
  *      Author: Bauti
- * Migrado a no bloqueante: Ago 2026
+ *
 */
 
 #include <stdio.h>
@@ -45,6 +45,7 @@ void menuSecuenciaEntrar(void) {
     indice_seleccion = 0;
     seleccion[0] = '*';
     seleccion[1] = ' ';
+    lcdBorrar();
     menuSecuenciaMostrar(seleccion, indice_seleccion);
 }
 
@@ -84,6 +85,7 @@ void menuSecuenciaTick(BotonEvento_t input) {
             seleccion[indice_seleccion] = ' ';
             indice_seleccion = (indice_seleccion == 1) ? 0 : 1;
             seleccion[indice_seleccion] = '*';
+            lcdBorrar();
             menuSecuenciaMostrar(seleccion, indice_seleccion);
             break;
         case BOTON_ACEPTAR:
@@ -102,7 +104,20 @@ void menuSecuenciaTick(BotonEvento_t input) {
 }
 
 void menuSecuenciaCompletarTick(BotonEvento_t input) {
-    switch (input) {
+	if (secuenciaCompleta(secuencia_actual)) {
+    	lcdBorrar();
+        lcdSetearCursor(0, 0);
+        lcdPrint("Secuencia Completa :)");
+        static uint32_t ultimoTiempo = 0;
+        if ((HAL_GetTick() - ultimoTiempo) < DEBOUNCE_MS * 40) {
+			sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
+		} else {
+			ultimoTiempo = HAL_GetTick();
+			return;
+		}
+    }
+
+	switch (input) {
         case BOTON_ARRIBA:
         case BOTON_ABAJO:
         case BOTON_IZQUIERDA:
@@ -122,14 +137,12 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
         }
         case BOTON_ATRAS:
             sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
+            lcdBorrar();
             menuSecuenciaMostrar(seleccion, indice_seleccion); // reimprime el menú al volver
             return;
         default:
             break;
     }
 
-    if (secuenciaCompleta(secuencia_actual)) {
-        lcdSetearCursor(0, 0);
-        lcdPrint("Secuencia Completa :)");
-    }
+
 }

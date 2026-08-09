@@ -3,7 +3,6 @@
  *
  * Created on: Aug 7, 2026
  *      Author: Bauti
- * Migrado a no bloqueante: Ago 2026
 */
 
 #include <stdio.h>
@@ -25,6 +24,7 @@ void menuPrincipalEntrar(void) {
     indice_seleccion = 0; //A medida que aumenta, va a la opcion mas abajo en el display.
     seleccion[0] = '*';
     seleccion[1] = ' ';
+    lcdBorrar();
     menuPrincipalPrint(seleccion, indice_seleccion);
 }
 
@@ -36,6 +36,7 @@ void menuPrincipalTick(BotonEvento_t input) {
             indice_seleccion = (indice_seleccion == 1) ? 0 : 1; //Como son dos opciones en este menu, es
             //lo mismo si sube o baja. Cambia a la otra opcion
             seleccion[indice_seleccion] = '*';
+            lcdBorrar();
             menuPrincipalPrint(seleccion, indice_seleccion);
             break;
         case BOTON_ACEPTAR:
