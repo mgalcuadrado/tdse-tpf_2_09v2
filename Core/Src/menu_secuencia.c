@@ -66,6 +66,9 @@ void menuSecuenciaMostrar(char seleccion[3], int indice_seleccion) {
 void menuSecuenciaOpcionElegida(int indice_seleccion) {
     switch (indice_seleccion) {
         case 0: // Completar Secuencia -> transición de estado
+			lcdBorrar();
+            lcdSetearCursor(0, 0);
+            lcdPrint("Complet. Sec...");
             sistemaCambiarEstado(ESTADO_COMPLETANDO_SECUENCIA);
             break;
         case 1: // Limpiar Secuencia
