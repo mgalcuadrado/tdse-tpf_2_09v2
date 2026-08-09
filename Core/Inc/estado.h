@@ -1,12 +1,7 @@
 /*
  * estado.h
- *
- * Módulo orquestador: reemplaza a los `while(1)` anidados de
- * menuPrincipalMain / menuDibujoMain / menuSecuenciaMain por una
- * única máquina de estados que se "tickea" una vez por vuelta del
- * loop principal, sin bloquear nunca la CPU.
- *
- *      Author: Bauti (migración no bloqueante)
+ *	Created on: Aug 8, 2026
+ *      Autor: Bauti
 */
 
 #ifndef ESTADO_H

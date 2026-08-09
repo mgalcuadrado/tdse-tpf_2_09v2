@@ -3,7 +3,7 @@
  *
  * Created on: Aug 7, 2026
  *      Author: Bauti
- * Migrado a no bloqueante: Ago 2026
+ *
 */
 
 #ifndef MENU_DIBUJO_H

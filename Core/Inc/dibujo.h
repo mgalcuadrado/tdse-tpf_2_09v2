@@ -3,7 +3,7 @@
  *
  * Created on: Ago 3, 2026
  *      Author: Bauti
- * Migrado a no bloqueante: Ago 2026
+ *
 */
 #ifndef DIBUJO_H
 #define DIBUJO_H

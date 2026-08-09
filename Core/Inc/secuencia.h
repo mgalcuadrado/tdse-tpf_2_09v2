@@ -1,3 +1,11 @@
+/*
+ * secuencia.c
+ *
+ * Created on: Jul 26, 2026
+ *      Author: Bauti
+*/
+
+
 #ifndef SECUENCIA_H
 #define SECUENCIA_H
 
