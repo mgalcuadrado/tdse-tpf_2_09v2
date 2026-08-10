@@ -69,10 +69,10 @@ void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input) {
 		}
 		break;
 	case BOTON_ABAJO:
-		if (sec->indice_sec / DIM_SECUENCIA > 0){
-			sec->indice_sec -= DIM_SECUENCIA;
+		if (sec->indice_sec / DIM_SECUENCIA < DIM_SECUENCIA - 1){
+			sec->indice_sec += DIM_SECUENCIA;
 		} else {
-			sec->indice_sec += (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
+			sec->indice_sec -= (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
 		}
 		break;
 	case BOTON_DERECHA:
@@ -83,10 +83,10 @@ void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input) {
 		}
 		break;
 	case BOTON_ARRIBA:
-		if (sec->indice_sec / DIM_SECUENCIA < DIM_SECUENCIA - 1){
-			sec->indice_sec += DIM_SECUENCIA;
+		if (sec->indice_sec / DIM_SECUENCIA > 0){
+			sec->indice_sec -= DIM_SECUENCIA;
 		} else {
-			sec->indice_sec -= (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
+			sec->indice_sec += (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
 		}
 		break;
 	default:

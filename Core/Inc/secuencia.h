@@ -1,8 +1,18 @@
+/*
+ * secuencia.c
+ *
+ * Created on: Jul 26, 2026
+ *      Author: Bauti
+*/
+
+
 #ifndef SECUENCIA_H
 #define SECUENCIA_H
 
 #include "matriz.h"
 #include <stdbool.h>
+#include "boton.h"
+
 
 #define CANT_ELEMENTOS 16 // 32 x 32 dado un pincel de 8 x 8 = 4 x 4 casilleros
 #define TAM_PINCEL_SECUENCIA 8
@@ -16,10 +26,12 @@ typedef struct Secuencia_t {
 } Secuencia_t;
 
 
-Secuencia_t* crearSecuencia(void);
-void insertar_elemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col);
-void print_secuencia(Secuencia_t* sec);
-void vaciar_secuencia(Secuencia_t* sec);
-bool secuencia_completa(Secuencia_t* sec);
+Secuencia_t* secuenciaCrear(void);
+void secuenciaInsertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col);
+uint8_t secuenciaElementoActual(Secuencia_t* sec);
+void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input);
+void secuenciaPrint(Secuencia_t* sec);
+void secuenciaVaciar(Secuencia_t* sec);
+bool secuenciaCompleta(Secuencia_t* sec);
 void secuenciaBorrar(Secuencia_t* sec);
 #endif

@@ -55,7 +55,7 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 		if (dibujo->indice_fil / dibujo->tam_pincel > 0){
 			dibujo->indice_fil += dibujo->tam_pincel;
 		} else {
-			dibujo->indice_fil = 0;
+			dibujo->indice_fil = MATRIZ_FILAS - dibujo->tam_pincel;
 		}
 		break;
 	case BOTON_DERECHA:
@@ -69,7 +69,7 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 		if ((dibujo->indice_fil/dibujo->tam_pincel) < ((MATRIZ_FILAS - 1)/dibujo->tam_pincel)){
 			dibujo->indice_fil -= dibujo->tam_pincel;
 		} else {
-			dibujo->indice_fil = MATRIZ_FILAS - dibujo->tam_pincel;
+			dibujo->indice_fil = 0;
 		}
 		break;
 	default:
