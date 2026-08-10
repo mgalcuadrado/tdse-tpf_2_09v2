@@ -21,8 +21,14 @@ extern volatile uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
 
 // frameBufferInit crea una trama de datos para la pantalla en negro (todo apagado)
 void frameBufferInit(void);
-void frameBufferUpdateCasilla(Matriz_t*, int, int);
-//void frameBufferUpdateAll(Matriz_t *);
+
+// frameBufferUpdateCasilla recibe una fila y una columna de la matriz y actualiza esa casilla en el frame buffer
+void frameBufferUpdateCasilla(Matriz_t* matriz, int fila, int columna);
+
+// frameBufferUpdateAll actualiza el frame buffer con la matriz completa
+void frameBufferUpdateAll(Matriz_t *);
+
+// tests de la pantalla explicados en bitacora_general.md
 void testBarridoCompleto(Matriz_t *);
 void testBarridoBuffer(void);
 #endif

@@ -23,12 +23,18 @@ void frameBufferInit(void){
     for (int f = 0; f < BUFFER_FILAS; f++){
         for (int c = 0; c < BUFFER_COLUMNAS; c++){
         	framebuffer[f][c] = parpixeles_negro;
-		}
+        }
     }
 }
 
 const uint32_t rgb1 = R1_Pin | BL1_Pin | G1_Pin |((R1_Pin | BL1_Pin | G1_Pin)<<16);
 const uint32_t rgb2 = R2_Pin | B2_Pin | G2_Pin |((R2_Pin | B2_Pin | G2_Pin)<<16);
+
+void frameBufferUpdateAll(Matriz_t * matriz){
+	for (int f = 0; f < MATRIZ_FILAS; f++)
+		for (int c = 0; c < MATRIZ_COLUMNAS; c++)
+			frameBufferUpdateCasilla(matriz, f, c);
+}
 
 void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_matriz){
 	 if (fila_matriz > MATRIZ_FILAS || columna_matriz > MATRIZ_COLUMNAS || matriz == NULL)
