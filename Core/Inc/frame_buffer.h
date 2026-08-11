@@ -22,6 +22,9 @@ extern volatile uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
 // frameBufferInit crea una trama de datos para la pantalla en negro (todo apagado)
 void frameBufferInit(void);
 
+// frameBufferSetBrightness varía la intensidad de brillo de las pantallas
+void frameBufferSetBrightness(int brillo);
+
 // frameBufferUpdateCasilla recibe una fila y una columna de la matriz y actualiza esa casilla en el frame buffer
 void frameBufferUpdateCasilla(Matriz_t* matriz, int fila, int columna);
 
