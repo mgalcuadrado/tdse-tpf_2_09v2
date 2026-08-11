@@ -27,6 +27,10 @@ void frameBufferInit(void){
     }
 }
 
+void frameBufferSetBrightness(int brillo){
+return;
+}
+
 const uint32_t rgb1 = R1_Pin | BL1_Pin | G1_Pin |((R1_Pin | BL1_Pin | G1_Pin)<<16);
 const uint32_t rgb2 = R2_Pin | B2_Pin | G2_Pin |((R2_Pin | B2_Pin | G2_Pin)<<16);
 
