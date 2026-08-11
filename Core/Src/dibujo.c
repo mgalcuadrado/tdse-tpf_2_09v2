@@ -17,12 +17,12 @@
 Dibujo_t* dibujoCrear(void) {
 	Dibujo_t* dibujo = (Dibujo_t*)malloc(sizeof(Dibujo_t));
 	if (dibujo == NULL) {
-		printf("Error al crear tablero");
+		//printf("Error al crear tablero");
 		return NULL;
 	}
 	dibujo->matriz = matrizCrear();
 	if (dibujo->matriz == NULL) {
-		printf("Error al crear tablero");
+		//printf("Error al crear tablero");
 		free(dibujo);
 		return NULL;
 	}
@@ -43,6 +43,7 @@ void dibujoBorrar(Dibujo_t* dibujo) {
 }
 
 void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
+	dibujoPintar(dibujo, dibujo->color_anterior->r,dibujo->color_anterior->g,dibujo->color_anterior->b);
 	switch (input) {
 	case BOTON_IZQUIERDA:
 		if (dibujo->indice_col / dibujo->tam_pincel > 0){
@@ -50,6 +51,8 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 		} else {
 			dibujo->indice_col = MATRIZ_COLUMNAS - dibujo->tam_pincel;
 		}
+		matrizGetCasillero(dibujo->matriz, dibujo->indice_fil, dibujo->indice_col, dibujo->color_anterior);
+		dibujoPintar(dibujo, 0, 0, 0);
 		break;
 	case BOTON_ABAJO:
 		if (dibujo->indice_fil / dibujo->tam_pincel > 0){
@@ -57,6 +60,8 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 		} else {
 			dibujo->indice_fil = 0;
 		}
+		matrizGetCasillero(dibujo->matriz, dibujo->indice_fil, dibujo->indice_col, dibujo->color_anterior);
+		dibujoPintar(dibujo, 0, 0, 0);
 		break;
 	case BOTON_DERECHA:
 		if ((dibujo->indice_col/dibujo->tam_pincel) < ((MATRIZ_COLUMNAS - 1)/dibujo->tam_pincel)){
@@ -64,6 +69,8 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 		} else {
 			dibujo->indice_col = 0;
 		}
+		matrizGetCasillero(dibujo->matriz, dibujo->indice_fil, dibujo->indice_col, dibujo->color_anterior);
+		dibujoPintar(dibujo, 0, 0, 0);
 		break;
 	case BOTON_ARRIBA:
 		if ((dibujo->indice_fil/dibujo->tam_pincel) < ((MATRIZ_FILAS - 1)/dibujo->tam_pincel)){
@@ -71,9 +78,10 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 		} else {
 			dibujo->indice_fil = MATRIZ_FILAS - dibujo->tam_pincel;
 		}
+		matrizGetCasillero(dibujo->matriz, dibujo->indice_fil, dibujo->indice_col, dibujo->color_anterior);
+		dibujoPintar(dibujo, 0, 0, 0);
 		break;
 	default:
-		printf("Error al moverse en la matriz \n");
 		return;
 	}
 }

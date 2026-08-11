@@ -24,8 +24,21 @@ void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
         case ESTADO_MENU_SECUENCIA:
             menuSecuenciaEntrar();
             break;
-        default:
-            break;
+        case ESTADO_LIMPIAR_DIBUJO:
+			menuDibujoLimpiandoTick(BOTON_NINGUNO);
+			break;
+        case ESTADO_DIBUJANDO:
+        	menuDibujoDibujarTick(BOTON_NINGUNO);
+        	break;
+        case ESTADO_COMPLETANDO_SECUENCIA:
+			menuSecuenciaCompletarTick(BOTON_NINGUNO);
+			break;
+        case ESTADO_CAMBIANDO_PINCEL:
+			menuDibujoCambiarPincelTick(BOTON_NINGUNO);
+			break;
+        case ESTADO_LIMPIAR_SECUENCIA:
+        	menuSecuenciaLimpiandoTick(BOTON_NINGUNO);
+        	break;
     }
 }
 
@@ -46,6 +59,9 @@ void sistemaTick(BotonEvento_t input) {
         case ESTADO_MENU_DIBUJO:
             menuDibujoTick(input);
             break;
+        case ESTADO_LIMPIAR_DIBUJO:
+        	menuDibujoLimpiandoTick(input);
+        	break;
         case ESTADO_DIBUJANDO:
             menuDibujoDibujarTick(input);
             break;
@@ -58,5 +74,8 @@ void sistemaTick(BotonEvento_t input) {
         case ESTADO_COMPLETANDO_SECUENCIA:
             menuSecuenciaCompletarTick(input);
             break;
+        case ESTADO_LIMPIAR_SECUENCIA:
+			menuSecuenciaLimpiandoTick(input);
+			break;
     }
 }

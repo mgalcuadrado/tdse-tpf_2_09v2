@@ -66,15 +66,22 @@ void menuSecuenciaMostrar(char seleccion[3], int indice_seleccion) {
 void menuSecuenciaOpcionElegida(int indice_seleccion) {
     switch (indice_seleccion) {
         case 0: // Completar Secuencia -> transición de estado
-			lcdBorrar();
-            lcdSetearCursor(0, 0);
-            lcdPrint("Complet. Sec...");
+        	lcdBorrar();
+			lcdSetearCursor(0, 0);
+			lcdPrint("Jugando Sec...");
             sistemaCambiarEstado(ESTADO_COMPLETANDO_SECUENCIA);
             break;
         case 1: // Limpiar Secuencia
-            secuenciaVaciar(secuencia_actual);
-            matrizLlenar(matriz_actual, 0, 0, 0);
-            frameBufferUpdate(matriz_actual);
+        	lcdBorrar();
+			lcdSetearCursor(0, 0);
+			lcdPrint("Estas seguro?");
+
+			lcdSetearCursor(0, 1);
+			lcdPrint("Aceptar");
+
+			lcdSetearCursor(0, 2);
+			lcdPrint("Atras");
+			sistemaCambiarEstado(ESTADO_LIMPIAR_SECUENCIA);
             break;
         default:
             break;
@@ -83,14 +90,22 @@ void menuSecuenciaOpcionElegida(int indice_seleccion) {
 
 void menuSecuenciaTick(BotonEvento_t input) {
     switch (input) {
-        case BOTON_ABAJO:
-        case BOTON_ARRIBA:
-            seleccion[indice_seleccion] = ' ';
-            indice_seleccion = (indice_seleccion == 1) ? 0 : 1;
-            seleccion[indice_seleccion] = '*';
-            lcdBorrar();
-            menuSecuenciaMostrar(seleccion, indice_seleccion);
+        case BOTON_ACEPTAR:
+        	secuenciaVaciar(secuencia_actual);
+			matrizLlenar(matriz_actual, 0, 0, 0);
+			frameBufferUpdate(matriz_actual);
+			sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
             break;
+        case BOTON_ATRAS:
+            sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
+            break;
+        default:
+            break;
+    }
+}
+
+void menuSecuenciaLimpiandoTick(BotonEvento_t input) {
+    switch (input) {
         case BOTON_ACEPTAR:
             menuSecuenciaOpcionElegida(indice_seleccion);
             break;
@@ -111,10 +126,8 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
     	lcdBorrar();
         lcdSetearCursor(0, 0);
         lcdPrint("Secuencia Completa :)");
-		lcdSetearCursor(0, 1);
-		lcdPrint("Toca un boton");
         static uint32_t ultimoTiempo = 0;
-        if ((HAL_GetTick() - ultimoTiempo) > DEBOUNCE_MS * 40) {
+        if ((HAL_GetTick() - ultimoTiempo) < DEBOUNCE_MS * 40) {
 			sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
 		} else {
 			ultimoTiempo = HAL_GetTick();

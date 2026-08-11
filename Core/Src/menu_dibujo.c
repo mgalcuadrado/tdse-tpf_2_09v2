@@ -28,7 +28,7 @@ void menuDibujoEntrar(void) {
     if (dibujo_actual == NULL) {
         dibujo_actual = dibujoCrear();
         if (dibujo_actual == NULL) {
-            printf("Error al crear dibujo \n");
+            //printf("Error al crear dibujo \n");
             sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
             return;
         }
@@ -77,20 +77,34 @@ void menuDibujoMostrar(char seleccion[6], int indice_seleccion) {
 void menuDibujoOpcionElegida(int indice_seleccion) {
     switch (indice_seleccion) {
         case 0: // Dibujar
-            lcdBorrar();
-            lcdSetearCursor(0, 0);
-            lcdPrint("Dibujando...");
+        	lcdBorrar();
+			lcdSetearCursor(0, 0);
+			lcdPrint("Dibujando...");
             sistemaCambiarEstado(ESTADO_DIBUJANDO);
             break;
         case 1: // Nuevo Dibujo
-            dibujoReiniciar(dibujo_actual);
-            frameBufferUpdate(dibujo_actual->matriz);
+            lcdBorrar();
+            lcdSetearCursor(0, 0);
+			lcdPrint("Estas seguro?");
+
+			lcdSetearCursor(0, 1);
+			lcdPrint("Aceptar");
+
+			lcdSetearCursor(0, 2);
+			lcdPrint("Atras");
+			sistemaCambiarEstado(ESTADO_LIMPIAR_DIBUJO);
             break;
         case 2: // Guardar Dibujo
+        	lcdBorrar();
+			lcdSetearCursor(0, 0);
+			lcdPrint("Guardando...");
             memEscribirMatriz(0x0000, dibujo_actual->matriz); // 0x000 Placeholder
             frameBufferUpdate(dibujo_actual->matriz);
             break;
         case 3: // Cargar Dibujo
+        	lcdBorrar();
+			lcdSetearCursor(0, 0);
+			lcdPrint("Cargando...");
             memLeerMatriz(0x0000, dibujo_actual->matriz); // 0x000 Placeholder
             frameBufferUpdate(dibujo_actual->matriz);
             break;
@@ -125,6 +139,21 @@ void menuDibujoTick(BotonEvento_t input) {
             dibujoBorrar(dibujo_actual);
             dibujo_actual = NULL;
             sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
+            break;
+        default:
+            break;
+    }
+}
+
+void menuDibujoLimpiandoTick(BotonEvento_t input) {
+    switch (input) {
+        case BOTON_ACEPTAR:
+        	dibujoReiniciar(dibujo_actual);
+        	frameBufferUpdate(dibujo_actual->matriz);
+        	sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
+            break;
+        case BOTON_ATRAS:
+            sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
             break;
         default:
             break;
