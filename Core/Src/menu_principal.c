@@ -55,7 +55,7 @@ void menuPrincipalPrint(char seleccion[3], int indice_seleccion) {
     char mensaje1[MAX_CARACTERES_MENSAJE];
     char mensaje2[MAX_CARACTERES_MENSAJE];
     char mensaje3[MAX_CARACTERES_MENSAJE];
-    snprintf(mensaje1, sizeof(mensaje1), "UBA en Acción: Juego RGB");
+    snprintf(mensaje1, sizeof(mensaje1), "  UBA en Accion ");
     snprintf(mensaje2, sizeof(mensaje2), "(%c) Modo Dibujo", seleccion[0]);
     snprintf(mensaje3, sizeof(mensaje3), "(%c) Modo Secuencia", seleccion[1]);
 

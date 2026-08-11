@@ -26,9 +26,20 @@ Dibujo_t* dibujoCrear(void) {
 		free(dibujo);
 		return NULL;
 	}
-	dibujo->indice_fil = 0;
-	dibujo->indice_col = 0;
+
+	dibujo->color_anterior = (Casillero_t*)malloc(sizeof(Casillero_t));
+		if (dibujo->color_anterior == NULL) {
+
+			matrizBorrar(dibujo->matriz);
+			free(dibujo);
+			return NULL;
+		}
+
+	dibujo->indice_fil = 16;
+	dibujo->indice_col = 16;
 	dibujo->tam_pincel = 1;
+
+	matrizGetCasillero(dibujo->matriz, 0, 0, dibujo->color_anterior);
 	return dibujo;
 }
 
@@ -39,66 +50,80 @@ void dibujoBorrar(Dibujo_t* dibujo) {
 	if (dibujo->matriz != NULL){
 		matrizBorrar(dibujo->matriz);
 	}
+
+	if (dibujo->color_anterior != NULL){
+			free(dibujo->color_anterior);
+	}
+
 	free(dibujo);
 }
 
 void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
-	switch (input) {
-	case BOTON_IZQUIERDA:
-		if (dibujo->indice_col / dibujo->tam_pincel > 0){
-			dibujo->indice_col -= dibujo->tam_pincel;
-		} else {
-			dibujo->indice_col = MATRIZ_COLUMNAS - dibujo->tam_pincel;
+
+	dibujoPintar(dibujo, dibujo->color_anterior->r, dibujo->color_anterior->g, dibujo->color_anterior->b);
+		switch (input) {
+		case BOTON_IZQUIERDA:
+			if (dibujo->indice_col / dibujo->tam_pincel > 0){
+				dibujo->indice_col -= dibujo->tam_pincel;
+			} else {
+				dibujo->indice_col = MATRIZ_COLUMNAS - dibujo->tam_pincel;
+			}
+			break;
+		case BOTON_ABAJO:
+			if ((dibujo->indice_fil / dibujo->tam_pincel) < ((MATRIZ_FILAS - 1) / dibujo->tam_pincel)){
+				dibujo->indice_fil += dibujo->tam_pincel;
+			} else {
+				dibujo->indice_fil = 0;
+			}
+			break;
+		case BOTON_DERECHA:
+			if ((dibujo->indice_col / dibujo->tam_pincel) < ((MATRIZ_COLUMNAS - 1) / dibujo->tam_pincel)){
+				dibujo->indice_col += dibujo->tam_pincel;
+			} else {
+				dibujo->indice_col = 0;
+			}
+			break;
+		case BOTON_ARRIBA:
+			if (dibujo->indice_fil / dibujo->tam_pincel > 0){
+				dibujo->indice_fil -= dibujo->tam_pincel;
+			} else {
+				dibujo->indice_fil = MATRIZ_FILAS - dibujo->tam_pincel;
+			}
+			break;
+		default:
+			//printf("Error al moverse en la matriz \n");
+			return;
 		}
-		break;
-	case BOTON_ABAJO:
-		if (dibujo->indice_fil / dibujo->tam_pincel > 0){
-			dibujo->indice_fil += dibujo->tam_pincel;
-		} else {
-			dibujo->indice_fil = 0;
-		}
-		break;
-	case BOTON_DERECHA:
-		if ((dibujo->indice_col/dibujo->tam_pincel) < ((MATRIZ_COLUMNAS - 1)/dibujo->tam_pincel)){
-			dibujo->indice_col += dibujo->tam_pincel;
-		} else {
-			dibujo->indice_col = 0;
-		}
-		break;
-	case BOTON_ARRIBA:
-		if ((dibujo->indice_fil/dibujo->tam_pincel) < ((MATRIZ_FILAS - 1)/dibujo->tam_pincel)){
-			dibujo->indice_fil -= dibujo->tam_pincel;
-		} else {
-			dibujo->indice_fil = MATRIZ_FILAS - dibujo->tam_pincel;
-		}
-		break;
-	default:
-		printf("Error al moverse en la matriz \n");
-		return;
-	}
+	matrizGetCasillero(dibujo->matriz, dibujo->indice_fil, dibujo->indice_col, dibujo->color_anterior);
+	dibujoPintar(dibujo, 250, 0, 0);
 }
 
 void dibujoReiniciar(Dibujo_t* dibujo) {
-	matrizLlenar(dibujo->matriz, 0, 0, 0); // Apago todas las LED's de la matriz
-	dibujo->indice_col = 0;
-	dibujo->indice_fil = 0;
-}
-
-// Se puede revisar la dinamica, reduciendo las restricciones.
+	if (dibujo == NULL || dibujo->matriz == NULL) return;
+		matrizLlenar(dibujo->matriz, 0, 0, 0); // Apago todas las leds de la matriz
+		dibujo->indice_col = 0;
+		dibujo->indice_fil = 0;
+		if (dibujo->color_anterior != NULL) {
+			dibujo->color_anterior->r = 0;
+			dibujo->color_anterior->g = 0;
+			dibujo->color_anterior->b = 0;
+		}
+	}
 
 void dibujoPintar(Dibujo_t* dibujo, uint8_t red, uint8_t green, uint8_t blue) {
-	uint8_t base_fil = (dibujo->indice_fil/dibujo->tam_pincel) * dibujo->tam_pincel;
-	uint8_t base_col = (dibujo->indice_col/dibujo->tam_pincel) * dibujo->tam_pincel;
-	for (uint8_t i = 0; i < dibujo->tam_pincel; i++) {
-	        for(uint8_t j = 0; j < dibujo->tam_pincel; j++) {
-	            matrizSetCasillero(dibujo->matriz, base_fil + i, base_col + j, red, green, blue);
-	        }
+	if (dibujo == NULL || dibujo->matriz == NULL) return;
+		uint8_t base_fil = (dibujo->indice_fil/dibujo->tam_pincel) * dibujo->tam_pincel;
+		uint8_t base_col = (dibujo->indice_col/dibujo->tam_pincel) * dibujo->tam_pincel;
+		for (uint8_t i = 0; i < dibujo->tam_pincel; i++) {
+		    for(uint8_t j = 0; j < dibujo->tam_pincel; j++) {
+		        matrizSetCasillero(dibujo->matriz, base_fil + i, base_col + j, red, green, blue);
+		    }
+		}
 	}
-}
 
-// Antes: dibujoCambiarPincel(dibujo) con un while(1) interno que no soltaba
-// la CPU hasta ACEPTAR/ATRAS. Ahora: procesa un solo evento por llamada.
+
 bool dibujoCambiarPincelTick(Dibujo_t* dibujo, BotonEvento_t input) {
+	if (dibujo == NULL) return true;
 	switch (input) {
 	case BOTON_ARRIBA:
 		dibujo->tam_pincel = dibujo->tam_pincel * 2;
@@ -119,13 +144,22 @@ bool dibujoCambiarPincelTick(Dibujo_t* dibujo, BotonEvento_t input) {
 		dibujo->tam_pincel = 8;
 	}
 
+	lcdBorrar();
 	dibujo->indice_fil = (dibujo->indice_fil / dibujo->tam_pincel) * dibujo->tam_pincel;
 	dibujo->indice_col = (dibujo->indice_col / dibujo->tam_pincel) * dibujo->tam_pincel;
 
 	char mensaje1[MAX_CARACTERES_MENSAJE];
-	snprintf(mensaje1, sizeof(mensaje1), "Tamaño de Pincel: (%d x %d)", dibujo->tam_pincel, dibujo->tam_pincel);
+	char mensaje2[MAX_CARACTERES_MENSAJE];
+	snprintf(mensaje1, sizeof(mensaje1), "Medida del Pincel:");
+	snprintf(mensaje2, sizeof(mensaje2), "%d x %d", dibujo->tam_pincel, dibujo->tam_pincel);
+
 	lcdSetearCursor(0, 0);
 	lcdPrint(mensaje1);
 
+	lcdSetearCursor(0, 1);
+	lcdPrint(mensaje2);
+
 	return false; // Todavía eligiendo pincel
 }
+
+

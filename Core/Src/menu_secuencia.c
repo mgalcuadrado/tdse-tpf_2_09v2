@@ -26,7 +26,7 @@ void menuSecuenciaEntrar(void) {
     if (secuencia_actual == NULL) {
         secuencia_actual = secuenciaCrear();
         if (secuencia_actual == NULL) {
-            printf("Error al crear secuencia \n");
+
             sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
             return;
         }
@@ -34,7 +34,7 @@ void menuSecuenciaEntrar(void) {
     if (matriz_actual == NULL) {
         matriz_actual = matrizCrear();
         if (matriz_actual == NULL) {
-            printf("Error al crear matriz \n");
+
             secuenciaBorrar(secuencia_actual);
             secuencia_actual = NULL;
             sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
@@ -53,8 +53,8 @@ void menuSecuenciaMostrar(char seleccion[3], int indice_seleccion) {
     char mensaje1[MAX_CARACTERES_MENSAJE];
     char mensaje2[MAX_CARACTERES_MENSAJE];
 
-    snprintf(mensaje1, sizeof(mensaje1), "(%c) Completar Secuencia", seleccion[0]);
-    snprintf(mensaje2, sizeof(mensaje2), "(%c) Limpiar Secuencia", seleccion[1]);
+    snprintf(mensaje1, sizeof(mensaje1), "(%c) Jugar Secuencia", seleccion[0]);
+    snprintf(mensaje2, sizeof(mensaje2), "(%c) Borrar Secuencia", seleccion[1]);
 
     lcdSetearCursor(0, 0);
     lcdPrint(mensaje1);
@@ -68,13 +68,22 @@ void menuSecuenciaOpcionElegida(int indice_seleccion) {
         case 0: // Completar Secuencia -> transición de estado
 			lcdBorrar();
             lcdSetearCursor(0, 0);
-            lcdPrint("Complet. Sec...");
+            lcdPrint("Jugando Secuencia");
+            lcdSetearCursor(0, 2);
+            lcdPrint("Presione atras");
+            lcdSetearCursor(0, 3);
+            lcdPrint("Para salir");
             sistemaCambiarEstado(ESTADO_COMPLETANDO_SECUENCIA);
             break;
         case 1: // Limpiar Secuencia
-            secuenciaVaciar(secuencia_actual);
-            matrizLlenar(matriz_actual, 0, 0, 0);
-            frameBufferUpdate(matriz_actual);
+        	lcdBorrar();
+			lcdSetearCursor(0, 0);
+			lcdPrint("Estas seguro?");
+			lcdSetearCursor(0, 1);
+			lcdPrint("Aceptar");
+			lcdSetearCursor(0, 2);
+			lcdPrint("Atras");
+			sistemaCambiarEstado(ESTADO_LIMPIAR_SECUENCIA);
             break;
         default:
             break;
@@ -127,7 +136,7 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
         case BOTON_ABAJO:
         case BOTON_IZQUIERDA:
         case BOTON_DERECHA:
-            secuenciaAvanzar(secuencia_actual, input);
+            secuenciaAvanzar(secuencia_actual, input, matriz_actual);
             break;
         case BOTON_ACEPTAR: {
             uint8_t fil = (secuencia_actual->indice_sec / DIM_SECUENCIA) * TAM_PINCEL_SECUENCIA;
@@ -137,7 +146,16 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
             } else {
                 secuenciaInsertarElemento(secuencia_actual, 0, matriz_actual, fil, col);   // Apagado
             }
-            frameBufferUpdate(matriz_actual);
+
+            //redibujo el cursor porque a veces se tapa
+
+			for (uint8_t i = 0; i < TAM_PINCEL_SECUENCIA; i++) {
+				for (uint8_t j = 0; j < TAM_PINCEL_SECUENCIA; j++) {
+					matrizSetCasillero(matriz_actual, fil + i, col + j, 250, 0, 0);
+				}
+			}
+
+            frameBufferUpdateAll(matriz_actual);
             break;
         }
         case BOTON_ATRAS:
@@ -150,4 +168,28 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
     }
 
 
+}
+
+Matriz_t* menuSecuenciaObtenerMatriz(void) {
+    return matriz_actual;
+}
+
+
+
+void menuSecuenciaLimpiandoTick(BotonEvento_t input) {
+    switch (input) {
+        case BOTON_ACEPTAR:
+        	matrizLlenar(matriz_actual, 0, 0, 0);
+			frameBufferUpdateAll(matriz_actual);
+			secuenciaVaciar(secuencia_actual);
+
+			sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
+
+            break;
+        case BOTON_ATRAS:
+        	sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
+            break;
+        default:
+            break;
+    }
 }

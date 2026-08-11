@@ -31,6 +31,22 @@ Secuencia_t* secuenciaCrear() {
     return s;
 }
 
+//Es como la de pintarDibujo, pero para secuencia. Se usa para poner el cursor principalmente
+static void secuenciaPintarBloque(Matriz_t* matriz, uint8_t pos, uint8_t r, uint8_t g, uint8_t b) {
+    uint8_t fil = (pos / DIM_SECUENCIA) * TAM_PINCEL_SECUENCIA;
+    uint8_t col = (pos % DIM_SECUENCIA) * TAM_PINCEL_SECUENCIA;
+    for (uint8_t i = 0; i < TAM_PINCEL_SECUENCIA; i++) {
+        for (uint8_t j = 0; j < TAM_PINCEL_SECUENCIA; j++) {
+            matrizSetCasillero(matriz, fil + i, col + j, r, g, b);
+        }
+    }
+}
+//2 auxiliares privadas que tienen que ir arriba
+//Se usa para devolver una casilla a su color anterior cuando se le saca el cursor de encima
+static void secuenciaRestaurarCasilla(Secuencia_t* sec, Matriz_t* matriz, uint8_t pos) {
+    uint8_t colorCasilla = sec->lista_sec[1][pos];
+    secuenciaPintarBloque(matriz, pos, 0, 0, colorCasilla);
+}
 
 
 void secuenciaInsertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col) {
@@ -55,11 +71,18 @@ void secuenciaInsertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz
     }
 }
 
-void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input) {
-	if (sec->indice_sec >= (DIM_SECUENCIA * DIM_SECUENCIA)) {
-		printf("Error al acceder Secuencia \n");
+void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input, Matriz_t* matriz) {
+	if (sec == NULL || sec->indice_sec >= (DIM_SECUENCIA * DIM_SECUENCIA)) {
+		printf("Error al acceder Secuencia \n"); //Por swv no deberiamos tener problema con los printf
 		return;
 	}
+
+	// Antes que nada devuelvo la casilla a su color original
+	if (matriz != NULL) {
+		secuenciaRestaurarCasilla(sec, matriz, sec->indice_sec);
+	}
+
+	// Muy similar a dibujoAvanzar, se mueve en la matriz y pinta el cursor
 	switch (input) {
 	case BOTON_IZQUIERDA:
 		if (sec->indice_sec % DIM_SECUENCIA > 0){
@@ -68,13 +91,15 @@ void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input) {
 			sec->indice_sec += DIM_SECUENCIA - 1;
 		}
 		break;
+
 	case BOTON_ABAJO:
-		if (sec->indice_sec / DIM_SECUENCIA > 0){
-			sec->indice_sec -= DIM_SECUENCIA;
+		if (sec->indice_sec / DIM_SECUENCIA < DIM_SECUENCIA - 1){
+			sec->indice_sec += DIM_SECUENCIA;
 		} else {
-			sec->indice_sec += (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
+			sec->indice_sec -= (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
 		}
 		break;
+
 	case BOTON_DERECHA:
 		if (sec->indice_sec % DIM_SECUENCIA < DIM_SECUENCIA - 1){
 			sec->indice_sec += 1;
@@ -82,15 +107,22 @@ void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input) {
 			sec->indice_sec -= DIM_SECUENCIA - 1;
 		}
 		break;
+
 	case BOTON_ARRIBA:
-		if (sec->indice_sec / DIM_SECUENCIA < DIM_SECUENCIA - 1){
-			sec->indice_sec += DIM_SECUENCIA;
+		if (sec->indice_sec / DIM_SECUENCIA > 0){
+			sec->indice_sec -= DIM_SECUENCIA;
 		} else {
-			sec->indice_sec -= (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
+			sec->indice_sec += (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
 		}
 		break;
+
 	default:
-		break;
+		return;
+	}
+
+	// Pinta el cursor
+	if (matriz != NULL) {
+		secuenciaPintarBloque(matriz, sec->indice_sec, 250, 0, 0);
 	}
 }
 
@@ -130,3 +162,4 @@ void secuenciaBorrar(Secuencia_t* sec) {
         free(sec);
     }
 }
+

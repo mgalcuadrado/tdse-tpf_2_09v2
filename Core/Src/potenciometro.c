@@ -1,4 +1,4 @@
-#include "pote.h"
+#include "potenciometro.h"
 #include <stdlib.h>
 
 extern uint16_t adc_buffer[3];

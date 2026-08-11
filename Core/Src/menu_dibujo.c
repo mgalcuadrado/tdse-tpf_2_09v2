@@ -32,7 +32,7 @@ void menuDibujoEntrar(void) {
             sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
             return;
         }
-        frameBufferUpdate(dibujo_actual->matriz);
+        frameBufferUpdateAll(dibujo_actual->matriz);
     }
 
     indice_seleccion = 0;
@@ -80,19 +80,37 @@ void menuDibujoOpcionElegida(int indice_seleccion) {
             lcdBorrar();
             lcdSetearCursor(0, 0);
             lcdPrint("Dibujando...");
+            lcdSetearCursor(0, 2);
+			lcdPrint("Presione atras");
+			lcdSetearCursor(0, 3);
+			lcdPrint("Para salir");
             sistemaCambiarEstado(ESTADO_DIBUJANDO);
             break;
-        case 1: // Nuevo Dibujo
-            dibujoReiniciar(dibujo_actual);
-            frameBufferUpdate(dibujo_actual->matriz);
+        case 1: // Nuevo Dibujo (Te manda a pedir confirmacion)
+        	lcdBorrar();
+			lcdSetearCursor(0, 0);
+			lcdPrint("Estas seguro?");
+			lcdSetearCursor(0, 1);
+			lcdPrint("Aceptar");
+			lcdSetearCursor(0, 2);
+			lcdPrint("Atras");
+			sistemaCambiarEstado(ESTADO_LIMPIAR_DIBUJO);
             break;
         case 2: // Guardar Dibujo
+        	lcdBorrar();
+        	lcdSetearCursor(0,1);
+        	lcdPrint("Guardando...");
             memEscribirMatriz(0x0000, dibujo_actual->matriz); // 0x000 Placeholder
-            frameBufferUpdate(dibujo_actual->matriz);
+            frameBufferUpdateAll(dibujo_actual->matriz);
+            menuDibujoEntrar();
             break;
         case 3: // Cargar Dibujo
+        	lcdBorrar();
+			lcdSetearCursor(0,1);
+			lcdPrint("Cargando...");
             memLeerMatriz(0x0000, dibujo_actual->matriz); // 0x000 Placeholder
-            frameBufferUpdate(dibujo_actual->matriz);
+            frameBufferUpdateAll(dibujo_actual->matriz);
+            menuDibujoEntrar();
             break;
         case 4: // Cambiar Pincel -> transición de estado
             sistemaCambiarEstado(ESTADO_CAMBIANDO_PINCEL);
@@ -143,6 +161,15 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
             // Lectura de potes para obtener valores R, G y B
             // dibujoPintar(dibujo_actual, r, g, b);
             // frameBufferUpdate(dibujo_actual->matriz);
+        	uint8_t r = 255;
+        	uint8_t g = 0; 	//Serian igualados a potenciometrosLeer();
+			uint8_t b = 0;
+
+        	dibujo_actual->color_anterior->r = r;
+			dibujo_actual->color_anterior->g = g;
+			dibujo_actual->color_anterior->b = b;
+
+			frameBufferUpdateAll(dibujo_actual->matriz);
             break;
         case BOTON_ATRAS:
             sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
@@ -159,5 +186,36 @@ void menuDibujoCambiarPincelTick(BotonEvento_t input) {
         sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
         lcdBorrar();
         menuDibujoMostrar(seleccion, indice_seleccion);
+    }
+}
+
+Matriz_t* menuDibujoObtenerMatriz(void) {
+    if (dibujo_actual != NULL) {
+        return dibujo_actual->matriz;
+    }
+    return NULL;
+}
+
+void menuDibujoLimpiandoTick(BotonEvento_t input) {
+    switch (input) {
+        case BOTON_ACEPTAR:
+            dibujoReiniciar(dibujo_actual);
+            frameBufferUpdateAll(dibujo_actual->matriz);
+
+            // Vuelvo al menu de dibujo y reimprimo en el lcd
+            sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
+            lcdBorrar();
+            menuDibujoMostrar(seleccion, indice_seleccion);
+            break;
+
+        case BOTON_ATRAS:
+            // Vuelvo al menu de dibujo pero sin borrar nada
+            sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
+            lcdBorrar();
+            menuDibujoMostrar(seleccion, indice_seleccion);
+            break;
+
+        default:
+            break;
     }
 }
