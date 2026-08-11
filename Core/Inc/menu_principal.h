@@ -20,10 +20,16 @@
 #include "boton.h"
 
 #define MAX_CARACTERES_MENSAJE 50
+#define MAX_BRILLO 100
+#define MIN_BRILLO 25
 
 void menuPrincipalEntrar(void);
 
 void menuPrincipalTick(BotonEvento_t input);
+
+void menuPrincipalOpcionElegida(int indice_seleccion);
+
+void menuPrincipalCambiandoBrilloTick(BotonEvento_t input);
 
 void menuPrincipalPrint(char seleccion[3], int indice_seleccion);
 
