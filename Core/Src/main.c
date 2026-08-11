@@ -30,6 +30,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include "hub75.h"
+#include "frame_buffer.h"
 
 /* USER CODE END Includes */
 
@@ -242,11 +244,11 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 60000;
+  htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 999;
+  htim3.Init.Period = 7500;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
   {
     Error_Handler();
@@ -320,15 +322,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|LAT_Pin|B_Pin|OE_Pin
-                          |CLK_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|LAT_Pin|OE_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(A_GPIO_Port, A_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, A_Pin|CLK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, R2_Pin|G2_Pin|BL1_Pin|R1_Pin
-                          |G1_Pin|B2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, R1_Pin|G1_Pin|BL1_Pin|R2_Pin
+                          |G2_Pin|B2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -337,36 +338,47 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : BU1_Pin BU2_Pin BU3_Pin BU4_Pin
-                           BU5_Pin BU6_Pin */
+                           BU5_Pin */
   GPIO_InitStruct.Pin = BU1_Pin|BU2_Pin|BU3_Pin|BU4_Pin
-                          |BU5_Pin|BU6_Pin;
+                          |BU5_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD2_Pin LAT_Pin B_Pin OE_Pin
-                           CLK_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin|LAT_Pin|B_Pin|OE_Pin
-                          |CLK_Pin;
+  /*Configure GPIO pin : LD2_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LAT_Pin OE_Pin */
+  GPIO_InitStruct.Pin = LAT_Pin|OE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : A_Pin */
-  GPIO_InitStruct.Pin = A_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(A_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : BU6_Pin */
+  GPIO_InitStruct.Pin = BU6_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(BU6_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : R2_Pin G2_Pin BL1_Pin R1_Pin
-                           G1_Pin B2_Pin */
-  GPIO_InitStruct.Pin = R2_Pin|G2_Pin|BL1_Pin|R1_Pin
-                          |G1_Pin|B2_Pin;
+  /*Configure GPIO pins : A_Pin CLK_Pin */
+  GPIO_InitStruct.Pin = A_Pin|CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : R1_Pin G1_Pin BL1_Pin R2_Pin
+                           G2_Pin B2_Pin */
+  GPIO_InitStruct.Pin = R1_Pin|G1_Pin|BL1_Pin|R2_Pin
+                          |G2_Pin|B2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
@@ -405,8 +417,8 @@ void scan_i2c(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
     // Si salta el timer 3
     if (htim->Instance == TIM3) {
-        //serpentineRefresh();
-        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+        hub75Refresh();
+
 
     }
 }
@@ -458,8 +470,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
