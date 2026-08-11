@@ -19,6 +19,9 @@ void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
         case ESTADO_MENU_PRINCIPAL:
             menuPrincipalEntrar();
             break;
+        case ESTADO_CAMBIANDO_BRILLO:
+        	menuPrincipalCambiandoBrilloTick(BOTON_NINGUNO);
+			break;
         case ESTADO_MENU_DIBUJO:
             menuDibujoEntrar();
             break;
@@ -59,6 +62,9 @@ void sistemaTick(BotonEvento_t input) {
         case ESTADO_MENU_PRINCIPAL:
             menuPrincipalTick(input);
             break;
+        case ESTADO_CAMBIANDO_BRILLO:
+			menuPrincipalCambiandoBrilloTick(input);
+			break;
         case ESTADO_MENU_DIBUJO:
             menuDibujoTick(input);
             break;
