@@ -1,0 +1,653 @@
+Documentación del módulo de potenciómetros
+1. Objetivo
+Este módulo tiene como objetivo adquirir y procesar las señales analógicas provenientes de tres potenciómetros conectados al microcontrolador STM32F103RB.
+Las señales recibidas son digitalizadas mediante el ADC (Analog-to-Digital Converter) del microcontrolador y almacenadas mediante DMA (Direct Memory Access) en un arreglo, cuyo nombre es adc_buffer.
+Cada potenciómetro se utiliza para controlar un parámetro de la matriz LED RGB de 32×32:
+Potenciómetro 1 → posición en el eje X.
+Potenciómetro 2 → posición en el eje Y.
+Potenciómetro 3 → brillo.
+El procesamiento puede representarse mediante el siguiente flujo:
+Potenciómetros
+      │
+      │ Señal analógica
+      ▼
+     ADC
+      │
+      │ Conversión 12 bits
+      ▼
+    DMA
+      │
+      ▼
+adc_buffer[3]
+      │
+      ▼
+Procesamiento
+      │
+      ├──────► X (0–31)
+      │
+      ├──────► Y (0–31)
+      │
+      └──────► Brillo (0–255)
+      │
+      ▼
+Matriz LED RGB
+
+2. Archivo potenciometro.h
+El archivo potenciometro.h corresponde al archivo de cabecera del módulo. Tiene como función principal declarar los elementos que serán utilizados por otros archivos del programa, evitando tener que colocar toda la implementación en cada módulo que necesite utilizar los potenciómetros.
+
+2.1 Protección contra inclusiones múltiples
+#ifndef POTE_H
+#define POTE_H
+Estas instrucciones forman lo que se denomina include guard, que busca evitar que el contenido sea incluido más de una vez durante la compilación.
+Por ejemplo, diferentes archivos pueden incluir directa o indirectamente: #include "potenciometro.h". Si el archivo se incluyera dos veces sin protección, podrían producirse errores de compilación debido a declaraciones duplicadas.
+El funcionamiento es:
+¿POTE_H está definido?
+        │
+    ┌───┴───┐
+    │       │
+   NO      SÍ
+    │       │
+    ▼       ▼
+Define     Ignora
+POTE_H     archivo
+    │
+    ▼
+Procesa contenido
+Por eso al final encontramos: #endif, que cierra la condición iniciada con #ifndef.
+
+3. Inclusión de stdint.h
+Esta biblioteca proporciona tipos de datos enteros con tamaños definidos; en nuestro caso utilizamos principalmente:
+uint8_t, uint16_t, que representan enteros sin signo de 8 bits, cuyo rango es: 0 a 255, resultando adecuado para representar: brillo, coordenadas de la matriz, valores que no necesitan superar 255.
+Por ejemplo: uint8_t brillo puede almacenar:
+0 → brillo mínimo
+255 → brillo máximo
+
+Por otro lado, uint16_t es un entero sin signo de 16 bits, con rango entre 0 y 65535. En nuestro caso se utiliza para almacenar el valor proveniente del ADC: uint16_t valor_raw.
+Como el ADC del STM32 está configurado a 12 bits, el valor real estará entre: 0 y 4095 aunque el tipo uint16_t permite almacenar valores mayores.
+
+4. Estructura Potenciometros_t
+Una de las partes más importantes es:
+typedef struct {
+    uint8_t x;
+    uint8_t y;
+    uint8_t brillo;
+} Potenciometros_t;
+Esta estructura permite agrupar los tres parámetros obtenidos a partir de los potenciómetros. En lugar de manejar tres variables independientes:
+uint8_t x;
+uint8_t y;
+uint8_t brillo;
+podemos utilizar una única variable: Potenciometros_t pote; que contiene:
+pote
+ ├── x
+ ├── y
+ └── brillo
+
+5. Función adc_a_posicion()
+En el archivo de cabecera declaramos: uint8_t adc_a_posicion(uint16_t valor_raw);
+Esta función recibe un valor del ADC y lo transforma en una posición válida dentro de la matriz.
+Nuestra matriz tiene: 32 × 32 píxeles. Por lo tanto, las coordenadas posibles son:
+X = 0 ... 31
+Y = 0 ... 31
+El ADC, en cambio, entrega: 0 ... 4095. 
+Por lo tanto necesitamos realizar una conversión:
+ADC:       0 ─────────────── 4095
+             ↓
+Posición:  0 ─────────────── 31
+
+La función implementada es:
+uint8_t adc_a_posicion(uint16_t valor_raw){
+    return (uint8_t)((valor_raw * 32) / 4096);
+}
+
+6. Función adc_a_brillo()
+La segunda conversión declarada es:
+uint8_t adc_a_brillo(uint16_t valor_raw);
+Esta función convierte el valor de 12 bits del ADC: 0 ... 4095 en un valor de brillo de 8 bits: 0 ... 255.
+La implementación que veníamos utilizando es:
+uint8_t adc_a_brillo(uint16_t valor_raw){
+    return valor_raw >> 4;
+}
+El desplazamiento: >> 4 equivale, para un entero positivo, a dividir aproximadamente por: 2⁴ = 16. 
+Por lo tanto: 
+4095 / 16 ≈ 255
+Así obtenemos: ADC 12 bits → Brillo 8 bits, 0 ... 4095  → 0 ... 255
+
+7. Función leer_potenciometros()
+Finalmente tenemos:
+void leer_potenciometros(Potenciometros_t *pote);
+Esta función es la encargada de realizar el procesamiento completo de los tres potenciómetros.
+El parámetro: Potenciometros_t *pote es un puntero a una estructura, que permite que la función modifique directamente la estructura que se encuentra en otra parte del programa.
+
+Conceptualmente:
+adc_buffer
+    │
+    ├── ADC 1 ──► conversión ──► pote->x
+    │
+    ├── ADC 2 ──► conversión ──► pote->y
+    │
+    └── ADC 3 ──► conversión ──► pote->brillo
+
+De esta forma, después de ejecutar: leer_potenciometros(&pote); la estructura pote contiene los valores actualizados.
+
+8. Relación entre potenciometro.h y potenciometro.c
+Es importante entender que estos dos archivos cumplen funciones diferentes. 
+potenciometro.h contiene las declaraciones: ¿Qué existe?, ¿Qué funciones puedo utilizar? y ¿Qué estructura puedo utilizar?
+potenciometro.c contiene las implementaciones: ¿Cómo funcionan esas funciones?, ¿Cómo se realiza la conversión? y ¿Cómo se leen los potenciómetros?
+
+La relación es:
+             pote.h
+        ┌────────────────┐
+        │ Potenciometros │
+        │   _t           │
+        │                │
+        │ adc_a_posicion │
+        │ adc_a_brillo   │
+        │ leer_pots      │
+        └───────┬────────┘
+                │
+                │ declara
+                ▼
+             pote.c
+        ┌────────────────┐
+        │ implementación │
+        │ de las funciones│
+        └────────────────┘
+
+Esto permite mantener el código modular y organizado.
+
+10. Archivo potenciometro.c
+El archivo contiene la implementación de las funciones declaradas previamente en potenciometro.h.
+Su función es tomar los valores digitales obtenidos mediante el ADC y convertirlos en parámetros que puedan ser utilizados por la matriz LED.
+La estructura general es:
+
+ADC
+ │
+ ▼
+DMA
+ │
+ ▼
+adc_buffer[3]
+ │
+ ├─────────────┐
+ │             │
+ ▼             ▼
+ADC[0]        ADC[1]        ADC[2]
+ │             │             │
+ ▼             ▼             ▼
+  X             Y          Brillo
+ │             │             │
+ └─────────────┼─────────────┘
+               ▼
+       Potenciometros_t
+
+11. Inclusión de pote.h
+El archivo comienza con: #include "pote.h" que incluye las declaraciones realizadas en el archivo de cabecera, permitiendo que potenciometro.c conozca la estructura:
+Potenciometros_t y las declaraciones de las funciones:
+adc_a_posicion()
+adc_a_brillo()
+leer_potenciometros()
+
+12. Acceso al buffer del ADC
+Una de las líneas más importantes del archivo es:
+extern uint16_t adc_buffer[3]; 
+12.1 ¿Qué es adc_buffer? 
+En la configuración del ADC utilizamos un arreglo: uint16_t adc_buffer[3];
+Este arreglo contiene los resultados de las tres conversiones ADC.
+
+Conceptualmente:
+adc_buffer
+┌────────────┬────────────┬────────────┐
+│ [0]        │ [1]        │ [2]        │
+├────────────┼────────────┼────────────┤
+│ ADC canal  │ ADC canal  │ ADC canal  │
+│     1      │     2      │     3      │
+└────────────┴────────────┴────────────┘
+
+Cada elemento almacena un valor de hasta 12 bits:
+0 ─────────────────────────── 4095
+
+13. extern
+La palabra: extern indica que la variable no se crea en potenciometro.c, sino que está definida en otro archivo.
+Por ejemplo, en el archivo donde configuramos el ADC podríamos tener: uint16_t adc_buffer[3];
+Mientras que en potenciometro.c solamente declaramos: extern uint16_t adc_buffer[3]; lo que significa que la variable adc_buffer existe en otro archivo, pero quiero utilizarla acá aquí.
+Es importante porque de lo contrario estaríamos creando otro buffer diferente.
+
+Tenemos:
+
+             ADC + DMA
+                │
+                ▼
+          adc_buffer[3]
+                │
+                │
+          ┌─────┴─────┐
+          │           │
+          ▼           ▼
+       ADC.c        pote.c
+                   (lee el mismo
+                    buffer)
+
+Por eso extern es fundamental en este caso.
+
+14. Conversión de ADC a posición
+La función es:
+uint8_t adc_a_posicion(uint16_t valor_raw){
+    return (uint8_t)((valor_raw * 32) / 4096);
+}
+Cuyo objetivo es convertir el valor del ADC en una coordenada de la matriz. Tenemos:
+Entrada
+ADC de 12 bits:
+0 → 4095
+
+Salida
+Matriz de 32 píxeles:
+0 → 31
+Por lo tanto necesitamos realizar un escalamiento.
+
+14.1 Ecuación utilizada
+La conversión puede expresarse como:
+posicion = ADC⋅32/4096
+​Por ejemplo, si: ADC = 0, obtenemos: posicion = 0
+Y para un valor cercano al máximo:
+ADC = 4095, obtenemos: posicion ≈ 31
+Por lo tanto:
+
+ADC                 Posición
+0       ───────────► 0
+1024    ───────────► 8
+2048    ───────────► 16
+3072    ───────────► 24
+4095    ───────────► 31
+
+15. ¿Por qué se utiliza 32 y no 31?
+Tenemos 32 posiciones posibles:
+0  1  2  3  ...  29  30  31
+Aunque el valor máximo de la coordenada sea 31, existen 32 valores diferentes.
+Por eso la transformación utiliza: * 32.
+Esto permite dividir el rango del ADC en 32 intervalos.
+
+16. Conversión de ADC a brillo
+La función utilizada es:
+uint8_t adc_a_brillo(uint16_t valor_raw){
+    return valor_raw >> 4;
+}
+Acá estamos haciendo una reducción de resolución.
+El ADC trabaja con: 12 bits, mientras que el brillo se representa con: 8 bits.
+Por lo tanto: 12 bits → 8 bits
+
+16.1 ¿Qué significa >> 4?
+El operador: >> realiza un desplazamiento de bits hacia la derecha. Entonces:
+valor_raw >> 4 desplaza cuatro bits hacia la derecha.
+Para números enteros positivos, esto equivale aproximadamente a: valor_raw/2^4. Así:
+brillo ≈ ADC/16.
+Así obtenemos:
+ADC       Brillo
+0    ───► 0
+1024 ───► 64
+2048 ───► 128
+3072 ───► 192
+4095 ───► 255
+
+17. Función leer_potenciometros()
+Esta función es la que reúne todo el procesamiento.
+Conceptualmente, su funcionamiento es:
+
+                 adc_buffer
+                     │
+          ┌──────────┼──────────┐
+          │          │          │
+          ▼          ▼          ▼
+       buffer[0]  buffer[1]  buffer[2]
+          │          │          │
+          ▼          ▼          ▼
+      posición    posición    brillo
+          │          │          │
+          ▼          ▼          ▼
+        pote->x    pote->y   pote->brillo
+
+Una implementación simplificada es:
+void leer_potenciometros(Potenciometros_t *pote)
+{
+    pote->x = adc_a_posicion(adc_buffer[0]);
+    pote->y = adc_a_posicion(adc_buffer[1]);
+    pote->brillo = adc_a_brillo(adc_buffer[2]);
+}
+
+18. ¿Qué significa pote->x?
+Acá aparece otra cuestión importante de C.
+Tenemos:
+Potenciometros_t *pote
+Es decir, pote es un puntero a una estructura.
+Para acceder a los campos de una estructura mediante un puntero utilizamos: ->
+Por ejemplo:
+pote->x significa: acceder al campo x de la estructura apuntada por pote.
+Es equivalente a: (*pote).x
+
+19. Ejemplo completo de funcionamiento
+Supongamos que el ADC obtiene:
+adc_buffer[0] = 1000
+adc_buffer[1] = 3000
+adc_buffer[2] = 2000
+
+Entonces ejecutamos: leer_potenciometros(&pote);
+Para X: X = 1000 ⋅ 32/4096, aproximadamente: X = 7
+Para Y: Y = 3000 ⋅ 32/​4096, aproximadamente: Y = 23
+Para brillo: Brillo = 2000>>4, aproximadamente: Brillo = 125
+La estructura queda:
+pote.x      = 7
+pote.y      = 23
+pote.brillo = 125
+Por lo tanto, el programa podría utilizar esos valores para controlar:
+matrix_setPixel(7, 23, ...); con un nivel de brillo de 125.
+
+20. Relación con la matriz LED
+El objetivo final de todo este procesamiento es que los potenciómetros puedan modificar parámetros de la matriz.
+El flujo completo es:
+┌──────────────┐
+│ Potenciómetro│
+└──────┬───────┘
+       │
+       │ tensión analógica
+       ▼
+┌──────────────┐
+│     ADC      │
+│    12 bits   │
+└──────┬───────┘
+       │
+       │
+       ▼
+┌──────────────┐
+│     DMA      │
+└──────┬───────┘
+       │
+       ▼
+┌────────────────────┐
+│   adc_buffer[3]    │
+└─────────┬──────────┘
+          │
+          ▼
+┌────────────────────┐
+│leer_potenciometros │
+└─────────┬──────────┘
+          │
+          ▼
+┌─────────────────────────┐
+│  Potenciometros_t       │
+│                         │
+│  x                      │
+│  y                      │
+│  brillo                 │
+└────────────┬────────────┘
+             │
+             ▼
+┌─────────────────────────┐
+│      Matriz 32×32       │
+└─────────────────────────┘
+
+Esto permite separar claramente dos responsabilidades:
+ADC/DMA: adquisición de datos.
+Módulo pote: interpretación de esos datos.
+Módulo matrix: representación de los datos en la matriz.
+Módulo HUB75: transmisión física hacia los paneles LED.
+Esta separación es importante porque hace que el programa sea más modular y fácil de modificar.
+
+
+24. Filtrado y promediado de las lecturas
+Hasta ahora el ADC entrega valores entre: 0 ≤ ADC ≤ 4095
+Sin embargo, en un sistema real el valor leído por el ADC no permanece perfectamente constante, incluso aunque el potenciómetro no se esté moviendo.
+Aunque el potenciómetro esté físicamente quieto, el ADC presenta pequeñas variaciones. Estas variaciones pueden deberse a:
+ruido eléctrico, interferencias, ruido propio del ADC, alimentación, impedancia de la fuente analógica, pequeñas variaciones de la tensión entregada por el potenciómetro.
+Si utilizáramos directamente cada lectura, la posición podría cambiar constantemente entre píxeles vecinos.
+
+25. Problema de una lectura directa
+Supongamos que el potenciómetro está aproximadamente en el centro. Podríamos obtener:
+ADC = 2040 → X = 15
+ADC = 2048 → X = 16
+ADC = 2043 → X = 15
+ADC = 2052 → X = 16
+
+Entonces el píxel podría oscilar: 15 → 16 → 15 → 16 → 15 → 16 aunque el usuario no haya movido el potenciómetro.
+Esto genera un efecto visual no deseado en la matriz. Para evitarlo, podemos aplicar un promedio de varias muestras.
+
+26. Concepto de promedio
+En lugar de utilizar cualquiera de las lecturas individuales, utilizamos el promedio, lo que produce una señal más estable.
+
+27. AVERAGER_SIZE
+En el código que veníamos trabajando aparecía el concepto:
+#define AVERAGER_SIZE 16
+Esto indica que se utilizan 16 muestras para realizar el promedio.
+Conceptualmente:
+
+ADC
+ │
+ ├── muestra 1
+ ├── muestra 2
+ ├── muestra 3
+ ├── ...
+ └── muestra 16
+          │
+          ▼
+       PROMEDIO
+          │
+          ▼
+     valor filtrado
+
+Cuanto mayor sea el número de muestras, mayor será la capacidad de reducir pequeñas fluctuaciones.
+Pero existe un compromiso:
+Más muestras
+Ventajas: lectura más estable y menor sensibilidad al ruido.
+Desventajas: mayor tiempo de respuesta, el sistema puede sentirse más "lento".
+Menos muestras
+Ventajas: respuesta más rápida, el potenciómetro se siente más inmediato.
+Desventajas: mayor sensibilidad al ruido.
+Por eso el tamaño del promedio debe elegirse según la aplicación.
+
+28. Promedio de múltiples muestras
+Para cada potenciómetro podemos pensar el procesamiento de esta forma:
+
+          ADC
+           │
+           ▼
+      ┌──────────┐
+      │ Muestra 1│
+      ├──────────┤
+      │ Muestra 2│
+      ├──────────┤
+      │ Muestra 3│
+      ├──────────┤
+      │   ...    │
+      ├──────────┤
+      │Muestra 16│
+      └────┬─────┘
+           │
+           ▼
+       SUMATORIA
+           │
+           ▼
+      / 16 muestras
+           │
+           ▼
+    VALOR PROMEDIADO
+           │
+           ▼
+    Conversión ADC
+           │
+      ┌────┴─────┐
+      ▼          ▼
+     X/Y       Brillo
+
+29. ¿Por qué conviene filtrar antes de convertir?
+Tenemos dos posibilidades.
+Opción A: Promediar después de convertir:
+ADC
+ ↓
+posición
+ ↓
+promedio
+
+Opción B: Promediar primero:
+ADC
+ ↓
+promedio
+ ↓
+posición
+
+Para nuestro caso es más conveniente trabajar con el valor ADC antes de hacer la conversión.
+Es decir:
+ADC_prom = N∑ADCi y después: X = ADC_prom ⋅ 32/4096 y: Brillo = ADC_prom >> 4. Esto evita que las pequeñas variaciones del ADC se traduzcan directamente en cambios de posición.
+
+30. ¿Qué pasa cuando realmente movemos el potenciómetro?
+El filtro no impide que el valor cambie. Si movemos el potenciómetro, el promedio también comenzará a aumentar:
+Por lo tanto:
+ruido pequeño
+     ↓
+   filtro
+     ↓
+   estable
+
+pero:
+
+cambio real
+     ↓
+   filtro
+     ↓
+ cambio gradual
+
+Esto es justamente lo que buscamos.
+
+31. Compromiso entre estabilidad y velocidad
+El tamaño del promedio tiene una relación directa con la respuesta del sistema.
+Podemos representarlo así:
+        ESTABILIDAD
+             ▲
+             │
+             │       ●
+             │
+             │
+             │
+             │
+             └──────────────────►
+                    VELOCIDAD
+
+No podemos aumentar indefinidamente el número de muestras porque eventualmente el control se volvería demasiado lento.
+
+32. Relación entre ADC, filtrado y matriz
+Ahora podemos completar nuestro flujo:
+┌──────────────────┐
+│  Potenciómetro   │
+└────────┬─────────┘
+         │
+         │ tensión analógica
+         ▼
+┌──────────────────┐
+│       ADC        │
+│      12 bits     │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│       DMA        │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│  adc_buffer[3]   │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│     Promedio     │
+│  varias muestras │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│  Valor filtrado  │
+└────────┬─────────┘
+         │
+    ┌────┴─────┐
+    │          │
+    ▼          ▼
+ Posición    Brillo
+  0–31       0–255
+    │          │
+    └────┬─────┘
+         ▼
+┌──────────────────┐
+│   Matriz 32×32   │
+└──────────────────┘
+
+33. Ventaja de utilizar DMA
+Hay otra parte importante de nuestra implementación: no estamos leyendo el ADC manualmente mediante polling para cada potenciómetro, sino que utilizamos DMA.
+El DMA permite que el microcontrolador transfiera automáticamente los resultados del ADC a: adc_buffer[3] sin que el procesador tenga que realizar cada transferencia de manera explícita.
+Esto resulta especialmente conveniente porque el STM32 también tiene que encargarse de: actualizar la matriz, manejar el protocolo HUB75, ejecutar la lógica del programa, procesar los potenciómetros.
+Por lo tanto:
+             STM32
+               │
+       ┌───────┴────────┐
+       │                │
+      CPU              DMA
+       │                │
+       │                └──► ADC → adc_buffer
+       │
+       ├──► lógica
+       ├──► matriz
+       └──► procesamiento
+
+El DMA reduce la carga de trabajo del CPU.
+
+34. Resultado final del módulo
+El módulo de potenciómetros tiene tres etapas fundamentales:
+Etapa 1 — Adquisición. El ADC convierte las tensiones analógicas:
+Potenciómetro
+     ↓
+0–3.3 V aprox.
+     ↓
+ADC 12 bits
+     ↓
+0–4095
+
+Etapa 2 — Procesamiento
+Los valores son almacenados mediante DMA y, si corresponde, filtrados:
+ADC
+ ↓
+DMA
+ ↓
+adc_buffer
+ ↓
+promedio
+
+Etapa 3 — Interpretación
+Los valores filtrados se convierten en parámetros útiles:
+ADC
+ │
+ ├──► posición X: 0–31
+ │
+ ├──► posición Y: 0–31
+ │
+ └──► brillo: 0–255
+
+Finalmente:
+        Potenciadores
+             │
+             ▼
+            ADC
+             │
+             ▼
+            DMA
+             │
+             ▼
+       adc_buffer[3]
+             │
+             ▼
+        Filtrado
+             │
+             ▼
+    Potenciometros_t
+       │     │     │
+       X     Y   Brillo
+       │     │     │
+       └─────┼─────┘
+             ▼
+        Matriz RGB
+          32 × 32
