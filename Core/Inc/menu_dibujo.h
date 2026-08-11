@@ -33,4 +33,8 @@ void menuDibujoMostrar(char seleccion[6], int indice_seleccion);
 
 void menuDibujoOpcionElegida(int indice_seleccion);
 
+Matriz_t* menuDibujoObtenerMatriz(void);
+
+void menuDibujoLimpiandoTick(BotonEvento_t input);
+
 #endif

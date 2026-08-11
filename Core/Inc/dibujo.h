@@ -22,6 +22,7 @@ typedef struct  {
         uint8_t indice_fil;
         uint8_t indice_col;
         uint8_t tam_pincel;
+        Casillero_t* color_anterior;
 } Dibujo_t;
 
 #define MAX_CARACTERES_MENSAJE 50

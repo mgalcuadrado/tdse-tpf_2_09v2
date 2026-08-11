@@ -30,4 +30,8 @@ void menuSecuenciaMostrar(char seleccion[3], int indice_seleccion);
 
 void menuSecuenciaOpcionElegida(int indice_seleccion);
 
+Matriz_t* menuSecuenciaObtenerMatriz(void);
+
+void menuSecuenciaLimpiandoTick(BotonEvento_t input);
+
 #endif
