@@ -26,8 +26,6 @@ void menuSecuenciaTick(BotonEvento_t input);
 
 void menuSecuenciaCompletarTick(BotonEvento_t input);
 
-void menuSecuenciaLimpiandoTick(BotonEvento_t input);
-
 void menuSecuenciaMostrar(char seleccion[3], int indice_seleccion);
 
 void menuSecuenciaOpcionElegida(int indice_seleccion);
