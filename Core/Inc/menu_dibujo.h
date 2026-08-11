@@ -27,6 +27,8 @@ void menuDibujoTick(BotonEvento_t input);
 
 void menuDibujoDibujarTick(BotonEvento_t input);
 
+void menuDibujoLimpiandoTick(BotonEvento_t input);
+
 void menuDibujoCambiarPincelTick(BotonEvento_t input);
 
 void menuDibujoMostrar(char seleccion[6], int indice_seleccion);
