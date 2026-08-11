@@ -5,6 +5,7 @@
 */
 
 #include "estado.h"
+
 #include "menu_principal.h"
 #include "menu_dibujo.h"
 #include "menu_secuencia.h"
@@ -24,6 +25,21 @@ void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
         case ESTADO_MENU_SECUENCIA:
             menuSecuenciaEntrar();
             break;
+        case ESTADO_CAMBIANDO_PINCEL:
+        	menuDibujoCambiarPincelTick(BOTON_NINGUNO);
+			break;
+        case ESTADO_DIBUJANDO:
+        	menuDibujoDibujarTick(BOTON_NINGUNO);
+			break;
+        case ESTADO_COMPLETANDO_SECUENCIA:
+			menuSecuenciaCompletarTick(BOTON_NINGUNO);
+			break;
+        case ESTADO_LIMPIAR_SECUENCIA:
+        	menuSecuenciaLimpiandoTick(BOTON_NINGUNO);
+        	break;
+        case ESTADO_LIMPIAR_DIBUJO:
+			menuDibujoLimpiandoTick(BOTON_NINGUNO);
+			break;
         default:
             break;
     }
@@ -58,5 +74,26 @@ void sistemaTick(BotonEvento_t input) {
         case ESTADO_COMPLETANDO_SECUENCIA:
             menuSecuenciaCompletarTick(input);
             break;
+        case ESTADO_LIMPIAR_DIBUJO:
+        	menuDibujoLimpiandoTick(input);
+        	break;
+        case ESTADO_LIMPIAR_SECUENCIA:
+			menuSecuenciaLimpiandoTick(input);
+			break;
+    }
+}
+
+Matriz_t* sistemaObtenerMatrizActiva(void) {
+    switch (estado_actual) {
+        case ESTADO_DIBUJANDO:
+        case ESTADO_CAMBIANDO_PINCEL:
+            return menuDibujoObtenerMatriz();
+
+        case ESTADO_COMPLETANDO_SECUENCIA:
+            return menuSecuenciaObtenerMatriz();
+
+        default:
+            // Durante los menús principales/secundarios no hay matriz activa
+            return NULL;
     }
 }
