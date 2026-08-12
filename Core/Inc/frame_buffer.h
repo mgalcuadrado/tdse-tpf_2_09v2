@@ -22,9 +22,6 @@ extern volatile uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
 // frameBufferInit crea una trama de datos para la pantalla en negro (todo apagado)
 void frameBufferInit(void);
 
-// frameBufferSetBrightness varía la intensidad de brillo de las pantallas
-void frameBufferSetBrightness(int brillo);
-
 // frameBufferColourAll colorea toda la antalla de blanco
 void frameBufferColourAll(void);
 

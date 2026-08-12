@@ -10,7 +10,8 @@
 #include "frame_buffer.h"
 #include "pixeles.h"
 #define LIMITE 127
-#define BRILLO_MAXIMO 255
+
+#define BRILLO_MAXIMO_PIXEL 255
 #define COLUMNAS_SERPENTINA 8
 #define FILAS_SERPENTINA 2
 
@@ -25,10 +26,6 @@ void frameBufferInit(void){
         	framebuffer[f][c] = parpixeles_negro;
         }
     }
-}
-
-void frameBufferSetBrightness(int brillo){
-return;
 }
 
 void frameBufferColourAll(void){
@@ -216,11 +213,11 @@ static int fila_test = 0;
 static int columna_test = 0;
 void testBarridoCompleto(Matriz_t * matriz){
 	uint8_t r = 0,g = 0,b = 0;
-	if (fila_test <MATRIZ_FILAS/4) r=BRILLO_MAXIMO;
-	else if (fila_test < MATRIZ_COLUMNAS/2) b=BRILLO_MAXIMO;
-	else if (fila_test < 3*MATRIZ_COLUMNAS/4) r = BRILLO_MAXIMO;
+	if (fila_test <MATRIZ_FILAS/4) r=BRILLO_MAXIMO_PIXEL;
+	else if (fila_test < MATRIZ_COLUMNAS/2) b=BRILLO_MAXIMO_PIXEL;
+	else if (fila_test < 3*MATRIZ_COLUMNAS/4) r = BRILLO_MAXIMO_PIXEL;
 	else {
-		r=BRILLO_MAXIMO;g=BRILLO_MAXIMO;b=BRILLO_MAXIMO;
+		r=BRILLO_MAXIMO_PIXEL;g=BRILLO_MAXIMO_PIXEL;b=BRILLO_MAXIMO_PIXEL;
 	}
 	matrizSetCasillero(matriz, fila_test, columna_test, r,g,b);
     frameBufferUpdateCasilla(matriz, fila_test, columna_test);

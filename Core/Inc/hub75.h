@@ -11,7 +11,14 @@
 #include "frame_buffer.h"
 #include "stdint.h"
 
+
+// hub75Init inicializa los valores del hub75
  void hub75Init(void);
+
+ //hub75SetBrightness varía la intensidad de brillo de las pantallas
+ void hub75SetBrightness(int brillo);
+
+ //hub75Refresh refresca la pantalla
  void hub75Refresh(void);
 
 #endif

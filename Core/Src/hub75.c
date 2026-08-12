@@ -21,14 +21,22 @@
  GPIOC: R1,G1,B1,R2,G2,B2
 */
 static int fila_actual = 0;
+
+static int brillo_pantalla;
 void hub75Init(void){
 	GPIOA -> BSRR = OE_Pin | (LAT_Pin<<16);
 	GPIOB -> BSRR = (A_Pin | CLK_Pin)<<16;
 	GPIOC->BSRR= (R1_Pin | G1_Pin | BL1_Pin | R2_Pin | G2_Pin | B2_Pin)<<16;
 	//GPIOC->BSRR= parpixeles_R1;
-
+	brillo_pantalla = 100;
 
 }
+
+
+void hub75SetBrightness(int brillo){
+	brillo_pantalla = brillo;
+}
+
 const uint32_t B1_R2 = BL1_Pin | R2_Pin  | (( B2_Pin | G2_Pin | G1_Pin | R1_Pin)<<16);
 const uint32_t G1_G2 = G1_Pin | G2_Pin  | (( B2_Pin | R2_Pin | R1_Pin | BL1_Pin)<<16);
 
