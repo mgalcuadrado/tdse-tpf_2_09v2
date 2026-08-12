@@ -19,10 +19,7 @@ BotonEvento_t botonLeer() {
     static GPIO_PinState estadoAnt_Aceptar = GPIO_PIN_SET;
     static GPIO_PinState estadoAnt_Atras = GPIO_PIN_SET;
 
-    // Si no pasaron 50ms desde el último evento, ignorar para filtrar rebotes mecánicos
-    if ((HAL_GetTick() - ultimoTiempo) < DEBOUNCE_MS) {
-        return BOTON_NINGUNO;
-    }
+
 
     //Leer el estado actual de los pines
     GPIO_PinState actual_Arriba = HAL_GPIO_ReadPin(BU1_GPIO_Port, BU1_Pin);
@@ -34,33 +31,43 @@ BotonEvento_t botonLeer() {
 
     BotonEvento_t evento = BOTON_NINGUNO;
 
-    //Detección de Flanco
-    //Movimiento
-    if (estadoAnt_Arriba == GPIO_PIN_SET && actual_Arriba == GPIO_PIN_RESET) {
-        evento = BOTON_ARRIBA;
-        ultimoTiempo = HAL_GetTick();
+    //Detección de Flanco de bajada
+    if ((HAL_GetTick() - ultimoTiempo) >= DEBOUNCE_MS) {
+
+		if (estadoAnt_Arriba == GPIO_PIN_SET && actual_Arriba == GPIO_PIN_RESET) {
+			evento = BOTON_ARRIBA;
+			ultimoTiempo = HAL_GetTick();
+		}
+		if (estadoAnt_Abajo == GPIO_PIN_SET && actual_Abajo == GPIO_PIN_RESET) {
+			evento = BOTON_ABAJO;
+			ultimoTiempo = HAL_GetTick();
+		}
+		if (estadoAnt_Izquierda == GPIO_PIN_SET && actual_Izquierda == GPIO_PIN_RESET) {
+			evento = BOTON_IZQUIERDA;
+			ultimoTiempo = HAL_GetTick();
+		}
+		if (estadoAnt_Derecha == GPIO_PIN_SET && actual_Derecha == GPIO_PIN_RESET) {
+			evento = BOTON_DERECHA;
+			ultimoTiempo = HAL_GetTick();
+		}
+		//Aceptar o Atras
+		if (estadoAnt_Aceptar == GPIO_PIN_SET && actual_Aceptar == GPIO_PIN_RESET) {
+			evento = BOTON_ACEPTAR;
+			ultimoTiempo = HAL_GetTick();
+		}
+		if (estadoAnt_Atras == GPIO_PIN_SET && actual_Atras == GPIO_PIN_RESET) {
+			evento = BOTON_ATRAS;
+			ultimoTiempo = HAL_GetTick();
+		}
     }
-    if (estadoAnt_Abajo == GPIO_PIN_SET && actual_Abajo == GPIO_PIN_RESET) {
-        evento = BOTON_ABAJO;
-        ultimoTiempo = HAL_GetTick();
-    }
-    if (estadoAnt_Izquierda == GPIO_PIN_SET && actual_Izquierda == GPIO_PIN_RESET) {
-        evento = BOTON_IZQUIERDA;
-        ultimoTiempo = HAL_GetTick();
-    }
-    if (estadoAnt_Derecha == GPIO_PIN_SET && actual_Derecha == GPIO_PIN_RESET) {
-        evento = BOTON_DERECHA;
-        ultimoTiempo = HAL_GetTick();
-    }
-    //Aceptar o Atras
-    if (estadoAnt_Aceptar == GPIO_PIN_SET && actual_Aceptar == GPIO_PIN_RESET) {
-        evento = BOTON_ACEPTAR;
-        ultimoTiempo = HAL_GetTick();
-    }
-    if (estadoAnt_Atras == GPIO_PIN_SET && actual_Atras == GPIO_PIN_RESET) {
-        evento = BOTON_ATRAS;
-        ultimoTiempo = HAL_GetTick();
-    }
+
+    //Reseteo el tiempo si cambio algun pin
+    if (actual_Arriba != estadoAnt_Arriba || actual_Abajo != estadoAnt_Abajo ||
+            actual_Izquierda != estadoAnt_Izquierda || actual_Derecha != estadoAnt_Derecha ||
+            actual_Aceptar != estadoAnt_Aceptar || actual_Atras != estadoAnt_Atras) {
+
+            ultimoTiempo = HAL_GetTick();
+        }
 
     estadoAnt_Arriba = actual_Arriba;
     estadoAnt_Abajo = actual_Abajo;
