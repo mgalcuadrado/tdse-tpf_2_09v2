@@ -33,6 +33,29 @@ static bool mostrando_iniciado = false;
 static bool secuencia_fallo = false;
 static uint32_t tiempo_fallo = 0;
 
+// --- Orden en que el usuario debe pintar las secciones ---
+// Cuenta cuántas secciones "encendidas" (lista_sec[0][pos] != 0) ya pintó el
+// usuario correctamente, en el mismo orden en que se mostraron (de menor a mayor
+// índice). Se reinicia en cada intento nuevo, dentro de menuSecuenciaMostrarEntrar.
+static uint8_t orden_contador = 0;
+
+// Devuelve la posición (0..CANT_ELEMENTOS-1) de la próxima sección encendida que el
+// usuario debe pintar, según cuántas ya completó en orden (orden_contador). Recorre
+// lista_sec[0] de menor a mayor índice, que es el mismo orden en que se mostró la
+// secuencia en menuSecuenciaMostrarTick.
+static uint8_t menuSecuenciaPosicionEsperada(uint8_t contador) {
+    uint8_t encontrados = 0;
+    for (uint8_t pos = 0; pos < CANT_ELEMENTOS; pos++) {
+        if (secuencia_actual->lista_sec[0][pos] != 0) {
+            if (encontrados == contador) {
+                return pos;
+            }
+            encontrados++;
+        }
+    }
+    return CANT_ELEMENTOS; // No debería ocurrir: ya se habría completado la secuencia antes
+}
+
 void menuSecuenciaEntrar(void) {
     if (secuencia_actual == NULL) {
         secuencia_actual = secuenciaCrear();
@@ -107,11 +130,9 @@ void menuSecuenciaTick(BotonEvento_t input) {
             menuSecuenciaPrint(seleccion, indice_seleccion);
             break;
         case BOTON_ACEPTAR:
-        	seleccion[indice_seleccion] = ' ';
             menuSecuenciaOpcionElegida(indice_seleccion);
             break;
         case BOTON_ATRAS:
-        	seleccion[indice_seleccion] = ' ';
             secuenciaBorrar(secuencia_actual);
             matrizBorrar(matriz_actual);
             secuencia_actual = NULL;
@@ -129,6 +150,7 @@ void menuSecuenciaTick(BotonEvento_t input) {
 void menuSecuenciaMostrarEntrar(void) {
     indice_mostrando = 0;
     mostrando_iniciado = false;
+    orden_contador = 0;
 
     lcdBorrar();
     lcdSetearCursor(0, 0);
@@ -148,7 +170,7 @@ void menuSecuenciaMostrarTick(void) {
 
     uint32_t ahora = HAL_GetTick();
 
-    if (!mostrando_iniciado) { //Primera seccion de la secuencia a completar
+    if (!mostrando_iniciado) {
         uint8_t objetivo = secuencia_actual->lista_sec[0][indice_mostrando];
         if (objetivo != 0) {
             secuenciaPintarSeccion(matriz_actual, indice_mostrando, 0, 0, 255); // AZUL
@@ -160,7 +182,7 @@ void menuSecuenciaMostrarTick(void) {
     }
 
     if ((ahora - tiempo_ultima_seccion) < TIEMPO_MOSTRAR_SECCION_MS) {
-        return; // Todavia no pasaron los 3 segundos de esta sección
+        return; // Todavia no pasaron los ~3 segundos de esta sección
     }
 
     // Apago la sección anterior antes de mostrar la siguiente
@@ -235,20 +257,13 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
             uint8_t idx = secuencia_actual->indice_sec;
             uint8_t fil = (idx / DIM_SECUENCIA) * TAM_PINCEL_SECUENCIA;
             uint8_t col = (idx % DIM_SECUENCIA) * TAM_PINCEL_SECUENCIA;
-            uint8_t objetivo = secuencia_actual->lista_sec[0][idx];
+            uint8_t esperado = menuSecuenciaPosicionEsperada(orden_contador);
 
-            if (secuenciaElementoActual(secuencia_actual) != 0) {
-                // Esta sección ya estaba pintada correctamente (verde); no hago nada más.
-                break;
-            }
-
-            if (objetivo != 0) {
-                // Acierto: marco la sección como resuelta y la pinto de verde
+            if (idx == esperado) {
+                // Acierto Y en el orden correcto: marco la sección y la pinto de verde
                 secuenciaInsertarElemento(secuencia_actual, 255, matriz_actual, fil, col);
-                frameBufferUpdateAll(matriz_actual);
-
                 secuenciaPintarSeccion(matriz_actual, idx, 0, 255, 0); // VERDE
-                frameBufferUpdateAll(matriz_actual);
+                orden_contador++;
 
                 // Redibujo el cursor porque a veces se tapa
                 for (uint8_t i = 0; i < TAM_PINCEL_SECUENCIA; i++) {
@@ -258,7 +273,7 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
                 }
                 frameBufferUpdateAll(matriz_actual);
             } else {
-                // Error: el usuario pintó una sección que no correspondía a la secuencia
+                // Error: sección equivocada o fuera del orden mostrado
                 matrizLlenar(matriz_actual, 255, 0, 0); // Toda la matriz ROJA
                 frameBufferUpdateAll(matriz_actual);
 
