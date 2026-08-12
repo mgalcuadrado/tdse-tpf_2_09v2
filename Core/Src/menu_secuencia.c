@@ -255,12 +255,12 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
                 secuenciaPintarSeccion(matriz_actual, idx, 0, 255, 0); // VERDE
                 orden_contador++;
 
-                // Se redibuja el cursor porque a veces se tapa
+                /* Se redibuja el cursor porque a veces se tapa
                 for (uint8_t i = 0; i < TAM_PINCEL_SECUENCIA; i++) {
                     for (uint8_t j = 0; j < TAM_PINCEL_SECUENCIA; j++) {
                         matrizSetCasillero(matriz_actual, fil + i, col + j, 250, 0, 0);
                     }
-                }
+                }*/
                 frameBufferUpdateAll(matriz_actual);
             } else {
                 // Error: sección equivocada o fuera del orden mostrado
