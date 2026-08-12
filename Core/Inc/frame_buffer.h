@@ -25,12 +25,16 @@ void frameBufferInit(void);
 // frameBufferSetBrightness varía la intensidad de brillo de las pantallas
 void frameBufferSetBrightness(int brillo);
 
+// frameBufferColourAll colorea toda la antalla de blanco
+void frameBufferColourAll(void);
+
 // frameBufferUpdateCasilla recibe una fila y una columna de la matriz y actualiza esa casilla en el frame buffer
-void frameBufferUpdateCasilla(Matriz_t* matriz, int fila, int columna);
+void frameBufferUpdateCasilla(Matriz_t * matriz, int fila, int columna);
 
 // frameBufferUpdateAll actualiza el frame buffer con la matriz completa
 void frameBufferUpdateAll(Matriz_t *);
 
+void frameBufferUpdateCasillaColorDirecto( int fila_matriz, int columna_matriz, int r, int g, int b);
 // tests de la pantalla explicados en bitacora_general.md
 void testBarridoCompleto(Matriz_t *);
 void testBarridoBuffer(void);

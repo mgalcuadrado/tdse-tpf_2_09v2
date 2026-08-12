@@ -31,6 +31,15 @@ void frameBufferSetBrightness(int brillo){
 return;
 }
 
+void frameBufferColourAll(void){
+   	//par de pixeles en negro: todos los pines_rgb se apagan (los pines están movidos al sector de reset)
+    for (int f = 0; f < BUFFER_FILAS; f++){
+        for (int c = 0; c < BUFFER_COLUMNAS; c++){
+        	framebuffer[f][c] = parpixeles_R1_R2;
+        }
+    }
+}
+
 const uint32_t rgb1 = R1_Pin | BL1_Pin | G1_Pin |((R1_Pin | BL1_Pin | G1_Pin)<<16);
 const uint32_t rgb2 = R2_Pin | B2_Pin | G2_Pin |((R2_Pin | B2_Pin | G2_Pin)<<16);
 
@@ -76,7 +85,41 @@ void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_ma
 	 framebuffer[f][c] = buffer;
 }
 
+void frameBufferUpdateCasillaColorDirecto(int fila_matriz, int columna_matriz, int r, int g, int b){
+	 if (fila_matriz > MATRIZ_FILAS || columna_matriz > MATRIZ_COLUMNAS)
+		 return;
+	 int f =0, c=0;
+	 uint8_t pines_rgb =0;
+	 conversorPosicionMatrizAPosicionBuffer(fila_matriz, columna_matriz, &f, &c, &pines_rgb);
+	// matrizGetColorCasillero(matriz, fila_matriz, columna_matriz, &r, &g, &b);
+	 uint32_t color = 0;
+	 switch (pines_rgb){
+		case 1:
+			//los datos van en RGB1
+			if (r > LIMITE) color |= R1_Pin;
+			else color |= (R1_Pin <<16);
+			if (g > LIMITE) color |= G1_Pin;
+			else color |= (G1_Pin <<16);
+			if (b > LIMITE) color |= BL1_Pin;
+			else color |= (BL1_Pin <<16);
+			break;
+		case 2:
+			if (r > LIMITE) color |= R2_Pin;
+			else color |= (R2_Pin <<16);
+			if (g > LIMITE) color |= G2_Pin;
+			else color |= (G2_Pin <<16);
+			if (b > LIMITE) color |= B2_Pin;
+			else color |= (B2_Pin <<16);
+			break;
+		default:
+			break;
+	}
 
+	 uint32_t buffer= framebuffer[f][c];
+	 buffer&= ~(pines_rgb == 1 ? rgb1 : rgb2); //SE LIMPIAN LOS BITS YA GUARDADOS PARA ESTA CASILLA EN EL BUFFER
+	 buffer|= color;
+	 framebuffer[f][c] = buffer;
+}
 /* conversorPosicionMatrizAPosicionBuffer es una función interna que, dada una posición en la matriz
  * (ejemplo, matriz[fila_matriz][columna_matriz]) devuelve por referencia la fila, matriz y juego de pines RGB
  * correspondientes en el buffer (RGB 1 y 2).

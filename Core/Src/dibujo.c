@@ -10,6 +10,7 @@
 #include "dibujo.h"
 #include "matriz.h"
 #include "boton.h"
+#include "potenciometro.h"
 #include <stdlib.h>
 #include <string.h>
 #include "lcd.h"
@@ -90,12 +91,19 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 				dibujo->indice_fil = MATRIZ_FILAS - dibujo->tam_pincel;
 			}
 			break;
+
+
 		default:
 			//printf("Error al moverse en la matriz \n");
 			return;
 		}
+	uint8_t r = 0;
+	uint8_t g = 0;
+	uint8_t b = 0;
+
+	leer_potenciometros(&r, &g, &b);
 	matrizGetCasillero(dibujo->matriz, dibujo->indice_fil, dibujo->indice_col, dibujo->color_anterior);
-	dibujoPintar(dibujo, 250, 0, 0);
+	dibujoPintar(dibujo, r, g, b);
 }
 
 void dibujoReiniciar(Dibujo_t* dibujo) {

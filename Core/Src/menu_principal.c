@@ -28,6 +28,7 @@ void menuPrincipalEntrar(void) {
     //frameBufferSetBrightness(brillo);
     lcdBorrar();
     menuPrincipalPrint(seleccion, indice_seleccion);
+   //frameBufferColourAll();
 }
 
 void menuPrincipalTick(BotonEvento_t input) {

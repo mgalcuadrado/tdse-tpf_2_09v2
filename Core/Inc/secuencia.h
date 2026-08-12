@@ -29,7 +29,7 @@ typedef struct Secuencia_t {
 Secuencia_t* secuenciaCrear(void);
 void secuenciaInsertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz, uint8_t fil, uint8_t col);
 uint8_t secuenciaElementoActual(Secuencia_t* sec);
-void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input);
+void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input,  Matriz_t* matriz);
 void secuenciaPrint(Secuencia_t* sec);
 void secuenciaVaciar(Secuencia_t* sec);
 bool secuenciaCompleta(Secuencia_t* sec);

@@ -1,7 +1,7 @@
 #include "potenciometro.h"
 #include <stdlib.h>
 
-extern uint16_t adc_buffer[3];
+extern uint8_t adc_buffer[3];
 
 /*Conversión ADC 12 bits a posición matriz 32x32*/
 uint8_t adc_a_posicion(uint16_t valor_raw) {

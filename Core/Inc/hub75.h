@@ -10,6 +10,8 @@
 #include "main.h"
 #include "frame_buffer.h"
 #include "stdint.h"
+
+ void hub75Init(void);
  void hub75Refresh(void);
 
 #endif
