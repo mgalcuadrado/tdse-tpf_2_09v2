@@ -34,4 +34,11 @@ void secuenciaPrint(Secuencia_t* sec);
 void secuenciaVaciar(Secuencia_t* sec);
 bool secuenciaCompleta(Secuencia_t* sec);
 void secuenciaBorrar(Secuencia_t* sec);
+
+// Pinta una sección (bloque de TAM_PINCEL_SECUENCIA x TAM_PINCEL_SECUENCIA) dado su
+// índice (0..CANT_ELEMENTOS-1) con el color RGB indicado. Se expone para poder usarla
+// tanto para el cursor como para mostrar la secuencia objetivo y marcar aciertos/errores
+// desde otros módulos (por ej. menu_secuencia).
+void secuenciaPintarSeccion(Matriz_t* matriz, uint8_t pos, uint8_t r, uint8_t g, uint8_t b);
+
 #endif

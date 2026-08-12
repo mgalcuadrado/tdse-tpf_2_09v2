@@ -24,9 +24,21 @@ void menuSecuenciaEntrar(void);
 
 void menuSecuenciaTick(BotonEvento_t input);
 
+// Prepara e inicializa la pantalla que muestra, sección por sección, la secuencia
+// objetivo que el usuario deberá repetir. Debe llamarse una sola vez al entrar
+// al estado ESTADO_MOSTRANDO_SECUENCIA.
+void menuSecuenciaMostrarEntrar(void);
+
+// Tick no bloqueante de la pantalla de mostrado: cada ~3 segundos (ver
+// TIEMPO_MOSTRAR_SECCION_MS) avanza a la siguiente sección y la pinta de azul si
+// corresponde. Al terminar de mostrar todas las secciones, pasa automáticamente
+// a ESTADO_COMPLETANDO_SECUENCIA. No depende de los botones, pero se mantiene la
+// firma BotonEvento_t para llamarla de forma uniforme desde el dispatcher de estados.
+void menuSecuenciaMostrarTick(void);
+
 void menuSecuenciaCompletarTick(BotonEvento_t input);
 
-void menuSecuenciaMostrar(char seleccion[3], int indice_seleccion);
+void menuSecuenciaPrint(char seleccion[3], int indice_seleccion);
 
 void menuSecuenciaOpcionElegida(int indice_seleccion);
 

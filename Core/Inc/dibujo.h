@@ -16,6 +16,7 @@
 #include <string.h>
 #include "boton.h"
 #include "lcd.h"
+#include "frame_buffer.h"
 
 typedef struct  {
         Matriz_t* matriz;
