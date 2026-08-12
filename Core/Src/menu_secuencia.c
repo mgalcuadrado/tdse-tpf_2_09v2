@@ -22,27 +22,23 @@ static Matriz_t* matriz_actual = NULL;
 static char seleccion[3] = {'*', ' '};
 static int indice_seleccion = 0;
 
-// --- Pantalla "mostrar secuencia" ---
+// Pantalla "mostrar secuencia"
 #define TIEMPO_MOSTRAR_SECCION_MS 3000
 
 static uint8_t indice_mostrando = 0;
 static uint32_t tiempo_ultima_seccion = 0;
 static bool mostrando_iniciado = false;
 
-// --- Estado de error al completar la secuencia ---
+// Estado de error al completar la secuencia
 static bool secuencia_fallo = false;
 static uint32_t tiempo_fallo = 0;
 
-// --- Orden en que el usuario debe pintar las secciones ---
-// Cuenta cuántas secciones "encendidas" (lista_sec[0][pos] != 0) ya pintó el
-// usuario correctamente, en el mismo orden en que se mostraron (de menor a mayor
-// índice). Se reinicia en cada intento nuevo, dentro de menuSecuenciaMostrarEntrar.
+// Orden en que el usuario debe pintar las secciones
+// Cuenta cuántas secciones "encendidas" (lista_sec[0][pos] != 0)
 static uint8_t orden_contador = 0;
 
 // Devuelve la posición (0..CANT_ELEMENTOS-1) de la próxima sección encendida que el
-// usuario debe pintar, según cuántas ya completó en orden (orden_contador). Recorre
-// lista_sec[0] de menor a mayor índice, que es el mismo orden en que se mostró la
-// secuencia en menuSecuenciaMostrarTick.
+// usuario debe pintar
 static uint8_t menuSecuenciaPosicionEsperada(uint8_t contador) {
     uint8_t encontrados = 0;
     for (uint8_t pos = 0; pos < CANT_ELEMENTOS; pos++) {
@@ -145,8 +141,6 @@ void menuSecuenciaTick(BotonEvento_t input) {
 }
 
 // Prepara la pantalla de mostrado: limpia la matriz y reinicia el índice de sección.
-// La primera sección se pinta recién en el primer llamado a menuSecuenciaMostrarTick,
-// para no depender de HAL_GetTick() antes de cambiar de estado.
 void menuSecuenciaMostrarEntrar(void) {
     indice_mostrando = 0;
     mostrando_iniciado = false;
@@ -162,10 +156,6 @@ void menuSecuenciaMostrarEntrar(void) {
     frameBufferUpdateAll(matriz_actual);
 }
 
-// Tick no bloqueante: usa HAL_GetTick() (mismo patrón de debounce que ya se usaba en
-// menuSecuenciaCompletarTick) para ir pintando de azul, una por una, las secciones de
-// lista_sec[0] que están "encendidas", con ~3s de por medio. No usa HAL_Delay ya que
-// esta función se llama repetidamente desde el loop principal / dispatcher de estados.
 void menuSecuenciaMostrarTick(void) {
 
     uint32_t ahora = HAL_GetTick();
@@ -265,7 +255,7 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
                 secuenciaPintarSeccion(matriz_actual, idx, 0, 255, 0); // VERDE
                 orden_contador++;
 
-                // Redibujo el cursor porque a veces se tapa
+                // Se redibuja el cursor porque a veces se tapa
                 for (uint8_t i = 0; i < TAM_PINCEL_SECUENCIA; i++) {
                     for (uint8_t j = 0; j < TAM_PINCEL_SECUENCIA; j++) {
                         matrizSetCasillero(matriz_actual, fil + i, col + j, 250, 0, 0);
