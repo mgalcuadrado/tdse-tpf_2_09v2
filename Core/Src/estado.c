@@ -64,6 +64,16 @@ void sistemaInit(void) {
 
 void sistemaTick(BotonEvento_t input) {
 
+	if (estado_actual == ESTADO_MOSTRANDO_SECUENCIA){
+		menuSecuenciaMostrarTick();
+		return;
+	}
+
+	if (estado_actual == ESTADO_COMPLETANDO_SECUENCIA) {
+		menuSecuenciaCompletarTick(input);
+		return;
+	}
+	
     if (input == BOTON_NINGUNO) {
         return;
     }
@@ -87,17 +97,13 @@ void sistemaTick(BotonEvento_t input) {
         case ESTADO_MENU_SECUENCIA:
             menuSecuenciaTick(input);
             break;
-        case ESTADO_MOSTRANDO_SECUENCIA:
-			menuSecuenciaMostrarTick();
-			break;
-        case ESTADO_COMPLETANDO_SECUENCIA:
-            menuSecuenciaCompletarTick(input);
-            break;
         case ESTADO_LIMPIAR_DIBUJO:
         	menuDibujoLimpiandoTick(input);
         	break;
         case ESTADO_LIMPIAR_SECUENCIA:
 			menuSecuenciaLimpiandoTick(input);
+			break;
+		default;
 			break;
     }
 }
