@@ -31,8 +31,9 @@ Secuencia_t* secuenciaCrear() {
     return s;
 }
 
-//Es como la de pintarDibujo, pero para secuencia. Se usa para poner el cursor principalmente
-static void secuenciaPintarBloque(Matriz_t* matriz, uint8_t pos, uint8_t r, uint8_t g, uint8_t b) {
+//Es como la de pintarDibujo, pero para secuencia. Se usa para poner el cursor principalmente,
+//y también para mostrar la secuencia objetivo y marcar aciertos/errores (ver secuencia.h)
+void secuenciaPintarSeccion(Matriz_t* matriz, uint8_t pos, uint8_t r, uint8_t g, uint8_t b) {
     uint8_t fil = (pos / DIM_SECUENCIA) * TAM_PINCEL_SECUENCIA;
     uint8_t col = (pos % DIM_SECUENCIA) * TAM_PINCEL_SECUENCIA;
     for (uint8_t i = 0; i < TAM_PINCEL_SECUENCIA; i++) {
@@ -45,7 +46,7 @@ static void secuenciaPintarBloque(Matriz_t* matriz, uint8_t pos, uint8_t r, uint
 //Se usa para devolver una casilla a su color anterior cuando se le saca el cursor de encima
 static void secuenciaRestaurarCasilla(Secuencia_t* sec, Matriz_t* matriz, uint8_t pos) {
     uint8_t colorCasilla = sec->lista_sec[1][pos];
-    secuenciaPintarBloque(matriz, pos, 0, 0, colorCasilla);
+    secuenciaPintarSeccion(matriz, pos, 0, 0, colorCasilla);
 }
 
 
@@ -69,6 +70,7 @@ void secuenciaInsertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz
             matrizSetCasillero(matriz, base_fil + i, base_col + j, red, green, blue);
         }
     }
+
 }
 
 void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input, Matriz_t* matriz) {
@@ -122,7 +124,7 @@ void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input, Matriz_t* matriz) {
 
 	// Pinta el cursor
 	if (matriz != NULL) {
-		secuenciaPintarBloque(matriz, sec->indice_sec, 250, 0, 0);
+		secuenciaPintarSeccion(matriz, sec->indice_sec, 250, 0, 0);
 	}
 }
 

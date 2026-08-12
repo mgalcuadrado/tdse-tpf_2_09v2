@@ -25,7 +25,7 @@ void menuPrincipalEntrar(void) {
     indice_seleccion = 0; //A medida que aumenta, va a la opcion mas abajo en el display.
     seleccion[0] = '*';
     seleccion[1] = ' ';
-    //frameBufferSetBrightness(brillo);
+    //hub75SetBrightness(brillo);
     lcdBorrar();
     menuPrincipalPrint(seleccion, indice_seleccion);
    //frameBufferColourAll();
@@ -80,7 +80,7 @@ void menuPrincipalCambiandoBrilloTick(BotonEvento_t input) {
 	snprintf(mensaje1, sizeof(mensaje1), "BrilloAct. = %d", brillo);
 	lcdSetearCursor(0, 1);
 	lcdPrint(mensaje1);
-	//frameBufferSetBrightness(brillo);
+	//hub75SetBrightness(brillo);
 	switch (input) {
 		case BOTON_ABAJO:
 			if (brillo > MIN_BRILLO) {

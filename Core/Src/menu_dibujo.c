@@ -137,9 +137,11 @@ void menuDibujoTick(BotonEvento_t input) {
             menuDibujoMostrar(seleccion, indice_seleccion);
             break;
         case BOTON_ACEPTAR:
+        	seleccion[indice_seleccion] = ' ';
             menuDibujoOpcionElegida(indice_seleccion);
             break;
         case BOTON_ATRAS:
+        	seleccion[indice_seleccion] = ' ';
             dibujoBorrar(dibujo_actual);
             dibujo_actual = NULL;
             sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
@@ -168,6 +170,15 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
         	dibujo_actual->color_anterior->r = r;
 			dibujo_actual->color_anterior->g = g;
 			dibujo_actual->color_anterior->b = b;
+
+			// Se redibuja el cursor porque a veces se tapa
+			uint8_t base_fil = (dibujo_actual->indice_fil/dibujo_actual->tam_pincel) * dibujo_actual->tam_pincel;
+			uint8_t base_col = (dibujo_actual->indice_col/dibujo_actual->tam_pincel) * dibujo_actual->tam_pincel;
+			for (uint8_t i = 0; i < dibujo_actual->tam_pincel; i++) {
+				for(uint8_t j = 0; j < dibujo_actual->tam_pincel; j++) {
+					matrizSetCasillero(dibujo_actual->matriz, base_fil + i, base_col + j, 250, 0, 0);
+				}
+			}
 
 			frameBufferUpdateAll(dibujo_actual->matriz);
             break;

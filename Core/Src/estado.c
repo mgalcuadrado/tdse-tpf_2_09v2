@@ -35,6 +35,9 @@ void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
         case ESTADO_DIBUJANDO:
         	menuDibujoDibujarTick(BOTON_NINGUNO);
 			break;
+        case ESTADO_MOSTRANDO_SECUENCIA:
+			menuSecuenciaMostrarEntrar();
+			break;
         case ESTADO_COMPLETANDO_SECUENCIA:
 			menuSecuenciaCompletarTick(BOTON_NINGUNO);
 			break;
@@ -84,6 +87,9 @@ void sistemaTick(BotonEvento_t input) {
         case ESTADO_MENU_SECUENCIA:
             menuSecuenciaTick(input);
             break;
+        case ESTADO_MOSTRANDO_SECUENCIA:
+			menuSecuenciaMostrarTick();
+			break;
         case ESTADO_COMPLETANDO_SECUENCIA:
             menuSecuenciaCompletarTick(input);
             break;

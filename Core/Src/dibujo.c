@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "lcd.h"
+#include "frame_buffer.h"
 
 Dibujo_t* dibujoCrear(void) {
 	Dibujo_t* dibujo = (Dibujo_t*)malloc(sizeof(Dibujo_t));
@@ -41,6 +42,7 @@ Dibujo_t* dibujoCrear(void) {
 	dibujo->tam_pincel = 1;
 
 	matrizGetCasillero(dibujo->matriz, 0, 0, dibujo->color_anterior);
+	matrizLlenar(dibujo->matriz, 0, 0, 0);
 	return dibujo;
 }
 
@@ -60,7 +62,6 @@ void dibujoBorrar(Dibujo_t* dibujo) {
 }
 
 void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
-
 	dibujoPintar(dibujo, dibujo->color_anterior->r, dibujo->color_anterior->g, dibujo->color_anterior->b);
 		switch (input) {
 		case BOTON_IZQUIERDA:
@@ -97,6 +98,14 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 			//printf("Error al moverse en la matriz \n");
 			return;
 		}
+	//Pinta el cursor
+	if(dibujo->matriz != NULL){
+		dibujoPintar(dibujo, 250, 0, 0);
+
+	}
+
+	// StandBy
+
 	uint8_t r = 0;
 	uint8_t g = 0;
 	uint8_t b = 0;
@@ -109,6 +118,7 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 void dibujoReiniciar(Dibujo_t* dibujo) {
 	if (dibujo == NULL || dibujo->matriz == NULL) return;
 		matrizLlenar(dibujo->matriz, 0, 0, 0); // Apago todas las leds de la matriz
+        frameBufferUpdateAll(dibujo->matriz);
 		dibujo->indice_col = 0;
 		dibujo->indice_fil = 0;
 		if (dibujo->color_anterior != NULL) {
@@ -127,6 +137,8 @@ void dibujoPintar(Dibujo_t* dibujo, uint8_t red, uint8_t green, uint8_t blue) {
 		        matrizSetCasillero(dibujo->matriz, base_fil + i, base_col + j, red, green, blue);
 		    }
 		}
+        frameBufferUpdateAll(dibujo->matriz);
+
 	}
 
 
