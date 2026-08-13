@@ -32,6 +32,8 @@ void sistemaTick(BotonEvento_t input);
 // Usada por los módulos de menú para pedir una transición de pantalla
 void sistemaCambiarEstado(EstadoSistema_t nuevo_estado);
 
+void sistemaTickTiempo(void); // no depende de botones, se llama siempre
+
 Matriz_t* sistemaObtenerMatrizActiva(void);
 
 #endif
