@@ -108,6 +108,14 @@ void sistemaTick(BotonEvento_t input) {
     }
 }
 
+void sistemaTickTiempo(void) {
+    if (estado_actual == ESTADO_MOSTRANDO_SECUENCIA) {
+        menuSecuenciaMostrarTick();
+    } else if (estado_actual == ESTADO_COMPLETANDO_SECUENCIA) {
+        menuSecuenciaCompletarTick(BOTON_NINGUNO); // solo evalúa el timeout de fallo
+    }
+}
+
 Matriz_t* sistemaObtenerMatrizActiva(void) {
     switch (estado_actual) {
         case ESTADO_DIBUJANDO:
