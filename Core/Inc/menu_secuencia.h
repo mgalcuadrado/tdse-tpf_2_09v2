@@ -18,7 +18,7 @@
 #include "lcd.h"
 #include "boton.h"
 
-#define MAX_CARACTERES_MENSAJE 50
+#define MAX_CARACTERES_MENSAJE 20
 
 void menuSecuenciaEntrar(void);
 
