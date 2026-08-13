@@ -19,7 +19,7 @@
 #include "frame_buffer.h"
 #include "lcd.h"
 
-#define MAX_CARACTERES_MENSAJE 50
+#define MAX_CARACTERES_MENSAJE 20
 
 void menuDibujoEntrar(void);
 
