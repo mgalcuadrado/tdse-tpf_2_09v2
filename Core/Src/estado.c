@@ -103,7 +103,7 @@ void sistemaTick(BotonEvento_t input) {
         case ESTADO_LIMPIAR_SECUENCIA:
 			menuSecuenciaLimpiandoTick(input);
 			break;
-		default;
+		default:
 			break;
     }
 }
