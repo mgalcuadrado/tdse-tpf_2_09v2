@@ -59,8 +59,6 @@ I2C_HandleTypeDef hi2c1;
 
 TIM_HandleTypeDef htim3;
 
-UART_HandleTypeDef huart2;
-
 /* USER CODE BEGIN PV */
 Matriz_t matrizJuego;
 
@@ -73,10 +71,9 @@ uint8_t brillo;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
-static void MX_USART2_UART_Init(void);
-static void MX_TIM3_Init(void);
-static void MX_I2C1_Init(void);
 static void MX_ADC1_Init(void);
+static void MX_I2C1_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
 void matrizImprimirConsola(Matriz_t *matriz);
@@ -86,7 +83,9 @@ void matrizImprimirConsola(Matriz_t *matriz);
 /* USER CODE BEGIN 0 */
 uint8_t value;
 
-extern uint16_t adc_buffer[3];
+/* NOTA: se sacó "extern uint16_t adc_buffer[3];" -> ya no existe.
+   Con la version POLLING el TDA no expone ningun buffer, todo queda
+   encapsulado dentro de potenciometro.c */
 
 /* USER CODE END 0 */
 
@@ -121,12 +120,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_USART2_UART_Init();
-  MX_TIM3_Init();
-  MX_I2C1_Init();
   MX_ADC1_Init();
+  MX_I2C1_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-	pote_init();
+
+  pote_init();
+
   hub75Init();
   HAL_TIM_Base_Start_IT(&htim3); // PARA ARRANCAR EL TIMER 3
   //uint32_t ultimo_paso = 0;
@@ -134,16 +134,16 @@ int main(void)
   // 1. Inicializar la pantalla
 
  lcdInicializar(&hi2c1);
-  sistemaInit();
+ sistemaInit();
+
 //3. Prueba de adc_a_posicion().
 uint16_t pruebas_adc[] = {
-		    0,
-		    1024,
-		    2048,
-		    3072,
-		    4095
-	};
-
+	    0,
+	    1024,
+	    2048,
+	    3072,
+	    4095
+};
 
 
   /* USER CODE END 2 */
@@ -153,12 +153,10 @@ uint16_t pruebas_adc[] = {
 
   while (1)
   {
-//1. Prueba de correspondencia de los ADC
-	//printf("ADC0 = %u | ADC1 = %u | ADC2 = %u\r\n",adc_buffer[0],adc_buffer[1],adc_buffer[2]);
-	//HAL_Delay(500);
-
-	//2. Prueba del rango del ADC:
-	//printf("X=%u | Y=%u | B=%u\r\n",adc_buffer[0],adc_buffer[1],adc_buffer[2]);
+	//1. Prueba de lectura de los potes (version polling, sin DMA):
+	//uint8_t r, g, b;
+	//leer_potenciometros(&r, &g, &b);
+	//printf("r=%u | g=%u | b=%u\r\n", r, g, b);
 	//HAL_Delay(200);
 
 	//3. Prueba de adc_a_posicion().
@@ -174,11 +172,7 @@ uint16_t pruebas_adc[] = {
       //  HAL_Delay(500);
     //}
     /* USER CODE END WHILE */
-	leer_potenciometros(&x, &y, &brillo);
 
-	printf("X=%u  Y=%u  Brillo=%u\r\n", x, y, brillo);
-
-	HAL_Delay(100);
     /* USER CODE BEGIN 3 */
 
 	 BotonEvento_t btn = botonLeer();
@@ -220,7 +214,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI_DIV2;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL16;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -235,7 +229,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -269,7 +263,10 @@ static void MX_ADC1_Init(void)
   */
   hadc1.Instance = ADC1;
   hadc1.Init.ScanConvMode = ADC_SCAN_ENABLE;
-  hadc1.Init.ContinuousConvMode = ENABLE;
+  /* CAMBIO: con polling (sin DMA) NO se usa modo continuo.
+     Cada HAL_ADC_Start() dispara una sola tanda de 3 conversiones
+     (una por rank) y se detiene. */
+  hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
@@ -365,9 +362,9 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 71;
+  htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 7500;
+  htim3.Init.Period = 65535;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
@@ -392,39 +389,6 @@ static void MX_TIM3_Init(void)
 }
 
 /**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART2_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-
-  /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART2_Init 2 */
-
-  /* USER CODE END USART2_Init 2 */
-
-}
-
-/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -435,7 +399,7 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Channel1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 
 }
@@ -459,17 +423,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|LAT_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|LAT_Pin|OE_Pin|CLK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, A_Pin|CLK_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(A_GPIO_Port, A_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, R2_Pin|G2_Pin|BL1_Pin|R1_Pin
                           |G1_Pin|B2_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(OE_GPIO_Port, OE_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -477,34 +438,33 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : BU6_Pin BU1_Pin BU2_Pin BU3_Pin
-                           BU4_Pin BU5_Pin */
-  GPIO_InitStruct.Pin = BU6_Pin|BU1_Pin|BU2_Pin|BU3_Pin
-                          |BU4_Pin|BU5_Pin;
+  /*Configure GPIO pins : BU1_Pin BU2_Pin BU3_Pin BU4_Pin
+                           BU5_Pin BU6_Pin */
+  GPIO_InitStruct.Pin = BU1_Pin|BU2_Pin|BU3_Pin|BU4_Pin
+                          |BU5_Pin|BU6_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
+  /*Configure GPIO pin : USART_RX_Pin */
+  GPIO_InitStruct.Pin = USART_RX_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USART_RX_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LD2_Pin LAT_Pin OE_Pin CLK_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin|LAT_Pin|OE_Pin|CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LAT_Pin */
-  GPIO_InitStruct.Pin = LAT_Pin;
+  /*Configure GPIO pin : A_Pin */
+  GPIO_InitStruct.Pin = A_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(LAT_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : A_Pin CLK_Pin */
-  GPIO_InitStruct.Pin = A_Pin|CLK_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(A_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : R2_Pin G2_Pin BL1_Pin R1_Pin
                            G1_Pin B2_Pin */
@@ -512,15 +472,8 @@ static void MX_GPIO_Init(void)
                           |G1_Pin|B2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : OE_Pin */
-  GPIO_InitStruct.Pin = OE_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(OE_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
@@ -613,7 +566,8 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-#ifdef USE_FULL_ASSERT
+
+#ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
