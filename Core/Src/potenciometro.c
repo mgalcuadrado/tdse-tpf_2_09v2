@@ -3,7 +3,7 @@
 extern ADC_HandleTypeDef hadc1;
 
 
-static uint16_t adc_buffer[3];
+uint16_t adc_buffer[3];
 
 
 /* Inicialización del módulo de potenciómetros */
