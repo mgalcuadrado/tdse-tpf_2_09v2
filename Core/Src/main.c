@@ -32,6 +32,7 @@
 #include <string.h>
 #include "hub75.h"
 #include "frame_buffer.h"
+#include "potenciometro.h"
 
 /* USER CODE END Includes */
 
@@ -62,6 +63,10 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 Matriz_t matrizJuego;
+
+uint8_t x;
+uint8_t y;
+uint8_t brillo;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -121,6 +126,7 @@ int main(void)
   MX_I2C1_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
+	pote_init();
   hub75Init();
   HAL_TIM_Base_Start_IT(&htim3); // PARA ARRANCAR EL TIMER 3
   //uint32_t ultimo_paso = 0;
@@ -140,7 +146,11 @@ int main(void)
   {
 
     /* USER CODE END WHILE */
+	leer_potenciometros(&x, &y, &brillo);
 
+	printf("X=%u  Y=%u  Brillo=%u\r\n", x, y, brillo);
+
+	HAL_Delay(100);
     /* USER CODE BEGIN 3 */
 
 	 BotonEvento_t btn = botonLeer();
