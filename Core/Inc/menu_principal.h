@@ -19,7 +19,7 @@
 #include "lcd.h"
 #include "boton.h"
 
-#define MAX_CARACTERES_MENSAJE 50
+#define MAX_CARACTERES_MENSAJE 20
 #define MAX_BRILLO 100
 #define MIN_BRILLO 25
 
