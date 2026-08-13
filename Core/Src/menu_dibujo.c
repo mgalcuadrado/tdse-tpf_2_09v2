@@ -158,6 +158,7 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
         case BOTON_IZQUIERDA:
         case BOTON_DERECHA:
             dibujoAvanzar(dibujo_actual, input);
+            menuDibujoDibujarPrint(input);
             break;
         case BOTON_ACEPTAR:
             // Lectura de potes para obtener valores R, G y B
@@ -190,6 +191,34 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
         default:
             break;
     }
+}
+
+void menuDibujoDibujarPrint(BotonEvento_t input) {
+	lcdBorrar();
+	lcdSetearCursor(0, 0);
+	lcdPrint("Dibujando...");
+	lcdSetearCursor(0, 2);
+	lcdPrint("Presione atras");
+	lcdSetearCursor(0, 3);
+	lcdPrint("Para salir");
+	switch (input) {
+	case BOTON_ARRIBA:
+		lcdSetearCursor(0, 1);
+		lcdPrint("-> Arriba");
+		break;
+	case BOTON_ABAJO:
+		lcdSetearCursor(0, 1);
+		lcdPrint("-> Abajo");
+		break;
+	case BOTON_DERECHA:
+		lcdSetearCursor(0, 1);
+		lcdPrint("-> Derecha");
+		break;
+	case BOTON_IZQUIERDA:
+		lcdSetearCursor(0, 1);
+		lcdPrint("-> Izquierda");
+		break;
+	}
 }
 
 void menuDibujoCambiarPincelTick(BotonEvento_t input) {

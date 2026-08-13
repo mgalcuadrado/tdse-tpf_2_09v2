@@ -22,7 +22,7 @@ static Matriz_t* matriz_actual = NULL;
 static char seleccion[3] = {'*', ' '};
 static int indice_seleccion = 0;
 
-// Pantalla "mostrar secuencia"
+// --- Pantalla "mostrar secuencia" ---
 #define TIEMPO_MOSTRAR_SECCION_MS 3000
 
 static uint8_t indice_mostrando = 0;
@@ -34,11 +34,13 @@ static bool secuencia_fallo = false;
 static uint32_t tiempo_fallo = 0;
 
 // Orden en que el usuario debe pintar las secciones
-// Cuenta cuántas secciones "encendidas" (lista_sec[0][pos] != 0)
+// Cuenta cuántas secciones "encendidas" (lista_sec[0][pos] != 0) ya pintó el
+// usuario correctamente, en el mismo orden en que se mostraron (de menor a mayor
+// índice). Se reinicia en cada intento nuevo, dentro de menuSecuenciaMostrarEntrar.
 static uint8_t orden_contador = 0;
 
 // Devuelve la posición (0..CANT_ELEMENTOS-1) de la próxima sección encendida que el
-// usuario debe pintar
+// usuario debe pintar,
 static uint8_t menuSecuenciaPosicionEsperada(uint8_t contador) {
     uint8_t encontrados = 0;
     for (uint8_t pos = 0; pos < CANT_ELEMENTOS; pos++) {
@@ -141,6 +143,8 @@ void menuSecuenciaTick(BotonEvento_t input) {
 }
 
 // Prepara la pantalla de mostrado: limpia la matriz y reinicia el índice de sección.
+// La primera sección se pinta recién en el primer llamado a menuSecuenciaMostrarTick,
+// para no depender de HAL_GetTick() antes de cambiar de estado.
 void menuSecuenciaMostrarEntrar(void) {
     indice_mostrando = 0;
     mostrando_iniciado = false;
@@ -156,6 +160,10 @@ void menuSecuenciaMostrarEntrar(void) {
     frameBufferUpdateAll(matriz_actual);
 }
 
+// Tick no bloqueante: usa HAL_GetTick() (mismo patrón de debounce que ya se usaba en
+// menuSecuenciaCompletarTick) para ir pintando de azul, una por una, las secciones de
+// lista_sec[0] que están "encendidas", con ~3s de por medio. No usa HAL_Delay ya que
+// esta función se llama repetidamente desde el loop principal / dispatcher de estados.
 void menuSecuenciaMostrarTick(void) {
 
     uint32_t ahora = HAL_GetTick();
@@ -177,6 +185,7 @@ void menuSecuenciaMostrarTick(void) {
 
     // Apago la sección anterior antes de mostrar la siguiente
     secuenciaPintarSeccion(matriz_actual, indice_mostrando, 0, 0, 0);
+    frameBufferUpdateAll(matriz_actual);
     indice_mostrando++;
 
     if (indice_mostrando >= CANT_ELEMENTOS) {
@@ -201,8 +210,8 @@ void menuSecuenciaMostrarTick(void) {
     uint8_t objetivo = secuencia_actual->lista_sec[0][indice_mostrando];
     if (objetivo != 0) {
         secuenciaPintarSeccion(matriz_actual, indice_mostrando, 0, 0, 255); // AZUL
+        frameBufferUpdateAll(matriz_actual);
     }
-    frameBufferUpdateAll(matriz_actual);
     tiempo_ultima_seccion = ahora;
 }
 
@@ -242,6 +251,11 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
         case BOTON_IZQUIERDA:
         case BOTON_DERECHA:
             secuenciaAvanzar(secuencia_actual, input, matriz_actual);
+            if (matriz_actual != NULL) {
+				secuenciaPintarSeccion(matriz_actual, secuencia_actual->indice_sec, 250, 0, 0); //Cursor
+				frameBufferUpdateAll(matriz_actual);
+			}
+            menuSecuenciaCompletandoPrint(input);
             break;
         case BOTON_ACEPTAR: {
             uint8_t idx = secuencia_actual->indice_sec;
@@ -255,7 +269,7 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
                 secuenciaPintarSeccion(matriz_actual, idx, 0, 255, 0); // VERDE
                 orden_contador++;
 
-                /* Se redibuja el cursor porque a veces se tapa
+                /* Redibujo el cursor porque a veces se tapa
                 for (uint8_t i = 0; i < TAM_PINCEL_SECUENCIA; i++) {
                     for (uint8_t j = 0; j < TAM_PINCEL_SECUENCIA; j++) {
                         matrizSetCasillero(matriz_actual, fil + i, col + j, 250, 0, 0);
@@ -294,6 +308,35 @@ Matriz_t* menuSecuenciaObtenerMatriz(void) {
     return matriz_actual;
 }
 
+void menuSecuenciaCompletandoPrint(BotonEvento_t input) {
+	lcdBorrar();
+	lcdSetearCursor(0, 0);
+	lcdPrint("Repeti Secuencia");
+	lcdSetearCursor(0, 2);
+	lcdPrint("Presione atras");
+	lcdSetearCursor(0, 3);
+	lcdPrint("Para salir");
+	switch (input) {
+	case BOTON_ARRIBA:
+		lcdSetearCursor(0, 1);
+		lcdPrint("-> Arriba");
+		break;
+	case BOTON_ABAJO:
+		lcdSetearCursor(0, 1);
+		lcdPrint("-> Abajo");
+		break;
+	case BOTON_DERECHA:
+		lcdSetearCursor(0, 1);
+		lcdPrint("-> Derecha");
+		break;
+	case BOTON_IZQUIERDA:
+		lcdSetearCursor(0, 1);
+		lcdPrint("-> Izquierda");
+		break;
+	default:
+		break;
+	}
+}
 
 
 void menuSecuenciaLimpiandoTick(BotonEvento_t input) {
