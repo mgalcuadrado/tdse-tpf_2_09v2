@@ -22,8 +22,8 @@ static Matriz_t* matriz_actual = NULL;
 static char seleccion[3] = {'*', ' '};
 static int indice_seleccion = 0;
 
-// --- Pantalla "mostrar secuencia" ---
-#define TIEMPO_MOSTRAR_SECCION_MS 3000
+// Pantalla "mostrar secuencia"
+#define TIEMPO_MOSTRAR_SECCION_MS 500 //Originalmente 2000
 
 static uint8_t indice_mostrando = 0;
 static uint32_t tiempo_ultima_seccion = 0;
@@ -160,10 +160,9 @@ void menuSecuenciaMostrarEntrar(void) {
     frameBufferUpdateAll(matriz_actual);
 }
 
-// Tick no bloqueante: usa HAL_GetTick() (mismo patrón de debounce que ya se usaba en
+// usa HAL_GetTick() (mismo patrón de debounce que ya se usaba en
 // menuSecuenciaCompletarTick) para ir pintando de azul, una por una, las secciones de
-// lista_sec[0] que están "encendidas", con ~3s de por medio. No usa HAL_Delay ya que
-// esta función se llama repetidamente desde el loop principal / dispatcher de estados.
+// lista_sec[0] que están "encendidas", con ~2s de por medio.
 void menuSecuenciaMostrarTick(void) {
 
     uint32_t ahora = HAL_GetTick();
@@ -180,7 +179,7 @@ void menuSecuenciaMostrarTick(void) {
     }
 
     if ((ahora - tiempo_ultima_seccion) < TIEMPO_MOSTRAR_SECCION_MS) {
-        return; // Todavia no pasaron los ~3 segundos de esta sección
+        return; // Todavia no pasaron los ~2 segundos de esta sección
     }
 
     // Apago la sección anterior antes de mostrar la siguiente
@@ -233,6 +232,8 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
 	if (secuenciaCompleta(secuencia_actual)) {
     	lcdBorrar();
         lcdSetearCursor(0, 0);
+        matrizLlenar(matriz_actual, 0, 255, 0); // Toda la matriz ROJA
+		frameBufferUpdateAll(matriz_actual);
         lcdPrint("Secuencia Completa :)");
 		lcdSetearCursor(0, 1);
 		lcdPrint("Toca un boton");
