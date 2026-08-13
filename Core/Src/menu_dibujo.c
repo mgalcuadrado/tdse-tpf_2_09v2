@@ -219,6 +219,8 @@ void menuDibujoDibujarPrint(BotonEvento_t input) {
 		lcdSetearCursor(0, 1);
 		lcdPrint("-> Izquierda");
 		break;
+	default:
+		break;
 	}
 }
 
