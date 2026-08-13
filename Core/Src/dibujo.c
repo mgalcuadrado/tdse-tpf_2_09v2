@@ -98,6 +98,9 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 			//printf("Error al moverse en la matriz \n");
 			return;
 		}
+
+	matrizGetCasillero(dibujo->matriz, dibujo->indice_fil, dibujo->indice_col, dibujo->color_anterior);
+
 	//Pinta el cursor
 	if(dibujo->matriz != NULL){
 		dibujoPintar(dibujo, 250, 0, 0);
@@ -105,7 +108,7 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 	}
 
 	// StandBy
-
+	/*
 	uint8_t r = 0;
 	uint8_t g = 0;
 	uint8_t b = 0;
@@ -113,6 +116,7 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
 	leer_potenciometros(&r, &g, &b);
 	matrizGetCasillero(dibujo->matriz, dibujo->indice_fil, dibujo->indice_col, dibujo->color_anterior);
 	dibujoPintar(dibujo, r, g, b);
+	*/
 }
 
 void dibujoReiniciar(Dibujo_t* dibujo) {

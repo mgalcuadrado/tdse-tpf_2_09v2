@@ -157,6 +157,7 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
         case BOTON_ABAJO:
         case BOTON_IZQUIERDA:
         case BOTON_DERECHA:
+        	dibujoPintar(dibujo_actual,dibujo_actual->color_anterior->r, dibujo_actual->color_anterior->g,dibujo_actual->color_anterior->b);
             dibujoAvanzar(dibujo_actual, input);
             menuDibujoDibujarPrint(input);
             break;
