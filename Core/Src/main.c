@@ -86,7 +86,7 @@ void matrizImprimirConsola(Matriz_t *matriz);
 /* USER CODE BEGIN 0 */
 uint8_t value;
 
-
+extern uint16_t adc_buffer[3];
 
 /* USER CODE END 0 */
 
@@ -135,6 +135,15 @@ int main(void)
 
  lcdInicializar(&hi2c1);
   sistemaInit();
+//3. Prueba de adc_a_posicion().
+uint16_t pruebas_adc[] = {
+		    0,
+		    1024,
+		    2048,
+		    3072,
+		    4095
+	};
+
 
 
   /* USER CODE END 2 */
@@ -144,7 +153,26 @@ int main(void)
 
   while (1)
   {
+//1. Prueba de correspondencia de los ADC
+	//printf("ADC0 = %u | ADC1 = %u | ADC2 = %u\r\n",adc_buffer[0],adc_buffer[1],adc_buffer[2]);
+	//HAL_Delay(500);
 
+	//2. Prueba del rango del ADC:
+	//printf("X=%u | Y=%u | B=%u\r\n",adc_buffer[0],adc_buffer[1],adc_buffer[2]);
+	//HAL_Delay(200);
+
+	//3. Prueba de adc_a_posicion().
+    //for (int i = 0; i < 5; i++) {
+      //  uint8_t posicion = adc_a_posicion(pruebas_adc[i]);
+        //printf("ADC = %u -> posicion = %u\r\n",pruebas_adc[i],posicion);
+        //HAL_Delay(500);
+    //}
+    //4. Prueba de adc_a_brillo().
+    //for (int i = 0; i < 5; i++){
+      //  uint8_t brillo = adc_a_brillo(pruebas_adc[i]);
+        //printf("ADC = %u -> brillo = %u\r\n",pruebas_adc[i],brillo);
+      //  HAL_Delay(500);
+    //}
     /* USER CODE END WHILE */
 	leer_potenciometros(&x, &y, &brillo);
 
