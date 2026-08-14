@@ -18,8 +18,6 @@
 #include "lcd.h"
 #include "boton.h"
 
-#define MAX_CARACTERES_MENSAJE 20
-
 void menuSecuenciaEntrar(void);
 
 void menuSecuenciaTick(BotonEvento_t input);

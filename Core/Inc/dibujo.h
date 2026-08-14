@@ -26,7 +26,7 @@ typedef struct  {
         Casillero_t* color_anterior;
 } Dibujo_t;
 
-#define MAX_CARACTERES_MENSAJE 20
+
 
 Dibujo_t* dibujoCrear();
 void dibujoBorrar(Dibujo_t* dibujo);

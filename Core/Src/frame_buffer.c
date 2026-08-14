@@ -9,6 +9,7 @@
 
 #include "frame_buffer.h"
 #include "pixeles.h"
+#include "matrizinicio.h"
 #define LIMITE 127
 
 #define BRILLO_MAXIMO_PIXEL 255
@@ -27,6 +28,16 @@ void frameBufferInit(void){
         }
     }
 }
+
+void frameBufferLandingScreen(void){
+for (int f = 0; f < 32; f++){
+		for (int c = 0; c < 32; c++){
+			if (matrizInicio[f][c]  == 1)
+				frameBufferUpdateCasillaColorDirecto(f, c, 255, 255, 255);
+		}
+	}
+}
+
 
 void frameBufferColourAll(void){
    	//par de pixeles en negro: todos los pines_rgb se apagan (los pines están movidos al sector de reset)

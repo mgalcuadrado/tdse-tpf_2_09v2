@@ -19,8 +19,6 @@
 #include "frame_buffer.h"
 #include "lcd.h"
 
-#define MAX_CARACTERES_MENSAJE 20
-
 void menuDibujoEntrar(void);
 
 void menuDibujoTick(BotonEvento_t input);
@@ -31,12 +29,11 @@ void menuDibujoCambiarPincelTick(BotonEvento_t input);
 
 void menuDibujoMostrar(char seleccion[6], int indice_seleccion);
 
-void menuDibujoDibujarPrint(BotonEvento_t input);
-
 void menuDibujoOpcionElegida(int indice_seleccion);
 
 Matriz_t* menuDibujoObtenerMatriz(void);
 
 void menuDibujoLimpiandoTick(BotonEvento_t input);
 
+void menuDibujoDibujarPrint(BotonEvento_t input);
 #endif

@@ -17,6 +17,7 @@
 #include "boton.h"
 #include "menu_dibujo.h"
 #include "estado.h"
+#include "potenciometro.h"
 
 static Dibujo_t* dibujo_actual = NULL;
 static char seleccion[6] = {'*', ' ', ' ', ' ', ' '}; // 5 opciones + \n
@@ -168,11 +169,15 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
         	uint8_t r = 255;
         	uint8_t g = 0; 	//Serian igualados a potenciometrosLeer();
 			uint8_t b = 0;
-
+			leer_potenciometros(&r, &g, &b);
         	dibujo_actual->color_anterior->r = r;
 			dibujo_actual->color_anterior->g = g;
 			dibujo_actual->color_anterior->b = b;
-
+			char mensaje2[MAX_CARACTERES_MENSAJE];
+			snprintf(mensaje2, sizeof(mensaje2), "r %d g %d b %d", r,g,b);
+			lcdBorrar();
+			lcdSetearCursor(0, 0);
+			lcdPrint(mensaje2);
 			// Se redibuja el cursor porque a veces se tapa
 			uint8_t base_fil = (dibujo_actual->indice_fil/dibujo_actual->tam_pincel) * dibujo_actual->tam_pincel;
 			uint8_t base_col = (dibujo_actual->indice_col/dibujo_actual->tam_pincel) * dibujo_actual->tam_pincel;
