@@ -1,0 +1,11 @@
+2026-07-18 20:32:29,785 [INFO] Activator:177 - 
+
+
+2026-07-18 20:32:29,790 [INFO] Activator:178 - !SESSION log4j initialized
+2026-07-18 20:32:36,839 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
+2026-07-18 20:49:10,125 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] jul 18, 2026 8:49:10 P. M. org.apache.lucene.internal.vectorization.VectorizationProvider lookup
+2026-07-18 20:49:10,147 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ADVERTENCIA: Java vector incubator module is not readable. For optimal vector performance, pass '--add-modules jdk.incubator.vector' to enable Vector API.
+2026-07-18 20:49:10,148 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-07-18 20:50:05,409 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+2026-07-18 20:50:05,417 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Defaulting to no-operation (NOP) logger implementation
+2026-07-18 20:50:05,420 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.

@@ -1,0 +1,9 @@
+2026-08-05 02:51:21,991 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-08-05 18:19:26,073 [INFO] Activator:177 - 
+
+
+2026-08-05 18:19:26,076 [INFO] Activator:178 - !SESSION log4j initialized
+2026-08-05 18:19:33,768 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ago 05, 2026 6:19:33 P. M. org.apache.lucene.internal.vectorization.VectorizationProvider lookup
+2026-08-05 18:19:33,771 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ADVERTENCIA: Java vector incubator module is not readable. For optimal vector performance, pass '--add-modules jdk.incubator.vector' to enable Vector API.
+2026-08-05 18:19:33,772 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-08-05 18:19:35,293 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 

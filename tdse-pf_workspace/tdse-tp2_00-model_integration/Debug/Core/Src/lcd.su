@@ -1,0 +1,7 @@
+../Core/Src/lcd.c:29:13:lcdMandarInterno	32	static
+../Core/Src/lcd.c:48:6:lcdMandarComando	16	static
+../Core/Src/lcd.c:52:6:lcdMandarDato	16	static
+../Core/Src/lcd.c:56:6:lcdBorrar	8	static
+../Core/Src/lcd.c:62:6:lcdSetearCursor	24	static
+../Core/Src/lcd.c:70:6:lcdPrint	16	static
+../Core/Src/lcd.c:77:6:lcdInicializar	16	static

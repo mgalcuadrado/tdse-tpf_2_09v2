@@ -1,0 +1,9 @@
+2026-08-01 16:09:50,624 [ERROR] ConfigurationRetriever:142 - IOException on connection: sw-center.st.com
+2026-08-01 16:09:50,664 [ERROR] ConfigurationRetriever:142 - IOException on connection: sw-center.st.com
+2026-08-01 16:09:50,680 [ERROR] ConfigurationRetriever:142 - IOException on connection: sw-center.st.com
+2026-08-01 16:09:51,829 [ERROR] ConfigurationRetriever:142 - IOException on connection: sw-center.st.com
+2026-08-01 16:09:51,830 [ERROR] ConfigurationRetriever:142 - IOException on connection: sw-center.st.com
+2026-08-01 16:09:51,831 [ERROR] ConfigurationRetriever:142 - IOException on connection: sw-center.st.com
+2026-08-01 22:00:33,054 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ago 01, 2026 10:00:33 P. M. org.apache.lucene.internal.vectorization.VectorizationProvider lookup
+2026-08-01 22:00:33,072 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ADVERTENCIA: Java vector incubator module is not readable. For optimal vector performance, pass '--add-modules jdk.incubator.vector' to enable Vector API.
+2026-08-01 22:00:33,074 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 

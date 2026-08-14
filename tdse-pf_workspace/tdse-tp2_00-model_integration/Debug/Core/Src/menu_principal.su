@@ -1,0 +1,5 @@
+../Core/Src/menu_principal.c:24:6:menuPrincipalEntrar	8	static
+../Core/Src/menu_principal.c:34:6:menuPrincipalTick	16	static
+../Core/Src/menu_principal.c:58:6:menuPrincipalOpcionElegida	16	static
+../Core/Src/menu_principal.c:74:6:menuPrincipalCambiandoBrilloTick	40	static
+../Core/Src/menu_principal.c:108:6:menuPrincipalPrint	96	static

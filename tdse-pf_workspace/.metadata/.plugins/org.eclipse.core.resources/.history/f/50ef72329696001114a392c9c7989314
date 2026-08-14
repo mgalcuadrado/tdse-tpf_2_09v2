@@ -1,0 +1,73 @@
+#include POTENCIOMETRO_H
+#include <stdlib.h>
+extern ADC_HandleTypeDef hadc1;
+extern TIM_HandleTypeDef htim4;
+
+extern uint16_t adc_buffer[3];
+
+
+/*Inicializa el ADC + DMA y el TIM4.*/
+void pote_init(void) {
+    HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, 3);
+    HAL_TIM_Base_Start_IT(&htim4);
+}
+
+
+/*Conversión ADC 12 bits a posición matriz 32x32*/
+uint8_t adc_a_posicion(uint16_t valor_raw) {
+    return (uint8_t)((valor_raw * 32) / 4096);
+}
+
+
+/*Conversión ADC 12 bits a brillo 0-255*/
+uint8_t adc_a_brillo(uint16_t valor_raw)
+{
+    return (uint8_t)(valor_raw >> 4);
+}
+
+
+/*Filtro*/
+static uint8_t aplicar_filtro_ruido(uint8_t nuevo, uint8_t anterior) {
+    if (abs((int)nuevo - (int)anterior) <= 2) {
+        return anterior;
+    }
+    return nuevo;
+}
+
+void leer_potenciometros(uint8_t *r, uint8_t *g, uint8_t *b) {
+    uint8_t r_nuevo;
+    uint8_t g_nuevo;
+    uint8_t b_nuevo;
+
+    static uint8_t r_anterior = 0;
+    static uint8_t g_anterior = 0;
+    static uint8_t b_anterior = 0;
+
+    r_nuevo = adc_a_posicion(adc_buffer[0]);
+    g_nuevo = adc_a_posicion(adc_buffer[1]);
+    b_nuevo = adc_a_brillo(adc_buffer[2]);
+
+    /* Aplicar filtro */
+    r_anterior = aplicar_filtro_ruido(r_nuevo, r_anterior);
+    g_anterior = aplicar_filtro_ruido(g_nuevo, g_anterior);
+    b_anterior = aplicar_filtro_ruido(b_nuevo, b_anterior);
+
+    /* Devolver los valores mediante punteros */
+    *r = r_anterior;
+    *g = g_anterior;
+    *b = b_anterior;
+}
+
+
+bool posicion_cambio(uint8_t x, uint8_t y) {
+    static uint8_t old_x = 255;
+    static uint8_t old_y = 255;
+
+    if (x != old_x || y != old_y) {
+        old_x = x;
+        old_y = y;
+        return true;
+    }
+    return false;
+}
+

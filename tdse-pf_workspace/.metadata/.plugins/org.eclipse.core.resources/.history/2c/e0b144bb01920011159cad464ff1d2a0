@@ -1,0 +1,195 @@
+/*
+ * frame_buffer.c
+ *
+ *  Created on: Jul 18, 2026
+ *      Author: Mechi
+ */
+
+
+
+#include "frame_buffer.h"
+#include "pixeles.h"
+#define LIMITE 127
+
+void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz, int * fila_buffer, int * columna_buffer, uint8_t * pines_rgb);
+
+//uint32_t pines_rgb = R1_Pin | G1_Pin | BL1_Pin | R2_Pin | G2_Pin | B2_Pin;
+volatile uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
+void frameBufferInit(void)
+{
+   	//par de pixeles en negro: todos los pines_rgb se apagan (los pines están movidos al sector de reset)
+    for (int f = 0; f < BUFFER_FILAS; f++){
+        for (int c = 0; c < BUFFER_COLUMNAS; c++){
+        	//if (f== 0&& c == 255) framebuffer[f][c] = parpixeles_B1;
+        	//else
+        	framebuffer[f][c] = parpixeles_negro;
+        	//amebuffer[f][c] = parpixeles_B1_R2;
+        }
+    }
+}
+
+const uint32_t rgb1 = R1_Pin | BL1_Pin | G1_Pin |((R1_Pin | BL1_Pin | G1_Pin)<<16);
+const uint32_t rgb2 = R2_Pin | B2_Pin | G2_Pin |((R2_Pin | B2_Pin | G2_Pin)<<16);
+
+void frameBufferUpdateAll(Matriz_t * matriz){
+	for (int f = 0; f < MATRIZ_FILAS; f++)
+		for (int c = 0; c < MATRIZ_COLUMNAS; c++)
+			frameBufferUpdateCasilla(matriz, f, c);
+}
+
+void frameBufferUpdateCasilla(Matriz_t * matriz, int fila_matriz, int columna_matriz){
+	 if (fila_matriz > MATRIZ_FILAS || columna_matriz > MATRIZ_COLUMNAS || matriz == NULL)
+		 return;
+	 int f =0, c=0;
+	 uint8_t r=0, g=0, b=0,pines_rgb =0;
+	 conversorPosicionMatrizAPosicionBuffer(fila_matriz, columna_matriz, &f, &c, &pines_rgb);
+	 matrizGetColorCasillero(matriz, fila_matriz, columna_matriz, &r, &g, &b);
+	 uint32_t color = 0;
+	 switch (pines_rgb){
+		case 1:
+			//los datos van en RGB1
+			if (r > LIMITE) color |= R1_Pin;
+			else color |= (R1_Pin <<16);
+			if (g > LIMITE) color |= G1_Pin;
+			else color |= (G1_Pin <<16);
+			if (b > LIMITE) color |= B1_Pin;
+			else color |= (B1_Pin <<16);
+			break;
+		case 2:
+			//los datos van en RGB2
+			if (r > LIMITE) color |= R2_Pin;
+			else color |= (R2_Pin <<16);
+			if (g > LIMITE) color |= G2_Pin;
+			else color |= (G2_Pin <<16);
+			if (b > LIMITE) color |= B2_Pin;
+			else color |= (B2_Pin <<16);
+			break;
+		default:
+			break;
+	}
+
+	 uint32_t buffer= framebuffer[f][c];
+	 buffer&= ~(pines_rgb == 1 ? rgb1 : rgb2); //SE LIMPIAN LOS BITS YA GUARDADOS PARA ESTA CASILLA EN EL BUFFER
+	 buffer|= color;
+	 framebuffer[f][c] = buffer;
+
+}
+
+
+/* conversorPosicionMatrizAPosicionBuffer es una función interna que, dada una posición en la matriz
+ * (ejemplo, matriz[fila_matriz][columna_matriz]) devuelve por referencia la fila, matriz y juego de pines RGB
+ * correspondientes en el buffer.
+ * No se verifica si estas osiciones estan en el rango de validez, se asume que las filas y columnas de la matriz
+ * son los comprendidos dentro de la misma. La lógica del mappeo en serpentina se describe en frame_buffer.txt
+ */
+
+void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz, int * fila_buffer, int * columna_buffer, uint8_t * pines_rgb){
+	//el primer y el cuarto cuarto usan rgb1 y el 2do y el 3ero rgb2
+	*pines_rgb = (fila_matriz < MATRIZ_FILAS/4 ||fila_matriz >= 3*MATRIZ_FILAS/4) ? 1 : 2;
+	uint8_t pantalla (fila_matriz < MATRIZ_FILAS/2) ? 1 : 2;
+	switch (pantalla){
+			case 2:
+				 *fila_buffer  = (fila_matriz % 2 == 1) ? 1 : 0;
+				break;
+			case 1:
+				*fila_buffer  =  (fila_matriz % 2 == 0) ? 1 : 0;
+				break;
+			default:
+				break;
+	}
+	*columna_buffer = 0;
+	int fila_map = fila_matriz % COLUMNAS_SERPENTINA;
+	switch (pantalla){
+				case 2: //esta es la pantalla en la que escribe primero el buffer
+					/* Explicado en detalle en bitacoras>bitacora_general.md
+					 * PANTALLA 2
+					 * CM	 00	..... 07   08 ..... 15	 16 ..... 23   24 ..... 31
+					 * FM
+					 * 	0 || 63 <---- 56 | 47 <---- 40 | 31 <---- 24 | 15 <---- 08 ||
+					 *  2 || 48 ----> 56 | 32 ----> 56 | 16 ----> 23 | 00 ----> 07 ||
+					 */
+					if (*fila_buffer == 1) fila_map -= 1;
+					if (fila_map >= 2* FILAS_SERPENTINA) *columna_buffer += MATRIZ_COLUMNAS * 2;
+					if (fila_map % 2* FILAS_SERPENTINA == 0) {
+						//DESPLAZAMIENTO HACIA IZQUIERDA. LAS 4 COLUMNAS "ARRANCAN" A LA DERECHA
+						if (columna_matriz < COLUMNAS_SERPENTINA) *columna_buffer += 7*COLUMNAS_SERPENTINA;
+						else if (columna_matriz < 2*COLUMNAS_SERPENTINA) *columna_buffer += 5*COLUMNAS_SERPENTINA;
+						else if (columna_matriz < 3*COLUMNAS_SERPENTINA) *columna_buffer += 3*COLUMNAS_SERPENTINA;
+						else *columna_buffer += COLUMNAS_SERPENTINA;
+						*columna_buffer += COLUMNAS_SERPENTINA - 1  - (columna_matriz % COLUMNAS_SERPENTINA);
+					}
+					else  {
+						//DESPLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
+						if (columna_matriz >= 3*COLUMNAS_SERPENTINA) *columna_buffer +=0; //si es mayor a 24 se suman cero... lo agrego para no poner 2 condiciones en el if nada mas
+						else if (columna_matriz  >= 2*COLUMNAS_SERPENTINA) *columna_buffer += 2*COLUMNAS_SERPENTINA;
+						else if (columna_matriz >= COLUMNAS_SERPENTINA) *columna_buffer += 4*COLUMNAS_SERPENTINA;
+						else *columna_buffer += 6*COLUMNAS_SERPENTINA;
+						*columna_buffer += columna_matriz % COLUMNAS_SERPENTINA;
+					}
+					break;
+				case 1:
+					/* Explicado en detalle en bitacoras>bitacora_general.md
+					 * PANTALLA 1
+					 * CM	 00	..... 07   08 ..... 15	 16 ..... 23   24 ..... 31
+					 * FM
+					 * 	2 || 07 <---- 00 | 23 <---- 16 | 39 <---- 32 | 55 <---- 48 ||
+					 *  0 || 08 ----> 15 | 24 ----> 31 | 40 ----> 47 | 63 ----> 56 ||
+					 */
+					if (*fila_buffer == 0) fila_map -= 1;
+					if (fila_map < 2* FILAS_SERPENTINA) *columna_buffer += MATRIZ_COLUMNAS * 2;
+					if (fila_map % 2* FILAS_SERPENTINA == FILAS_SERPENTINA) {
+						//DESPLAZAMIENTO HACIA DERECHA. LAS 4 COLUMNAS "ARRANCAN" A LA IZQUIERDA
+						if (columna_matriz < COLUMNAS_SERPENTINA) *columna_buffer += COLUMNAS_SERPENTINA;
+						else if (columna_matriz < 2*COLUMNAS_SERPENTINA) *columna_buffer += 3 * COLUMNAS_SERPENTINA;
+						else if (columna_matriz < 3*COLUMNAS_SERPENTINA) *columna_buffer += 5* COLUMNAS_SERPENTINA;
+						else *columna_buffer += 7*COLUMNAS_SERPENTINA;
+						*columna_buffer += columna_matriz % COLUMNAS_SERPENTINA;
+					}
+					else  {
+						//DESPLAZAMIENTO HACIA IZQUIERDA. LAS 4 COLUMNAS "ARRANCAN" A LA DERECHA
+						if (columna_matriz >= 3*COLUMNAS_SERPENTINA) *columna_buffer += 6*COLUMNAS_SERPENTINA; //si es mayor a 24 se suman cero... lo agrego para no poner 2 condiciones en el if nada mas
+						else if (columna_matriz  >= 2*COLUMNAS_SERPENTINA) *columna_buffer += 4*COLUMNAS_SERPENTINA;
+						else if (columna_matriz >= COLUMNAS_SERPENTINA) *columna_buffer += 2*COLUMNAS_SERPENTINA;
+						else *columna_buffer += 0;
+						*columna_buffer += COLUMNAS_SERPENTINA - 1 - (columna_matriz % COLUMNAS_SERPENTINA);
+					}
+					break;
+				default:
+					break;
+		}
+	//rimero se escribe toda la antalla 2 y desues la 1.
+	//llegados a este unto ya se conoce si la fila a utilizar es la par o la impar
+
+}
+
+
+static int fila_test = 0;
+static int columna_test = 0;
+void testBarridoCompleto(Matriz_t * matriz){
+	uint8_t r = 0,g = 0,b = 0;
+	if (fila_test <8) r=255;
+	else if (fila_test < 16) b=255;
+	else if (fila_test < 24) r = 255;
+	else {
+		r=255;g=255;b=255;
+	}
+	matrizSetCasillero(matriz, fila_test, columna_test, r,g,b);
+    frameBufferUpdateCasilla(matriz, fila_test, columna_test);
+    columna_test++;
+    if (columna_test == MATRIZ_COLUMNAS){
+    	columna_test = 0;
+    	fila_test++;
+    	if (fila_test == MATRIZ_FILAS) fila_test = 0;
+    }
+}
+
+void testBarridoBuffer(void){
+	framebuffer[fila_test][columna_test] = parpixeles_B1_W2;
+	columna_test++;
+	    if (columna_test == BUFFER_COLUMNAS){
+	    	columna_test = 0;
+	    	fila_test++;
+	    	if (fila_test == BUFFER_FILAS) fila_test = 0;
+	    }
+}
+

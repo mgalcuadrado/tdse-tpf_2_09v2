@@ -1,0 +1,6 @@
+../Core/Src/matriz.c:14:11:matrizCrear	1
+../Core/Src/matriz.c:23:6:matrizBorrar	2
+../Core/Src/matriz.c:30:6:matrizSetCasillero	4
+../Core/Src/matriz.c:41:6:matrizGetCasillero	5
+../Core/Src/matriz.c:47:6:matrizGetColorCasillero	1
+../Core/Src/matriz.c:54:6:matrizLlenar	3

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;tdse-tp2_00-model_integration/Core/Src/serpentine_routing.c&apos;" deleteContents="false" description="Delete resource &apos;tdse-tp2_00-model_integration/Core/Src/serpentine_routing.c&apos;" element1="/tdse-tp2_00-model_integration/Core/Src/serpentine_routing.c" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1785891013970"/>
+</session>

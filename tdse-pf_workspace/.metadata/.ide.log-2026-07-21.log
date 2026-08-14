@@ -1,0 +1,4 @@
+2026-07-21 14:28:30,490 [ERROR] ConfigurationRetriever:142 - IOException on connection: Read timed out
+2026-07-21 15:16:53,097 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] jul 21, 2026 3:16:53 P. M. org.apache.lucene.internal.vectorization.VectorizationProvider lookup
+2026-07-21 15:16:53,105 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ADVERTENCIA: Java vector incubator module is not readable. For optimal vector performance, pass '--add-modules jdk.incubator.vector' to enable Vector API.
+2026-07-21 15:16:53,106 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 

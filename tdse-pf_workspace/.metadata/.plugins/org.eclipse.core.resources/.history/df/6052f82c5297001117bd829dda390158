@@ -1,0 +1,135 @@
+/*
+ * estado.c
+ *		Created on: Aug 8, 2026
+ *      Author: Bauti
+*/
+
+#include "estado.h"
+
+#include "menu_principal.h"
+#include "menu_dibujo.h"
+#include "menu_secuencia.h"
+#include "matrizinicio.h"
+#include "potenciometro.h"
+
+static EstadoSistema_t estado_actual = ESTADO_MENU_PRINCIPAL;
+
+void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
+    estado_actual = nuevo_estado; //Arranca en MENU_PRINCIPAL
+
+    switch (nuevo_estado) {
+        case ESTADO_MENU_PRINCIPAL:
+            menuPrincipalEntrar();
+            break;
+        case ESTADO_CAMBIANDO_BRILLO:
+        	menuPrincipalCambiandoBrilloTick(BOTON_NINGUNO);
+			break;
+        case ESTADO_MENU_DIBUJO:
+            menuDibujoEntrar();
+            break;
+        case ESTADO_MENU_SECUENCIA:
+            menuSecuenciaEntrar();
+            break;
+        case ESTADO_CAMBIANDO_PINCEL:
+        	menuDibujoCambiarPincelTick(BOTON_NINGUNO);
+			break;
+        case ESTADO_DIBUJANDO:
+        	menuDibujoDibujarTick(BOTON_NINGUNO);
+			break;
+        case ESTADO_MOSTRANDO_SECUENCIA:
+			menuSecuenciaMostrarEntrar();
+			break;
+        case ESTADO_COMPLETANDO_SECUENCIA:
+			menuSecuenciaCompletarTick(BOTON_NINGUNO);
+			break;
+        case ESTADO_LIMPIAR_SECUENCIA:
+        	menuSecuenciaLimpiandoTick(BOTON_NINGUNO);
+        	break;
+        case ESTADO_LIMPIAR_DIBUJO:
+			menuDibujoLimpiandoTick(BOTON_NINGUNO);
+			break;
+        default:
+            break;
+    }
+}
+
+void sistemaInit(void) {
+	for (int f = 0; f < 32; f++){
+		for (int c = 0; c < 32; c++){
+			if (matrizInicio[f][c]  == 1)
+				frameBufferUpdateCasillaColorDirecto(f, c, 255, 255, 255);
+		}
+	}
+
+    sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
+    pote_init();
+}
+
+void sistemaTick(BotonEvento_t input) {
+
+	if (estado_actual == ESTADO_MOSTRANDO_SECUENCIA){
+		menuSecuenciaMostrarTick();
+		return;
+	}
+
+	if (estado_actual == ESTADO_COMPLETANDO_SECUENCIA) {
+		menuSecuenciaCompletarTick(input);
+		return;
+	}
+	
+    if (input == BOTON_NINGUNO) {
+        return;
+    }
+
+    switch (estado_actual) {
+        case ESTADO_MENU_PRINCIPAL:
+            menuPrincipalTick(input);
+            break;
+        case ESTADO_CAMBIANDO_BRILLO:
+			menuPrincipalCambiandoBrilloTick(input);
+			break;
+        case ESTADO_MENU_DIBUJO:
+            menuDibujoTick(input);
+            break;
+        case ESTADO_DIBUJANDO:
+            menuDibujoDibujarTick(input);
+            break;
+        case ESTADO_CAMBIANDO_PINCEL:
+            menuDibujoCambiarPincelTick(input);
+            break;
+        case ESTADO_MENU_SECUENCIA:
+            menuSecuenciaTick(input);
+            break;
+        case ESTADO_LIMPIAR_DIBUJO:
+        	menuDibujoLimpiandoTick(input);
+        	break;
+        case ESTADO_LIMPIAR_SECUENCIA:
+			menuSecuenciaLimpiandoTick(input);
+			break;
+		default:
+			break;
+    }
+}
+
+void sistemaTickTiempo(void) {
+    if (estado_actual == ESTADO_MOSTRANDO_SECUENCIA) {
+        menuSecuenciaMostrarTick();
+    } else if (estado_actual == ESTADO_COMPLETANDO_SECUENCIA) {
+        menuSecuenciaCompletarTick(BOTON_NINGUNO); // solo evalúa el timeout de fallo
+    }
+}
+
+Matriz_t* sistemaObtenerMatrizActiva(void) {
+    switch (estado_actual) {
+        case ESTADO_DIBUJANDO:
+        case ESTADO_CAMBIANDO_PINCEL:
+            return menuDibujoObtenerMatriz();
+
+        case ESTADO_COMPLETANDO_SECUENCIA:
+            return menuSecuenciaObtenerMatriz();
+
+        default:
+            // Durante los menús principales/secundarios no hay matriz activa
+            return NULL;
+    }
+}

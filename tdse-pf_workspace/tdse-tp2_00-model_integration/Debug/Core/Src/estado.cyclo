@@ -1,0 +1,5 @@
+../Core/Src/estado.c:17:6:sistemaCambiarEstado	11
+../Core/Src/estado.c:58:6:sistemaInit	1
+../Core/Src/estado.c:65:6:sistemaTick	12
+../Core/Src/estado.c:111:6:sistemaTickTiempo	3
+../Core/Src/estado.c:119:11:sistemaObtenerMatrizActiva	4

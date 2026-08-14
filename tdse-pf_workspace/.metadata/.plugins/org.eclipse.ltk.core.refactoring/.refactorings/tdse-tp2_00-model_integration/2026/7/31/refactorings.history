@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;tdse-tp2_00-model_integration/Core/Src/colores.h&apos; to &apos;casillas.h&apos;" description="Rename resource &apos;colores.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Src/colores.h" name="casillas.h" stamp="1785470343253" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;tdse-tp2_00-model_integration/Core/Src/casillas.h&apos; to &apos;pixeles.h&apos;" description="Rename resource &apos;casillas.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Src/casillas.h" name="pixeles.h" stamp="1785470451996" updateReferences="true"/>
+</session>
