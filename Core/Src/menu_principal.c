@@ -26,9 +26,7 @@ void menuPrincipalEntrar(void) {
     seleccion[0] = '*';
     seleccion[1] = ' ';
     //hub75SetBrightness(brillo);
-    lcdBorrar();
     menuPrincipalPrint(seleccion, indice_seleccion);
-   //frameBufferColourAll();
 }
 
 void menuPrincipalTick(BotonEvento_t input) {
@@ -37,17 +35,18 @@ void menuPrincipalTick(BotonEvento_t input) {
 			seleccion[indice_seleccion] = ' ';
 			indice_seleccion = (indice_seleccion >= 2) ? 0 : indice_seleccion + 1;
 			seleccion[indice_seleccion] = '*';
-			lcdBorrar();
+
 			menuPrincipalPrint(seleccion, indice_seleccion);
 			break;
 		case BOTON_ARRIBA:
 			seleccion[indice_seleccion] = ' ';
 			indice_seleccion = (indice_seleccion <= 0) ? 2 : indice_seleccion - 1;
 			seleccion[indice_seleccion] = '*';
-			lcdBorrar();
+
 			menuPrincipalPrint(seleccion, indice_seleccion);
             break;
         case BOTON_ACEPTAR:
+        	seleccion[indice_seleccion] = ' ';
             menuPrincipalOpcionElegida(indice_seleccion);
             break;
         default:
@@ -72,14 +71,12 @@ void menuPrincipalOpcionElegida(int indice_seleccion) {
 }
 
 void menuPrincipalCambiandoBrilloTick(BotonEvento_t input) {
-	lcdBorrar();
-	lcdSetearCursor(0, 0);
-	lcdPrint("Cambiando Brillo");
+	lcdVaciarBuffer();
+	lcdBufferearLinea(0, "Cambiando Brillo");
 
-	char mensaje1[MAX_CARACTERES_MENSAJE];
+	char mensaje1[LCD_COLUMNAS];
 	snprintf(mensaje1, sizeof(mensaje1), "BrilloAct. = %d", brillo);
-	lcdSetearCursor(0, 1);
-	lcdPrint(mensaje1);
+	lcdBufferearLinea(1, mensaje1);
 	//hub75SetBrightness(brillo);
 	switch (input) {
 		case BOTON_ABAJO:
@@ -106,24 +103,18 @@ void menuPrincipalCambiandoBrilloTick(BotonEvento_t input) {
 }
 
 void menuPrincipalPrint(char seleccion[3], int indice_seleccion) {
-    char mensaje1[MAX_CARACTERES_MENSAJE];
-    char mensaje2[MAX_CARACTERES_MENSAJE];
-    char mensaje3[MAX_CARACTERES_MENSAJE];
-    char mensaje4[MAX_CARACTERES_MENSAJE];
-    snprintf(mensaje1, sizeof(mensaje1), "  UBA en Accion ");
-    snprintf(mensaje2, sizeof(mensaje2), "(%c) Modo Dibujo", seleccion[0]);
-    snprintf(mensaje3, sizeof(mensaje3), "(%c) Modo Secuencia", seleccion[1]);
-    snprintf(mensaje4, sizeof(mensaje4), "(%c) Cambiar Brillo", seleccion[2]);
+	lcdVaciarBuffer();
+    char mensaje0[LCD_COLUMNAS];
+    char mensaje1[LCD_COLUMNAS];
+    char mensaje2[LCD_COLUMNAS];
+    char mensaje3[LCD_COLUMNAS];
+    snprintf(mensaje0, sizeof(mensaje0), "  UBA en Accion ");
+    snprintf(mensaje1, sizeof(mensaje1), "(%c) Modo Dibujo", seleccion[0]);
+    snprintf(mensaje2, sizeof(mensaje2), "(%c) Modo Secuencia", seleccion[1]);
+    snprintf(mensaje3, sizeof(mensaje3), "(%c) Cambiar Brillo", seleccion[2]);
 
-    lcdSetearCursor(0, 0);
-    lcdPrint(mensaje1);
-
-    lcdSetearCursor(0, 1);
-    lcdPrint(mensaje2);
-
-    lcdSetearCursor(0, 2);
-    lcdPrint(mensaje3);
-
-    lcdSetearCursor(0, 3);
-    lcdPrint(mensaje4);
+    lcdBufferearLinea(0, mensaje0);
+    lcdBufferearLinea(1, mensaje1);
+    lcdBufferearLinea(2, mensaje2);
+    lcdBufferearLinea(3, mensaje3);
 }

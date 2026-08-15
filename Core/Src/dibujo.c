@@ -146,44 +146,4 @@ void dibujoPintar(Dibujo_t* dibujo, uint8_t red, uint8_t green, uint8_t blue) {
 	}
 
 
-bool dibujoCambiarPincelTick(Dibujo_t* dibujo, BotonEvento_t input) {
-	if (dibujo == NULL) return true;
-	switch (input) {
-	case BOTON_ARRIBA:
-		dibujo->tam_pincel = dibujo->tam_pincel * 2;
-		break;
-	case BOTON_ABAJO:
-		dibujo->tam_pincel = dibujo->tam_pincel / 2;
-		break;
-	case BOTON_ACEPTAR:
-	case BOTON_ATRAS:
-		return true; // Terminó: que el llamador vuelva al menú
-	default:
-		break;
-	}
-
-	if (dibujo->tam_pincel > 8){
-		dibujo->tam_pincel = 1;
-	} else if (dibujo->tam_pincel < 1) {
-		dibujo->tam_pincel = 8;
-	}
-
-	lcdBorrar();
-	dibujo->indice_fil = (dibujo->indice_fil / dibujo->tam_pincel) * dibujo->tam_pincel;
-	dibujo->indice_col = (dibujo->indice_col / dibujo->tam_pincel) * dibujo->tam_pincel;
-
-	char mensaje1[MAX_CARACTERES_MENSAJE];
-	char mensaje2[MAX_CARACTERES_MENSAJE];
-	snprintf(mensaje1, sizeof(mensaje1), "Medida del Pincel:");
-	snprintf(mensaje2, sizeof(mensaje2), "%d x %d", dibujo->tam_pincel, dibujo->tam_pincel);
-
-	lcdSetearCursor(0, 0);
-	lcdPrint(mensaje1);
-
-	lcdSetearCursor(0, 1);
-	lcdPrint(mensaje2);
-
-	return false; // Todavía eligiendo pincel
-}
-
 
