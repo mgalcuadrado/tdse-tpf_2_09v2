@@ -34,9 +34,5 @@ void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input);
 void dibujoReiniciar(Dibujo_t* dibujo);
 void dibujoPintar(Dibujo_t* dibujo, uint8_t red, uint8_t green, uint8_t blue);
 
-// Reemplaza a dibujoCambiarPincel(Dibujo_t*): procesa UN evento y vuelve.
-// Devuelve true cuando el usuario terminó de elegir pincel (ACEPTAR o ATRAS),
-// momento en el que quien la llama debe volver al menú anterior.
-bool dibujoCambiarPincelTick(Dibujo_t* dibujo, BotonEvento_t input);
 
 #endif
