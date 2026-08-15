@@ -227,7 +227,7 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
 		lcdVaciarBuffer();
 		lcdBufferearLinea(0, "Secuencia Completa :)");
 		lcdBufferearLinea(1, "Toca un boton");
-        matrizLlenar(matriz_actual, 0, 255, 0); // Toda la matriz ROJA
+        matrizLlenar(matriz_actual, 0, 255, 0); // Toda la matriz VERDE
 		frameBufferUpdateAll(matriz_actual);
         static uint32_t ultimoTiempo = 0;
         if ((HAL_GetTick() - ultimoTiempo) > DEBOUNCE_MS * 40) {
