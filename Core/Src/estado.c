@@ -5,13 +5,19 @@
 */
 
 #include "estado.h"
-
+#include "boton.h"
 #include "menu_principal.h"
 #include "menu_dibujo.h"
 #include "menu_secuencia.h"
 #include "matrizinicio.h"
 
 static EstadoSistema_t estado_actual = ESTADO_MENU_PRINCIPAL;
+
+void sistemaProcesar(void) {
+	sistemaTickTiempo();
+	BotonEvento_t input = botonUltimoEvento();
+	sistemaTick(input);
+}
 
 void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
     estado_actual = nuevo_estado; //Arranca en MENU_PRINCIPAL
@@ -112,7 +118,7 @@ void sistemaTickTiempo(void) {
     if (estado_actual == ESTADO_MOSTRANDO_SECUENCIA) {
         menuSecuenciaMostrarTick();
     } else if (estado_actual == ESTADO_COMPLETANDO_SECUENCIA) {
-        menuSecuenciaCompletarTick(BOTON_NINGUNO); // solo evalúa el timeout de fallo
+        menuSecuenciaCompletarTick(BOTON_NINGUNO); // Evalua cuando el usuario haya completado la secuencia o fallado
     }
 }
 
