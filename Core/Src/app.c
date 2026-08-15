@@ -20,7 +20,11 @@
 
 //Acá entraría cualquier init necesario para el programa
 void appInit(){
-
+	frameBufferInit();
+	pote_init();
+	hub75Init();
+	lcdInicializar(&hi2c1);
+	sistemaInit();
 	return;
 }
 
