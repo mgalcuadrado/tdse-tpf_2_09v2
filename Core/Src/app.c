@@ -26,7 +26,7 @@ void taskEscrutar(){
 
 }
 void taskProcesar(){
-	//menuProcesar();
+	sistemaProcesar();
 }
 void taskActuar(){
 	lcdActuar();
