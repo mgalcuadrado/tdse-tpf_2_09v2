@@ -26,4 +26,5 @@ typedef enum  {
 #define DEBOUNCE_MS 50
 
 BotonEvento_t botonLeer(void);
+BotonEvento_t botonUltimoEvento(void);
 #endif
