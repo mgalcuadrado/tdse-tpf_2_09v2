@@ -1,0 +1,317 @@
+Análisis temporal del sistema
+Medición de tiempos de ejecución
+
+Para analizar el comportamiento temporal del sistema se incorporó un mecanismo de medición basado en el contador de ciclos de CPU DWT (Data Watchpoint and Trace) disponible en el núcleo ARM Cortex-M3 del STM32.
+Este contador DWT->CYCCNT permite obtener la cantidad de ciclos de reloj transcurridos entre dos instantes de ejecución.
+Así, se puede medir directamente el tiempo empleado por las principales tareas del sistema sin necesidad de utilizar equipamiento externo.
+
+Recordando, el microcontrolador trabaja a una frecuencia de CPU de: 
+fCPU = 64 MHz
+por lo que cada ciclo de reloj tiene una duración de:
+Tciclo = 1 / 64 MHz = 15,625 ns (o equivalentemente: 64 ciclos = 1 µs).
+
+Por lo tanto, si una tarea comienza cuando el contador posee el valor inicio y finaliza cuando posee el valor fin, la cantidad de ciclos utilizados se obtiene como:
+      ciclos = fin - inicio;
+
+y el tiempo de ejecución puede expresarse como:
+      T = ciclos / 64
+en microsegundos.
+
+Inicialización del contador DWT
+Para inicializar el contador se implementó la función:
+
+    static void DWT_Init(void) {
+        CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+        DWT->CYCCNT = 0;
+        DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+    }
+
+La función habilita el bloque de trazado del procesador y posteriormente activa el contador de ciclos CYCCNT.
+La función se ejecuta durante la inicialización del sistema, previo al comienzo de las mediciones.
+
+Tests de análisis temporal
+Para mantener la estructura de pruebas utilizada para verificar el funcionamiento de la matriz y del framebuffer, las mediciones temporales se implementaron mediante funciones independientes con el formato:
+    testX()
+
+Cada prueba se encuentra separada en sus propios archivos .h y .c.
+La estructura resultante es:
+      test_wcet_hub75.h
+      test_wcet_hub75.c
+      
+      test_wcet_adc.h
+      test_wcet_adc.c
+      
+      test_wcet_boton.h
+      test_wcet_boton.c
+      
+      test_wcet_sistema.h
+      test_wcet_sistema.c
+
+Así las funciones de medición no forman parte de la implementación normal de cada módulo, sino que constituyen herramientas de prueba que pueden ser invocadas externamente desde main.c.
+
+testWCETHUB75()
+Esta función permite determinar el tiempo de ejecución de la tarea encargada de actualizar la matriz LED mediante la función:
+      hub75Refresh()
+Es importante debido a que se ejecuta periódicamente y es responsable de mantener actualizada la visualización de las pantallas.
+La medición se realiza tomando una muestra del contador DWT->CYCCNT inmediatamente antes y después de la llamada:
+      inicio = DWT->CYCCNT;
+      hub75Refresh();
+      fin = DWT->CYCCNT;
+La diferencia entre ambos valores representa la cantidad de ciclos de CPU utilizados por la actualización de la matriz.
+Se realizan múltiples mediciones consecutivas para obtener:
+      tiempo mínimo de ejecución;
+      tiempo promedio de ejecución;
+      WCET (Worst-Case Execution Time), correspondiente al mayor tiempo observado.
+
+Para la prueba se utiliza una cantidad de: N = 1000 mediciones
+El resultado se informa mediante printf() a través de la interfaz SWV/ITM.
+La prueba debe mostrar una salida equivalente a: 
+      Mediciones: 1000
+      Minimo: XXXX ciclos
+      Promedio: XXXX ciclos
+      WCET: XXXX ciclos
+      
+      Minimo: XX.XXX us
+      Promedio: XX.XXX us
+      WCET: XX.XXX us
+
+El valor de WCET constituye el tiempo máximo observado para una ejecución de hub75Refresh() bajo las condiciones de prueba.
+
+testWCETADC(): permite analizar temporalmente la adquisición de los tres potenciómetros.
+La función medida es: leer_potenciometros(&r, &g, &b);
+La implementación actual del módulo de potenciómetros utiliza el ADC mediante polling. 
+Durante una ejecución de leer_potenciometros() se realizan las siguientes operaciones:
+      Inicio de la conversión ADC.
+      Conversión del primer canal.
+      Espera mediante HAL_ADC_PollForConversion().
+      Lectura del resultado mediante HAL_ADC_GetValue().
+      Conversión del segundo canal.
+      Lectura del resultado.
+      Conversión del tercer canal.
+      Lectura del resultado.
+      Conversión de los valores ADC a posición/brillo.
+      Aplicación del filtro de ruido.
+      Actualización de los valores entregados mediante los punteros r, g y b.
+      
+Por lo tanto, el tiempo medido corresponde a la ejecución completa de la adquisición y procesamiento de los tres potenciómetros.
+La medición se realiza de la siguiente manera:
+      
+      inicio = DWT->CYCCNT;
+      
+      leer_potenciometros(&r, &g, &b);
+      
+      fin = DWT->CYCCNT;
+      
+Al igual que para la matriz, se realizan 1000 mediciones. Se esperar observar:
+      
+      Mediciones: 1000
+      Minimo: XXXX ciclos
+      Promedio: XXXX ciclos
+      WCET: XXXX ciclos
+      
+      Minimo: XX.XXX us
+      Promedio: XX.XXX us
+      WCET: XX.XXX us
+
+El WCET obtenido representa el peor tiempo observado para realizar una adquisición completa de los tres canales y procesar sus resultados.
+
+testWCETBoton(): permite determinar el tiempo de ejecución de la lectura de los botones.
+La función analizada es: botonLeer()
+La medición se realiza delimitando su ejecución mediante el contador DWT:
+
+      inicio = DWT->CYCCNT;
+      
+      btn = botonLeer();
+      
+      fin = DWT->CYCCNT;
+      
+En este caso existe una particularidad: la función puede devolver:
+      BOTON_NINGUNO --> cuando no se detecta ningún evento.
+
+Por este motivo, el test debe medir la ejecución de botonLeer() independientemente de que se haya detectado o no un botón. 
+De esta forma se caracteriza el tiempo correspondiente a la actividad de lectura de entradas.
+Se obtienen nuevamente:      
+      Mediciones: 1000
+      Minimo: XXXX ciclos
+      Promedio: XXXX ciclos
+      WCET: XXXX ciclos
+   
+      Minimo: XX.XXX us
+      Promedio: XX.XXX us
+      WCET: XX.XXX us
+      
+testWCETSistema(): permite medir el tiempo empleado por la lógica de gestión del sistema.
+La función analizada es: sistemaTick(btn);
+que recibe como parámetro el evento producido por el módulo de botones y ejecuta la lógica correspondiente al estado actual del sistema.
+La medición se realiza delimitando exclusivamente la llamada a sistemaTick():
+
+      inicio = DWT->CYCCNT;
+      
+      sistemaTick(btn);
+      
+      fin = DWT->CYCCNT;
+
+De esta manera no se incluye dentro de la medición el tiempo empleado por botonLeer().
+La prueba debe ejecutarse utilizando un evento de botón válido, de forma que se evalúe efectivamente la actividad de procesamiento del sistema.
+Resultado esperado
+      Mediciones: 1000
+      Minimo: XXXX ciclos
+      Promedio: XXXX ciclos
+      WCET: XXXX ciclos
+      
+      Minimo: XX.XXX us
+      Promedio: XX.XXX us
+      WCET: XX.XXX us
+
+Interferencia del temporizador durante las mediciones
+Para evitar que una interrupción del TIM3 modifique artificialmente los tiempos medidos, el temporizador se detiene durante la ejecución de los tests WCET.
+Esto es importante porque TIM3 genera una interrupción periódica cada:
+      T_TIM3 = 1,024 ms
+Durante el funcionamiento normal, la interrupción solamente actualiza los indicadores de las tareas:
+      pendientes_matriz
+      flag_adc
+      contador_adc
+
+Sin embargo, si una interrupción ocurriera durante una medición DWT, los ciclos correspondientes a la atención de dicha interrupción quedarían incluidos dentro del tiempo medido.
+Por este motivo, antes de ejecutar una prueba se realiza:
+
+      HAL_TIM_Base_Stop_IT(&htim3);
+
+y una vez finalizada:
+      HAL_TIM_Base_Start_IT(&htim3);
+
+De esta forma se busca que las mediciones representen exclusivamente el tiempo de ejecución de la función analizada.
+
+Invocación externa de los tests
+Siguiendo la misma metodología utilizada para:
+      testBarridoBuffer();
+y:
+      testBarridoCompleto(matriz);
+
+los tests temporales no se ejecutan automáticamente desde los módulos que se están analizando.
+Cada prueba se implementa como una función independiente y es invocada desde main.c.
+Para seleccionar el test a ejecutar se utiliza:
+
+      #define TEST_WCET_ACTIVO 1
+Los valores disponibles son:
+      Valor	Test
+      1	testWCETHUB75()
+      2	testWCETADC()
+      3	testWCETBoton()
+      4	testWCETSistema()
+
+Por ejemplo, para ejecutar el test correspondiente a la matriz:
+#define TEST_WCET_ACTIVO 1
+internamente se invoca:
+testWCETHUB75();
+Para analizar el ADC:
+#define TEST_WCET_ACTIVO 2
+lo que provoca la ejecución de:
+testWCETADC();
+De esta manera, para cambiar la prueba no es necesario modificar la implementación del módulo analizado.
+
+Ejecución de las pruebas
+Al iniciar el programa, luego de inicializar los periféricos y módulos del sistema, se selecciona el test correspondiente.
+La secuencia general es:
+      Inicialización STM32
+              ↓
+      Inicialización DWT
+              ↓
+      Inicialización de periféricos
+              ↓
+      Inicialización de módulos
+              ↓
+      Inicio de TIM3
+              ↓
+      Selección del test
+              ↓
+      Detención temporal de TIM3
+              ↓
+      Ejecución de 1000 mediciones
+              ↓
+      Cálculo de mínimo
+              ↓
+      Cálculo de promedio
+              ↓
+      Obtención del WCET
+              ↓
+      Conversión a µs
+              ↓
+      Visualización mediante SWV
+              ↓
+      Reinicio de TIM3
+              ↓
+      Funcionamiento normal
+
+Cálculo del WCET
+Para cada función se registran 1000 tiempos de ejecución.
+Sea: C₁, C₂, ..., C₁₀₀₀ --> la cantidad de ciclos obtenida en cada medición.
+El tiempo mínimo corresponde a:
+      Cmin = min(C₁, C₂, ..., C₁₀₀₀)
+
+El tiempo promedio se calcula como:
+      Cprom = (C₁ + C₂ + ... + C₁₀₀₀) / 1000
+
+Finalmente, el WCET observado corresponde al máximo:
+      WCET = max(C₁, C₂, ..., C₁₀₀₀)
+
+La conversión de ciclos a microsegundos se realiza considerando la frecuencia de 64 MHz:
+      TWCET [µs] = WCET [ciclos] / 64
+
+Para evitar utilizar operaciones de punto flotante, la implementación puede expresar el resultado con tres cifras decimales mediante aritmética entera.
+
+Factor de utilización
+Una vez determinado el WCET de cada tarea periódica, es posible calcular su factor de utilización.
+Para una tarea con tiempo máximo de ejecución WCET y período T:
+      U = WCET / T
+expresado como porcentaje:
+      U[%] = (WCET / T) × 100
+
+Para la tarea de actualización de la matriz:
+      Tmatriz = 1,024 ms
+por lo tanto:
+      Umatriz = WCETmatriz / 1024 µs
+
+Para la tarea de adquisición de los potenciómetros:
+      TADC = 10 × 1,024 ms
+por lo tanto:
+      TADC = 10,24 ms = 10240 µs
+
+y:
+      UADC = WCETADC / 10240 µs
+
+La utilización total asociada a estas dos tareas se calcula como:
+      Utotal = Umatriz + UADC
+
+Este valor permite estimar qué fracción de la capacidad de procesamiento del microcontrolador es utilizada por las tareas periódicas consideradas.
+
+Presentación de resultados
+Los resultados obtenidos mediante los tests se visualizan utilizando la interfaz SWV/ITM de la STM32CubeIDE.
+La salida contiene, para cada tarea:
+
+      Cantidad de mediciones
+      Tiempo mínimo
+      Tiempo promedio
+      WCET
+
+expresados tanto en ciclos de CPU como en microsegundos.
+
+Posteriormente se presentan los períodos de las tareas y sus correspondientes factores de utilización.
+Esto permite comparar los tiempos de ejecución obtenidos experimentalmente con los períodos de activación establecidos para cada tarea.
+
+Resumen de las pruebas
+      Test	              Función medida	             Tipo              	Resultado
+      testWCETHUB75()	    hub75Refresh()	          Periódica	           WCET matriz
+      testWCETADC()	   leer_potenciometros()	      Periódica	           WCET ADC
+      testWCETBoton()	      botonLeer()	            Actividad	           WCET lectura
+      testWCETSistema()	   sistemaTick()	          Actividad	           WCET procesamiento
+
+De esta forma, el análisis temporal queda desacoplado de la implementación funcional del sistema y puede repetirse individualmente para cada módulo.
+
+Nota sobre el ADC
+En esta versión del proyecto, aunque el proyecto contiene la inicialización del controlador DMA generada por STM32CubeMX, la función leer_potenciometros() actualmente realiza la adquisición mediante polling utilizando:
+      HAL_ADC_Start()
+      HAL_ADC_PollForConversion()
+      HAL_ADC_GetValue()
+
+Por lo tanto, el WCET documentado para el ADC corresponde a una adquisición por polling de tres canales, no a una adquisición mediante DMA.
