@@ -1,0 +1,301 @@
+El sistema utiliza el conversor analógico-digital (ADC) del microcontrolador STM32 para adquirir las señales provenientes de tres potenciómetros. Estas señales permiten obtener parámetros de interacción con la matriz LED.
+Los tres canales analógicos son adquiridos secuencialmente y sus valores son convertidos desde el dominio analógico al digital mediante el ADC de 12 bits.
+A partir de las mediciones obtenidas se generan tres parámetros utilizados por el sistema:
+    Posición X de la matriz.
+    Posición Y de la matriz.
+    Brillo.
+La adquisición se realiza mediante polling, es decir, el programa inicia una conversión y espera activamente hasta que esta finaliza. En esta implementación no se utiliza DMA para la transferencia de las conversiones.
+
+Configuración y adquisición del ADC
+El ADC utilizado es ADC1, cuyo manejador se encuentra declarado externamente en el módulo:
+      extern ADC_HandleTypeDef hadc1;
+
+La función encargada de adquirir los tres canales es:
+      static bool leer_3_canales(uint16_t raw[3])
+
+Esta función inicia una secuencia de conversión mediante:
+      HAL_ADC_Start(&hadc1);
+
+Luego, para cada uno de los tres canales, se espera a que finalice la conversión:
+      HAL_ADC_PollForConversion(&hadc1, POLL_TIMEOUT_MS);
+
+Una vez finalizada, se obtiene el valor mediante:
+      HAL_ADC_GetValue(&hadc1);
+
+y se almacena en el arreglo: raw[i]
+
+Finalmente, se detiene el ADC:
+      HAL_ADC_Stop(&hadc1);
+
+El orden de almacenamiento de los tres valores depende del orden de los ranks configurados para ADC1 en STM32CubeMX/CubeIDE.
+La estructura general es:
+      
+      Potenciómetro 1 ──┐
+      Potenciómetro 2 ──┼──> ADC1 ──> raw[3]
+      Potenciómetro 3 ──┘
+
+Resolución del ADC
+El ADC trabaja con una resolución de 12 bits, por lo que cada conversión produce un valor entre:
+      0 ≤ ADC ≤4095
+donde:
+      0 corresponde aproximadamente a la tensión mínima de entrada.  
+      4095 corresponde aproximadamente a la tensión máxima de referencia del ADC.
+
+Por lo tanto, la tensión de entrada puede expresarse aproximadamente como:
+      V_in = (ADC/4095)* V_REF, ​
+
+donde V_REF representa la tensión de referencia utilizada por el ADC.
+
+Conversión de los valores ADC
+Los valores obtenidos por el ADC no se utilizan directamente. Primero se transforman al rango requerido por la aplicación.
+
+1. Conversión a posición
+Los dos primeros canales se utilizan para obtener posiciones dentro de la matriz LED.
+La matriz posee 32 posiciones por eje, numeradas de: 0 a 31.
+La conversión implementada es:
+
+      uint8_t adc_a_posicion(uint16_t valor_raw) {
+          return (uint8_t)((valor_raw * 32) / 4096);
+      }
+La relación utilizada es:
+      posición = (ADC*32)/ 4096
+
+Debido a que el resultado se almacena en un uint8_t, el rango resultante es adecuado para representar las posiciones de la matriz.
+Algunos valores representativos son:
+  Valor ADC	            Posición
+      0	                   0
+    1024	                 8
+    2048	                 16
+    3072	                 24
+    4095	                 31
+
+De esta manera, el recorrido completo del potenciómetro se corresponde con prácticamente todo el rango de posiciones disponible.
+
+2. Conversión a brillo
+El tercer potenciómetro se utiliza para determinar el nivel de brillo.
+Para ello, el valor de 12 bits del ADC se transforma a un valor de 8 bits mediante:
+
+      uint8_t adc_a_brillo(uint16_t valor_raw) {
+          return (uint8_t)(valor_raw >> 4);
+      }
+El desplazamiento:
+        valor_raw >> 4
+es equivalente a dividir el valor por 16.
+
+Por lo tanto:
+      Brillo ≈ ADC / 16
+
+El resultado queda comprendido entre:
+      0 ≤ Brillo ≤255
+Esto permite utilizar directamente el resultado como un valor de brillo de 8 bits.
+    Valor ADC	          Brillo
+        0	                0
+      1024	              64
+      2048	              128
+      3072	              192
+      4095	              255
+
+
+Función principal de lectura
+La interfaz utilizada por el resto del programa es:
+
+      void leer_potenciometros(uint8_t *r, uint8_t *g, uint8_t *b)
+
+Esta función realiza toda la cadena de procesamiento:
+
+        ADC
+         │
+         ▼
+   ┌─────────────┐
+   │ 3 canales   │
+   │ secuenciales│
+   └──────┬──────┘
+          │
+          ▼
+       raw[3]
+          │
+     ┌────┴────┐
+     │         │
+     ▼         ▼
+  raw[0]     raw[1]       raw[2]
+     │         │             │
+     ▼         ▼             ▼
+ posición    posición      brillo
+     │         │             │
+     └────┬────┴─────────────┘
+          │
+          ▼
+       filtrado
+          │
+          ▼
+      r, g, b
+
+Aunque los parámetros se denominan r, g y b, en esta aplicación representan:
+      Variable	            Función
+       r	                 Posición X
+       g	                 Posición Y
+       b	                  Brillo
+
+Filtrado de ruido
+Las lecturas de un potenciómetro pueden presentar pequeñas fluctuaciones incluso cuando la posición física de la perilla permanece constante.
+Para evitar que estas variaciones produzcan cambios innecesarios en el sistema se implementó un filtro por umbral.
+
+El umbral está definido mediante:
+      #define UMBRAL_FILTRO 2
+La función encargada del filtrado es:
+      static uint8_t aplicar_filtro_ruido(uint8_t nuevo, uint8_t anterior)
+
+La condición utilizada es:
+      if (abs((int)nuevo - (int)anterior) <= UMBRAL_FILTRO)
+
+Si la diferencia entre el nuevo valor y el anterior es menor o igual a 2, se conserva el valor anterior.
+En cambio, si la diferencia supera el umbral, se acepta el nuevo valor.
+
+Por ejemplo:
+      Valor anterior = 15
+      Valor nuevo    = 16
+      Diferencia     = 1
+      Resultado      = 15
+
+Mientras que:
+      Valor anterior = 15
+      Valor nuevo    = 19
+      Diferencia     = 4
+      Resultado      = 19
+
+Este mecanismo permite reducir las variaciones producidas por ruido eléctrico o pequeñas fluctuaciones del potenciómetro.
+
+Conservación del último valor válido
+
+La función leer_potenciometros() mantiene el último valor filtrado mediante variables estáticas:
+      
+      static uint8_t r_anterior = 0;
+      static uint8_t g_anterior = 0;
+      static uint8_t b_anterior = 0;
+
+Esto permite conservar la información entre llamadas sucesivas de la función.
+Además, ante un error de adquisición, los últimos valores válidos son devueltos al programa:
+
+      if (!leer_3_canales(raw)) {
+          *r = r_anterior;
+          *g = g_anterior;
+          *b = b_anterior;
+          return;
+      }
+
+De esta manera, una falla temporal en la adquisición no genera valores indefinidos ni modifica abruptamente el comportamiento de la aplicación.
+
+Timeout de adquisición
+Para evitar que el programa quede esperando indefinidamente una conversión, se establece:
+      #define POLL_TIMEOUT_MS 10
+
+Cada conversión dispone de un tiempo máximo de espera de 10 ms.
+Si alguna conversión no finaliza correctamente dentro de ese período: se detiene el ADC.
+La función informa un error mediante false. No se actualizan los valores procesados.
+Se conservan los últimos valores válidos.
+
+Esto proporciona un mecanismo básico de detección y recuperación ante errores de adquisición.
+
+Inicialización
+La función:
+      void pote_init(void)
+no realiza una inicialización específica del ADC:
+      void pote_init(void) {
+          /* Con polling no hace falta arrancar nada de antemano */
+      }
+
+Esto se debe a que el ADC se inicia cada vez que se realiza una lectura mediante:
+      HAL_ADC_Start(&hadc1);
+
+Por lo tanto, la configuración de ADC1 propiamente dicha se realiza mediante la inicialización generada por STM32CubeMX/CubeIDE, mientras que el módulo de potenciómetros se encarga de ejecutar las conversiones y procesar sus resultados.
+
+Detección de cambios de posición
+Además de la adquisición, el módulo incorpora la función:
+
+      bool posicion_cambio(uint8_t x, uint8_t y)
+Esta función permite determinar si la posición actual es diferente de la posición anterior.
+
+Internamente mantiene:
+      static uint8_t old_x = POSICION_INICIAL;
+      static uint8_t old_y = POSICION_INICIAL;
+
+con:
+      #define POSICION_INICIAL 255
+
+Cuando se detecta una modificación:
+      if (x != old_x || y != old_y)
+se actualizan las posiciones almacenadas y la función devuelve:
+      true
+
+Si la posición permanece igual, devuelve:
+      false
+
+Esto permite evitar actualizaciones innecesarias de la matriz cuando el usuario no modificó la posición.
+
+Flujo completo del procesamiento
+
+El funcionamiento completo del módulo puede resumirse de la siguiente manera:
+
+        Potenciómetros
+              │
+              ▼
+        ┌───────────┐
+        │   ADC1    │
+        │  12 bits  │
+        └─────┬─────┘
+              │
+              ▼
+        Lectura secuencial
+          de 3 canales
+              │
+              ▼
+           raw[3]
+              │
+       ┌──────┼──────┐
+       ▼      ▼      ▼
+     raw[0] raw[1] raw[2]
+       │      │      │
+       ▼      ▼      ▼
+      Pos X  Pos Y  Brillo
+       │      │      │
+       └──────┼──────┘
+              ▼
+        Filtro de ruido
+              │
+              ▼
+        Valores válidos
+              │
+              ▼
+     Detección de cambios
+              │
+              ▼
+       Control de matriz
+
+Consideraciones sobre DMA
+En la versión actual del programa no se utiliza DMA para la adquisición del ADC.
+La adquisición se realiza mediante polling:
+      
+      HAL_ADC_Start()
+      HAL_ADC_PollForConversion()
+      HAL_ADC_GetValue()
+      HAL_ADC_Stop()
+
+Esto significa que el procesador permanece involucrado durante la espera de cada conversión.
+La utilización de DMA sería una alternativa para transferir automáticamente los resultados del ADC a memoria, reduciendo la intervención de la CPU. Sin embargo, no corresponde documentar DMA como parte de la implementación actual, ya que no está presente en este código.
+
+Resumen de parámetros
+        Parámetro	          Implementación
+        Periférico	            ADC1
+        Resolución	           12 bits
+        Rango ADC	             0 – 4095
+      Cantidad de canales	        3
+      Adquisición	             Polling
+          DMA	                No utilizado
+        Timeout                	10 ms
+      Posición X	              raw[0]
+      Posición Y	              raw[1]
+        Brillo	                raw[2]
+      Posición	                0 – 31
+      Brillo	                  0 – 255
+      Filtro	                Umbral de ±2
+    Detección de cambio	    posicion_cambio()
