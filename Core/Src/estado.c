@@ -28,6 +28,7 @@ void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
 
     switch (nuevo_estado) {
         case ESTADO_MENU_PRINCIPAL:
+			frameBufferLandingScreen();
             menuPrincipalEntrar();
             break;
         case ESTADO_CAMBIANDO_BRILLO:
