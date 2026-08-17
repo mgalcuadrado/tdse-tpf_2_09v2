@@ -19,6 +19,7 @@ static uint8_t valor_b = 0;
 static bool leer_3_canales(uint16_t raw[3]) {
     for (int i = 0; i < 3; i++) {
         if (HAL_ADC_Start(&hadc1) != HAL_OK) {
+            HAL_ADC_Stop(&hadc1);
             return false;
         }
 
