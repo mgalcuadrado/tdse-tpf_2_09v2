@@ -4,12 +4,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-
 typedef struct {
     uint8_t r;
     uint8_t g;
     uint8_t b;
 } Potenciometros_t;
+
 
 void pote_init(void);
 
@@ -17,6 +17,6 @@ uint8_t adc_a_color(uint16_t valor_raw);
 
 void escrutar_potenciometros(void);
 
-Potenciometros_t obtener_potenciometros(void);
+Potenciometros_t obtenerPotenciometros(void);
 
 #endif
