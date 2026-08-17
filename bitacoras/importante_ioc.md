@@ -17,7 +17,7 @@ G2   | PC7
 B2   | PC11
 
 >A   | PB10
-CLK | PA10 //Nota: en la ST de Mechi que tiene fallado este pin CLK va al PB13
+CLK |  PB13
 LAT | PA6
 OE  | PA9
 
