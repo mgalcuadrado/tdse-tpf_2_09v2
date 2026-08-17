@@ -12,6 +12,7 @@
 #include <string.h>
 #include "matriz.h"
 #include "boton.h"
+#include "stm32f1xx_hal.h"
 
 /*Funciones*/
 Secuencia_t* secuenciaCrear() {
@@ -23,7 +24,7 @@ Secuencia_t* secuenciaCrear() {
 
     s->indice_sec = 0;
     secuenciaVaciar(s);
-
+    srand(HAL_GetTick());
     for (uint8_t i = 0; i < CANT_ELEMENTOS; i++){
         uint8_t ran = rand() % 2; //Se usar srand(GetTickCount()) en el main que funcione adecuadamente
         s->lista_sec[0][i] = (ran == 0) ? 0 : 255;
