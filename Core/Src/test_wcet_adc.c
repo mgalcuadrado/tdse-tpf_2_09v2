@@ -6,6 +6,7 @@
 
 #include "core_cm3.h"
 
+
 #define CPU_FREQ_MHZ          64U
 #define NUM_MEDICIONES_WCET  1000U
 
@@ -19,12 +20,7 @@ void testWCETADC(void) {
 
     uint64_t suma = 0;
 
-
-    //VARIABLES DE RESULTADO DEL ADC
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
-
+    //Se mide escrutar_potenciometros() - contiene la lectura ADC por polling, el procesamiento y el filtrado.
 
     while (mediciones < NUM_MEDICIONES_WCET) {
         uint32_t inicio;
@@ -32,36 +28,43 @@ void testWCETADC(void) {
         uint32_t ciclos;
 
         inicio = DWT->CYCCNT;
-        leer_potenciometros(&r, &g, &b);
+
+        escrutar_potenciometros();
+
         fin = DWT->CYCCNT;
+
         ciclos = fin - inicio;
 
-
-        //ACTUALIZAR ESTADÍSTICAS
-        if (ciclos > wcet)  {
+        //ACTUALIZAR
+        if (ciclos > wcet) {
             wcet = ciclos;
         }
+
 
         if (ciclos < minimo) {
             minimo = ciclos;
         }
 
         suma += ciclos;
+
         mediciones++;
     }
 
+
     //PROMEDIO
     uint32_t promedio = (uint32_t)(suma / mediciones);
-    //A MICROSEGUNDOS
+
+
+    //CONVERSIÓN A MICROSEGUNDOS
     uint32_t wcet_us_x1000 = (wcet * 1000UL) / CPU_FREQ_MHZ;
 
     uint32_t minimo_us_x1000 = (minimo * 1000UL) / CPU_FREQ_MHZ;
 
     uint32_t promedio_us_x1000 = (promedio * 1000UL) / CPU_FREQ_MHZ;
 
-    printf("\r\n");
-    printf(" TEST WCET - ADC\r\n");
-    
+    //RESULTADOS
+    printf("TEST WCET - ADC\r\n");
+
     printf("Mediciones: %lu\r\n", (unsigned long)mediciones);
     printf("\r\n");
 
