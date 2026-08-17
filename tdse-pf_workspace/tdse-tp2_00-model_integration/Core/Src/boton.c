@@ -8,6 +8,8 @@
 #include "main.h"
 #include "boton.h"
 
+static BotonEvento_t ultimoEvento = BOTON_NINGUNO;
+
 BotonEvento_t botonLeer() {
     static uint32_t ultimoTiempo = 0;
 
@@ -78,3 +80,8 @@ BotonEvento_t botonLeer() {
 
     return evento;
 }
+
+BotonEvento_t botonUltimoEvento (void) {
+	return ultimoEvento;
+}
+

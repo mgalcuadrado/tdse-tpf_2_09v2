@@ -2,7 +2,13 @@
 
 #include "lcd.h"
 
+
+
 static I2C_HandleTypeDef *lcd_hi2c;
+
+static char bufferLCD[LCD_FILAS][LCD_COLUMNAS+1];		//Es lo que se manda al actuador para imprimir
+static bool refreshearLCD = false;						//Indica al actuador que tiene que updatear el lcd
+
 //Lista de comandos con rs=0
 
 //0x01 limmpia el display, vuelve el cursor a 0,0
@@ -60,7 +66,7 @@ void lcdBorrar(void) {
 
 // Posiciona el cursor en un LCD 2004 (4 lineas x 20 columnas)
 void lcdSetearCursor(uint8_t col, uint8_t fil) {
-    uint8_t offsets[] = {0x00, 0x40, 0x14, 0x54};
+    uint8_t offsets[] = {0x00, 0x40, 0x14, 0x54};	//Las direcciones de memoria DDRAM de cada fila están desordenadas
     if (fil < 4) {
         lcdMandarComando(0x80 | (offsets[fil] + col));
     }
@@ -92,4 +98,59 @@ void lcdInicializar(I2C_HandleTypeDef *hi2c) {
     lcdMandarComando(0x0C); // Display ON, Cursor OFF, Parpadeo OFF
     lcdBorrar();
     lcdMandarComando(0x06); // Es para que el cursor avance cada vez que se escribe un caracter
+}
+
+//Funcion que se llamará en la tarea procesar, manda al buffer lo que se imprimirá en el actuador
+void lcdBufferearLinea(uint8_t linea, char* cadena){
+	if (linea >= LCD_FILAS || cadena == NULL) {
+		return;
+	}
+
+	//Primero se revisa si cambió respecto a lo anteriormente mostrado
+	//Si cambió, pongo la flag de refreshearLCD en true
+	uint8_t i=0;
+	while (cadena[i] != '\0' && i < LCD_COLUMNAS) {
+
+	        if (bufferLCD[linea][i] != cadena[i]) {
+	            bufferLCD[linea][i] = cadena[i];
+	            refreshearLCD = true;
+	        }
+	        i++;
+	}
+
+	//Le pongo espacios en los caracteres vacíos porque la ejecución de lcdBorrar demora 2ms aprox
+
+	while (i < LCD_COLUMNAS) {
+	        if (bufferLCD[linea][i] != ' ') {
+	            bufferLCD[linea][i] = ' ';
+	            refreshearLCD = true;
+	        }
+	        i++;
+	    }
+	bufferLCD[linea][LCD_COLUMNAS] = '\0';
+}
+
+//Esta función se llama en el actuador, toma el buffer y lo imprime.
+void lcdActuar(){
+	if(refreshearLCD==false){
+		return;
+	}
+
+	for (uint8_t fil = 0; fil < LCD_FILAS; fil++) {
+	        lcdSetearCursor(0, fil);
+	        lcdPrint(bufferLCD[fil]);
+	}
+	refreshearLCD=false;
+}
+
+//Borrar buffer para el procesar, menos bloqueante que con el comando.
+void lcdVaciarBuffer(){
+	for (uint8_t fil = 0; fil < LCD_FILAS; fil++) {
+		for (uint8_t col = 0; col < LCD_COLUMNAS; col++) {
+			if (bufferLCD[fil][col] != ' ') {
+				bufferLCD[fil][col] = ' ';
+				refreshearLCD = true;
+			}
+		}
+	}
 }

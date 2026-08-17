@@ -30,7 +30,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/matriz.h ../Core/Inc/mem.h ../Core/Inc/matriz.h \
  ../Core/Inc/lcd.h ../Core/Inc/boton.h ../Core/Inc/estado.h \
  ../Core/Inc/boton.h ../Core/Inc/hub75.h ../Core/Inc/main.h \
- ../Core/Inc/frame_buffer.h ../Core/Inc/frame_buffer.h
+ ../Core/Inc/frame_buffer.h ../Core/Inc/frame_buffer.h \
+ ../Core/Inc/potenciometro.h ../Core/Inc/app.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
@@ -71,3 +72,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/main.h:
 ../Core/Inc/frame_buffer.h:
 ../Core/Inc/frame_buffer.h:
+../Core/Inc/potenciometro.h:
+../Core/Inc/app.h:

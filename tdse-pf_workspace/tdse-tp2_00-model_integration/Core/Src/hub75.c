@@ -21,35 +21,28 @@
  GPIOC: R1,G1,B1,R2,G2,B2
 */
 static int fila_actual = 0;
-//static int contador = 0;
+
 static int brillo_pantalla;
-static int brillo_contador  = 0;
 void hub75Init(void){
 	GPIOA -> BSRR = OE_Pin | (LAT_Pin<<16);
 	GPIOB -> BSRR = (A_Pin | CLK_Pin)<<16;
 	GPIOC->BSRR= (R1_Pin | G1_Pin | BL1_Pin | R2_Pin | G2_Pin | B2_Pin)<<16;
 	//GPIOC->BSRR= parpixeles_R1;
 	brillo_pantalla = 100;
-	brillo_contador = 1;
+
 }
 
 
 void hub75SetBrightness(int brillo){
 	brillo_pantalla = brillo;
-	brillo_contador  = (100/brillo)-1;
-
 }
 
 const uint32_t B1_R2 = BL1_Pin | R2_Pin  | (( B2_Pin | G2_Pin | G1_Pin | R1_Pin)<<16);
 const uint32_t G1_G2 = G1_Pin | G2_Pin  | (( B2_Pin | R2_Pin | R1_Pin | BL1_Pin)<<16);
 
 void hub75Refresh(void){
-//brillo
-	/*
-	if (contador != 0) {
-		contador++;
-		if (contador == brillo_contador) contador = 0;
-	}*/
+
+
 	//Grabado de datos en la pantalla
 //	uint32_t buffer_actual[BUFFER_COLUMNAS] = framebuffer[fila_actual];
 	for (int columna = 0;columna < BUFFER_COLUMNAS; columna++){

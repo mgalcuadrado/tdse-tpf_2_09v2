@@ -23,16 +23,16 @@ typedef enum {
 	ESTADO_LIMPIAR_SECUENCIA
 } EstadoSistema_t;
 
-// Llamar una sola vez al arrancar, después de los inits de HAL/periféricos
+
 void sistemaInit(void);
 
-// Llamar una vez por vuelta del loop principal, con el evento leído por botonLeer()
-void sistemaTick(BotonEvento_t input);
+void sistemaProcesar(void); // Adjunta todas las funciones necesarias para el funcionamiento del menu
 
-// Usada por los módulos de menú para pedir una transición de pantalla
-void sistemaCambiarEstado(EstadoSistema_t nuevo_estado);
+void sistemaTick(BotonEvento_t input);// Llamar una vez por vuelta del loop principal, con el evento leído por botonLeer()
 
-void sistemaTickTiempo(void); // no depende de botones, se llama siempre
+void sistemaCambiarEstado(EstadoSistema_t nuevo_estado); // Usada por los módulos de menú para pedir una transición de pantalla
+
+void sistemaTickTiempo(void); // no depende de botones
 
 Matriz_t* sistemaObtenerMatrizActiva(void);
 

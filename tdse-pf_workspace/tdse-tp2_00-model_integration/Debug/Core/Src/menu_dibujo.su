@@ -1,9 +1,9 @@
-../Core/Src/menu_dibujo.c:26:6:menuDibujoEntrar	8	static
+../Core/Src/menu_dibujo.c:27:6:menuDibujoEntrar	8	static
 ../Core/Src/menu_dibujo.c:45:6:menuDibujoMostrar	80	static
-../Core/Src/menu_dibujo.c:78:6:menuDibujoOpcionElegida	16	static
-../Core/Src/menu_dibujo.c:124:6:menuDibujoTick	16	static
-../Core/Src/menu_dibujo.c:155:6:menuDibujoDibujarTick	56	static
-../Core/Src/menu_dibujo.c:202:6:menuDibujoDibujarPrint	16	static
-../Core/Src/menu_dibujo.c:232:6:menuDibujoCambiarPincelTick	16	static
-../Core/Src/menu_dibujo.c:240:11:menuDibujoObtenerMatriz	4	static
-../Core/Src/menu_dibujo.c:247:6:menuDibujoLimpiandoTick	16	static
+../Core/Src/menu_dibujo.c:76:6:menuDibujoOpcionElegida	16	static
+../Core/Src/menu_dibujo.c:116:6:menuDibujoTick	16	static
+../Core/Src/menu_dibujo.c:148:6:menuDibujoDibujarTick	56	static
+../Core/Src/menu_dibujo.c:195:6:menuDibujoDibujarPrint	16	static
+../Core/Src/menu_dibujo.c:219:6:menuDibujoCambiarPincelTick	64	static
+../Core/Src/menu_dibujo.c:260:11:menuDibujoObtenerMatriz	4	static
+../Core/Src/menu_dibujo.c:267:6:menuDibujoLimpiandoTick	16	static

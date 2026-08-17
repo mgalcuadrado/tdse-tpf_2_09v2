@@ -22,6 +22,7 @@
 static Dibujo_t* dibujo_actual = NULL;
 static char seleccion[6] = {'*', ' ', ' ', ' ', ' '}; // 5 opciones + \n
 static int indice_seleccion = 0;
+static bool pincel_cambiado = false;
 
 void menuDibujoEntrar(void) {
     // El dibujo se crea una sola vez (la primera vez que se entra al menú)
@@ -38,38 +39,35 @@ void menuDibujoEntrar(void) {
 
     indice_seleccion = 0;
     seleccion[0] = '*';
-    lcdBorrar();
     menuDibujoMostrar(seleccion, indice_seleccion);
 }
 
 void menuDibujoMostrar(char seleccion[6], int indice_seleccion) {
-    char mensaje1[MAX_CARACTERES_MENSAJE];
-    char mensaje2[MAX_CARACTERES_MENSAJE];
-    char mensaje3[MAX_CARACTERES_MENSAJE];
+	lcdVaciarBuffer();
+    char mensaje0[LCD_COLUMNAS];
+    char mensaje1[LCD_COLUMNAS];
+    char mensaje2[LCD_COLUMNAS];
 
     if (indice_seleccion < 3) {
-        snprintf(mensaje1, sizeof(mensaje1), "(%c) Dibujar", seleccion[0]);
-        snprintf(mensaje2, sizeof(mensaje2), "(%c) Nuevo Dibujo", seleccion[1]);
-        snprintf(mensaje3, sizeof(mensaje3), "(%c) Guardar Dibujo", seleccion[2]);
+        snprintf(mensaje0, sizeof(mensaje0), "(%c) Dibujar", seleccion[0]);
+        snprintf(mensaje1, sizeof(mensaje1), "(%c) Nuevo Dibujo", seleccion[1]);
+        snprintf(mensaje2, sizeof(mensaje2), "(%c) Guardar Dibujo", seleccion[2]);
 
-        lcdSetearCursor(0, 0);
-        lcdPrint(mensaje1);
+        lcdBufferearLinea(0, mensaje0);
 
-        lcdSetearCursor(0, 1);
-        lcdPrint(mensaje2);
+        lcdBufferearLinea(1, mensaje1);
 
-        lcdSetearCursor(0, 2);
-        lcdPrint(mensaje3);
+        lcdBufferearLinea(2, mensaje2);
 
     } else if (2 < indice_seleccion && indice_seleccion < 5) {
-        snprintf(mensaje1, sizeof(mensaje1), "(%c) Cargar Dibujo", seleccion[3]);
-        snprintf(mensaje2, sizeof(mensaje2), "(%c) Cambiar Pincel", seleccion[4]);
+        snprintf(mensaje0, sizeof(mensaje0), "(%c) Cargar Dibujo", seleccion[3]);
+        snprintf(mensaje1, sizeof(mensaje1), "(%c) Cambiar Pincel", seleccion[4]);
 
         lcdSetearCursor(0, 0);
-        lcdPrint(mensaje1);
+        lcdPrint(mensaje0);
 
         lcdSetearCursor(0, 1);
-        lcdPrint(mensaje2);
+        lcdPrint(mensaje1);
     } else {
         printf("Error en el Display/MenuDibujo \n");
     }
@@ -78,39 +76,33 @@ void menuDibujoMostrar(char seleccion[6], int indice_seleccion) {
 void menuDibujoOpcionElegida(int indice_seleccion) {
     switch (indice_seleccion) {
         case 0: // Dibujar
-            lcdBorrar();
-            lcdSetearCursor(0, 0);
-            lcdPrint("Dibujando...");
-            lcdSetearCursor(0, 2);
-			lcdPrint("Presione atras");
-			lcdSetearCursor(0, 3);
-			lcdPrint("Para salir");
+        	lcdVaciarBuffer();
+			lcdBufferearLinea(0, "Dibujando...");
+			lcdBufferearLinea(2, "Presione atras");
+			lcdBufferearLinea(3, "Para salir");
             sistemaCambiarEstado(ESTADO_DIBUJANDO);
             break;
         case 1: // Nuevo Dibujo (Te manda a pedir confirmacion)
-        	lcdBorrar();
-			lcdSetearCursor(0, 0);
-			lcdPrint("Estas seguro?");
-			lcdSetearCursor(0, 1);
-			lcdPrint("Aceptar");
-			lcdSetearCursor(0, 2);
-			lcdPrint("Atras");
+        	lcdVaciarBuffer();
+			lcdBufferearLinea(0, "Estas seguro?");
+			lcdBufferearLinea(1, "-> Aceptar");
+			lcdBufferearLinea(2, "-> Atras");
 			sistemaCambiarEstado(ESTADO_LIMPIAR_DIBUJO);
             break;
         case 2: // Guardar Dibujo
-        	lcdBorrar();
-        	lcdSetearCursor(0,1);
-        	lcdPrint("Guardando...");
-            memEscribirMatriz(0x0000, dibujo_actual->matriz); // 0x000 Placeholder
-            frameBufferUpdateAll(dibujo_actual->matriz);
+        	lcdVaciarBuffer();
+        	lcdBufferearLinea(1, "Guardando. . .");
+            if (!memBufferearEscrituraMatriz(0x0000, dibujo_actual->matriz)) { //0x0000 posición de placeholder
+            	printf("Error al guardar dibujo");
+            }
+            frameBufferUpdateAll(dibujo_actual->matriz); // A revisar esto
             menuDibujoEntrar();
             break;
         case 3: // Cargar Dibujo
-        	lcdBorrar();
-			lcdSetearCursor(0,1);
-			lcdPrint("Cargando...");
-            memLeerMatriz(0x0000, dibujo_actual->matriz); // 0x000 Placeholder
-            frameBufferUpdateAll(dibujo_actual->matriz);
+        	lcdVaciarBuffer();
+			lcdBufferearLinea(1, "Cargando...");
+			memLeerMatriz(0x0000, dibujo_actual->matriz); // 0x000 Placeholder
+            frameBufferUpdateAll(dibujo_actual->matriz); // A revisar esto
             menuDibujoEntrar();
             break;
         case 4: // Cambiar Pincel -> transición de estado
@@ -127,14 +119,14 @@ void menuDibujoTick(BotonEvento_t input) {
             seleccion[indice_seleccion] = ' ';
             indice_seleccion = (indice_seleccion >= 4) ? 0 : indice_seleccion + 1;
             seleccion[indice_seleccion] = '*';
-            lcdBorrar();
+
             menuDibujoMostrar(seleccion, indice_seleccion);
             break;
         case BOTON_ARRIBA:
             seleccion[indice_seleccion] = ' ';
             indice_seleccion = (indice_seleccion <= 0) ? 4 : indice_seleccion - 1;
             seleccion[indice_seleccion] = '*';
-            lcdBorrar();
+
             menuDibujoMostrar(seleccion, indice_seleccion);
             break;
         case BOTON_ACEPTAR:
@@ -142,6 +134,7 @@ void menuDibujoTick(BotonEvento_t input) {
             menuDibujoOpcionElegida(indice_seleccion);
             break;
         case BOTON_ATRAS:
+        	dibujoReiniciar(dibujo_actual);
         	seleccion[indice_seleccion] = ' ';
             dibujoBorrar(dibujo_actual);
             dibujo_actual = NULL;
@@ -160,6 +153,7 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
         case BOTON_DERECHA:
         	dibujoPintar(dibujo_actual,dibujo_actual->color_anterior->r, dibujo_actual->color_anterior->g,dibujo_actual->color_anterior->b);
             dibujoAvanzar(dibujo_actual, input);
+
             menuDibujoDibujarPrint(input);
             break;
         case BOTON_ACEPTAR:
@@ -173,11 +167,11 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
         	dibujo_actual->color_anterior->r = r;
 			dibujo_actual->color_anterior->g = g;
 			dibujo_actual->color_anterior->b = b;
-			char mensaje2[MAX_CARACTERES_MENSAJE];
-			snprintf(mensaje2, sizeof(mensaje2), "r %d g %d b %d", r,g,b);
-			lcdBorrar();
-			lcdSetearCursor(0, 0);
-			lcdPrint(mensaje2);
+			char mensaje1[LCD_COLUMNAS];
+			snprintf(mensaje1, sizeof(mensaje1), "r %d g %d b %d", r,g,b);
+			lcdVaciarBuffer();
+			lcdBufferearLinea(0, "Patron RGB:");
+			lcdBufferearLinea(1, mensaje1);
 			// Se redibuja el cursor porque a veces se tapa
 			uint8_t base_fil = (dibujo_actual->indice_fil/dibujo_actual->tam_pincel) * dibujo_actual->tam_pincel;
 			uint8_t base_col = (dibujo_actual->indice_col/dibujo_actual->tam_pincel) * dibujo_actual->tam_pincel;
@@ -187,11 +181,10 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
 				}
 			}
 
-			frameBufferUpdateAll(dibujo_actual->matriz);
+			frameBufferUpdateAll(dibujo_actual->matriz); // Check
             break;
         case BOTON_ATRAS:
             sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
-            lcdBorrar();
             menuDibujoMostrar(seleccion, indice_seleccion); // reimprime el menú al volver
             break;
         default:
@@ -200,29 +193,23 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
 }
 
 void menuDibujoDibujarPrint(BotonEvento_t input) {
-	lcdBorrar();
-	lcdSetearCursor(0, 0);
-	lcdPrint("Dibujando...");
-	lcdSetearCursor(0, 2);
-	lcdPrint("Presione atras");
-	lcdSetearCursor(0, 3);
-	lcdPrint("Para salir");
+	lcdVaciarBuffer();
+	lcdBufferearLinea(0, "Dibujando...");
+	lcdBufferearLinea(2, "Presione atras");
+	lcdBufferearLinea(3, "Para salir");
+
 	switch (input) {
 	case BOTON_ARRIBA:
-		lcdSetearCursor(0, 1);
-		lcdPrint("-> Arriba");
+		lcdBufferearLinea(1, "-> Arriba");
 		break;
 	case BOTON_ABAJO:
-		lcdSetearCursor(0, 1);
-		lcdPrint("-> Abajo");
+		lcdBufferearLinea(1, "-> Abajo");
 		break;
 	case BOTON_DERECHA:
-		lcdSetearCursor(0, 1);
-		lcdPrint("-> Derecha");
+		lcdBufferearLinea(1, "-> Derecha");
 		break;
 	case BOTON_IZQUIERDA:
-		lcdSetearCursor(0, 1);
-		lcdPrint("-> Izquierda");
+		lcdBufferearLinea(1, "-> Izquierda");
 		break;
 	default:
 		break;
@@ -230,11 +217,44 @@ void menuDibujoDibujarPrint(BotonEvento_t input) {
 }
 
 void menuDibujoCambiarPincelTick(BotonEvento_t input) {
-    if (dibujoCambiarPincelTick(dibujo_actual, input)) {
-        sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
-        lcdBorrar();
-        menuDibujoMostrar(seleccion, indice_seleccion);
-    }
+	if (dibujo_actual == NULL) return;
+	if (pincel_cambiado) {
+		pincel_cambiado = false;
+		menuDibujoMostrar(seleccion, indice_seleccion);
+		sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
+	}
+	switch (input) {
+	case BOTON_ARRIBA:
+		dibujo_actual->tam_pincel = dibujo_actual->tam_pincel * 2;
+		break;
+	case BOTON_ABAJO:
+		dibujo_actual->tam_pincel = dibujo_actual->tam_pincel / 2;
+		break;
+	case BOTON_ACEPTAR:
+	case BOTON_ATRAS:
+		pincel_cambiado = true; // Terminó
+		break;
+	default:
+		break;
+	}
+
+	if (dibujo_actual->tam_pincel > 8){
+		dibujo_actual->tam_pincel = 1;
+	} else if (dibujo_actual->tam_pincel < 1) {
+		dibujo_actual->tam_pincel = 8;
+	}
+
+	lcdVaciarBuffer();
+	dibujo_actual->indice_fil = (dibujo_actual->indice_fil / dibujo_actual->tam_pincel) * dibujo_actual->tam_pincel;
+	dibujo_actual->indice_col = (dibujo_actual->indice_col / dibujo_actual->tam_pincel) * dibujo_actual->tam_pincel;
+
+	char mensaje0[LCD_COLUMNAS];
+	char mensaje1[LCD_COLUMNAS];
+	snprintf(mensaje0, sizeof(mensaje0), "Medida del Pincel:");
+	snprintf(mensaje1, sizeof(mensaje1), "%d x %d", dibujo_actual->tam_pincel, dibujo_actual->tam_pincel);
+
+	lcdBufferearLinea(0, mensaje0);
+	lcdBufferearLinea(1, mensaje1);
 }
 
 Matriz_t* menuDibujoObtenerMatriz(void) {
@@ -248,18 +268,18 @@ void menuDibujoLimpiandoTick(BotonEvento_t input) {
     switch (input) {
         case BOTON_ACEPTAR:
             dibujoReiniciar(dibujo_actual);
-            frameBufferUpdateAll(dibujo_actual->matriz);
+            frameBufferUpdateAll(dibujo_actual->matriz); //Check
 
             // Vuelvo al menu de dibujo y reimprimo en el lcd
             sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
-            lcdBorrar();
+
             menuDibujoMostrar(seleccion, indice_seleccion);
             break;
 
         case BOTON_ATRAS:
             // Vuelvo al menu de dibujo pero sin borrar nada
             sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
-            lcdBorrar();
+
             menuDibujoMostrar(seleccion, indice_seleccion);
             break;
 

@@ -1,0 +1,5 @@
+../Core/Src/app.c:23:6:appInit	8	static
+../Core/Src/app.c:33:6:appUpdate	4	static
+../Core/Src/app.c:39:6:taskEscrutar	8	static
+../Core/Src/app.c:45:6:taskProcesar	8	static
+../Core/Src/app.c:48:6:taskActuar	8	static

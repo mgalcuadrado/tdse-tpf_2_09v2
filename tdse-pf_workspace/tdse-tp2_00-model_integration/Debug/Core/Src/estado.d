@@ -1,6 +1,7 @@
 Core/Src/estado.o: ../Core/Src/estado.c ../Core/Inc/estado.h \
- ../Core/Inc/boton.h ../Core/Inc/matriz.h ../Core/Inc/menu_principal.h \
- ../Core/Inc/mem.h ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+ ../Core/Inc/boton.h ../Core/Inc/matriz.h ../Core/Inc/boton.h \
+ ../Core/Inc/menu_principal.h ../Core/Inc/mem.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -30,10 +31,11 @@ Core/Src/estado.o: ../Core/Src/estado.c ../Core/Inc/estado.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
  ../Core/Inc/secuencia.h ../Core/Inc/frame_buffer.h ../Core/Inc/main.h \
  ../Core/Inc/lcd.h ../Core/Inc/menu_dibujo.h ../Core/Inc/dibujo.h \
- ../Core/Inc/menu_secuencia.h ../Core/Inc/potenciometro.h
+ ../Core/Inc/menu_secuencia.h ../Core/Inc/matrizinicio.h
 ../Core/Inc/estado.h:
 ../Core/Inc/boton.h:
 ../Core/Inc/matriz.h:
+../Core/Inc/boton.h:
 ../Core/Inc/menu_principal.h:
 ../Core/Inc/mem.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
@@ -71,4 +73,4 @@ Core/Src/estado.o: ../Core/Src/estado.c ../Core/Inc/estado.h \
 ../Core/Inc/menu_dibujo.h:
 ../Core/Inc/dibujo.h:
 ../Core/Inc/menu_secuencia.h:
-../Core/Inc/potenciometro.h:
+../Core/Inc/matrizinicio.h:

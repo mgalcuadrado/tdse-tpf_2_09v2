@@ -23,7 +23,7 @@ static char seleccion[3] = {'*', ' '};
 static int indice_seleccion = 0;
 
 // Pantalla "mostrar secuencia"
-#define TIEMPO_MOSTRAR_SECCION_MS 500 //Originalmente 2000
+#define TIEMPO_MOSTRAR_SECCION_MS 1000 //Originalmente 2000
 
 static uint8_t indice_mostrando = 0;
 static uint32_t tiempo_ultima_seccion = 0;
@@ -77,22 +77,21 @@ void menuSecuenciaEntrar(void) {
     indice_seleccion = 0;
     seleccion[0] = '*';
     seleccion[1] = ' ';
-    lcdBorrar();
     menuSecuenciaPrint(seleccion, indice_seleccion);
 }
 
 void menuSecuenciaPrint(char seleccion[3], int indice_seleccion) {
-    char mensaje1[MAX_CARACTERES_MENSAJE];
-    char mensaje2[MAX_CARACTERES_MENSAJE];
+	lcdVaciarBuffer();
 
-    snprintf(mensaje1, sizeof(mensaje1), "(%c) Jugar Secuencia", seleccion[0]);
-    snprintf(mensaje2, sizeof(mensaje2), "(%c) Borrar Secuencia", seleccion[1]);
+    char mensaje0[LCD_COLUMNAS];
+    char mensaje1[LCD_COLUMNAS];
 
-    lcdSetearCursor(0, 0);
-    lcdPrint(mensaje1);
+    snprintf(mensaje0, sizeof(mensaje0), "(%c) Jugar Sec.", seleccion[0]);
+    snprintf(mensaje1, sizeof(mensaje1), "(%c) Borrar Sec,", seleccion[1]);
 
-    lcdSetearCursor(0, 1);
-    lcdPrint(mensaje2);
+    lcdBufferearLinea(0, mensaje0);
+    lcdBufferearLinea(1, mensaje1);
+
 }
 
 void menuSecuenciaOpcionElegida(int indice_seleccion) {
@@ -103,13 +102,11 @@ void menuSecuenciaOpcionElegida(int indice_seleccion) {
             sistemaCambiarEstado(ESTADO_MOSTRANDO_SECUENCIA);
             break;
         case 1: // Limpiar Secuencia
-        	lcdBorrar();
-			lcdSetearCursor(0, 0);
-			lcdPrint("Estas seguro?");
-			lcdSetearCursor(0, 1);
-			lcdPrint("Aceptar");
-			lcdSetearCursor(0, 2);
-			lcdPrint("Atras");
+        	lcdVaciarBuffer();
+
+			lcdBufferearLinea(0, "Estas seguro?");
+			lcdBufferearLinea(1, "-> Aceptar");
+			lcdBufferearLinea(2, "-> Atras");
 			sistemaCambiarEstado(ESTADO_LIMPIAR_SECUENCIA);
             break;
         default:
@@ -124,14 +121,16 @@ void menuSecuenciaTick(BotonEvento_t input) {
             seleccion[indice_seleccion] = ' ';
             indice_seleccion = (indice_seleccion == 1) ? 0 : 1;
             seleccion[indice_seleccion] = '*';
-            lcdBorrar();
+
             menuSecuenciaPrint(seleccion, indice_seleccion);
             break;
         case BOTON_ACEPTAR:
+        	seleccion[indice_seleccion] = ' ';
             menuSecuenciaOpcionElegida(indice_seleccion);
             break;
         case BOTON_ATRAS:
             secuenciaBorrar(secuencia_actual);
+            matrizLlenar(matriz_actual, 0, 0, 0);
             matrizBorrar(matriz_actual);
             secuencia_actual = NULL;
             matriz_actual = NULL;
@@ -150,11 +149,9 @@ void menuSecuenciaMostrarEntrar(void) {
     mostrando_iniciado = false;
     orden_contador = 0;
 
-    lcdBorrar();
-    lcdSetearCursor(0, 0);
-    lcdPrint("Memoriza la");
-    lcdSetearCursor(0, 1);
-    lcdPrint("Secuencia");
+    lcdVaciarBuffer();
+    lcdBufferearLinea(0, "Memoriza la");
+    lcdBufferearLinea(1, "Secuencia");
 
     matrizLlenar(matriz_actual, 0, 0, 0);
     frameBufferUpdateAll(matriz_actual);
@@ -194,13 +191,10 @@ void menuSecuenciaMostrarTick(void) {
         secuenciaPintarSeccion(matriz_actual, 0, 250, 0, 0); // cursor inicial
         frameBufferUpdateAll(matriz_actual);
 
-        lcdBorrar();
-        lcdSetearCursor(0, 0);
-        lcdPrint("Repeti Secuencia");
-        lcdSetearCursor(0, 2);
-        lcdPrint("Presione atras");
-        lcdSetearCursor(0, 3);
-        lcdPrint("Para salir");
+        lcdVaciarBuffer();
+		lcdBufferearLinea(0, "Repeti Secuencia");
+		lcdBufferearLinea(2, "Presione atras");
+		lcdBufferearLinea(3, "Para salir");
 
         sistemaCambiarEstado(ESTADO_COMPLETANDO_SECUENCIA);
         return;
@@ -230,13 +224,11 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
 	}
 
 	if (secuenciaCompleta(secuencia_actual)) {
-    	lcdBorrar();
-        lcdSetearCursor(0, 0);
-        matrizLlenar(matriz_actual, 0, 255, 0); // Toda la matriz ROJA
+		lcdVaciarBuffer();
+		lcdBufferearLinea(0, "Secuencia Completa :)");
+		lcdBufferearLinea(1, "Toca un boton");
+        matrizLlenar(matriz_actual, 0, 255, 0); // Toda la matriz VERDE
 		frameBufferUpdateAll(matriz_actual);
-        lcdPrint("Secuencia Completa :)");
-		lcdSetearCursor(0, 1);
-		lcdPrint("Toca un boton");
         static uint32_t ultimoTiempo = 0;
         if ((HAL_GetTick() - ultimoTiempo) > DEBOUNCE_MS * 40) {
 			matrizLlenar(matriz_actual, 0, 0, 0);
@@ -283,11 +275,9 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
                 matrizLlenar(matriz_actual, 255, 0, 0); // Toda la matriz ROJA
                 frameBufferUpdateAll(matriz_actual);
 
-                lcdBorrar();
-                lcdSetearCursor(0, 0);
-                lcdPrint("Error! :(");
-                lcdSetearCursor(0, 1);
-                lcdPrint("Reintentando...");
+                lcdVaciarBuffer();
+				lcdBufferearLinea(0, "Error! :(");
+				lcdBufferearLinea(1, "Reintentando...");
 
                 secuencia_fallo = true;
                 tiempo_fallo = HAL_GetTick();
@@ -311,29 +301,23 @@ Matriz_t* menuSecuenciaObtenerMatriz(void) {
 }
 
 void menuSecuenciaCompletandoPrint(BotonEvento_t input) {
-	lcdBorrar();
-	lcdSetearCursor(0, 0);
-	lcdPrint("Repeti Secuencia");
-	lcdSetearCursor(0, 2);
-	lcdPrint("Presione atras");
-	lcdSetearCursor(0, 3);
-	lcdPrint("Para salir");
+	lcdVaciarBuffer();
+	lcdBufferearLinea(0, "Repeti Secuencia");
+	lcdBufferearLinea(2, "Presione atras");
+	lcdBufferearLinea(3, "Para salir");
+
 	switch (input) {
 	case BOTON_ARRIBA:
-		lcdSetearCursor(0, 1);
-		lcdPrint("-> Arriba");
+		lcdBufferearLinea(1, "-> Arriba");
 		break;
 	case BOTON_ABAJO:
-		lcdSetearCursor(0, 1);
-		lcdPrint("-> Abajo");
+		lcdBufferearLinea(1, "-> Abajo");
 		break;
 	case BOTON_DERECHA:
-		lcdSetearCursor(0, 1);
-		lcdPrint("-> Derecha");
+		lcdBufferearLinea(1, "-> Derecha");
 		break;
 	case BOTON_IZQUIERDA:
-		lcdSetearCursor(0, 1);
-		lcdPrint("-> Izquierda");
+		lcdBufferearLinea(1, "-> Izquierda");
 		break;
 	default:
 		break;

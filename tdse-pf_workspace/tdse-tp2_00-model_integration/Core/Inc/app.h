@@ -1,9 +1,24 @@
 /*
- * hub75.h
+ * app.h
  *
- *  Created on: Jul 19, 2026
- *      Author: Mechi
+ *  Created on: Aug 14, 2026
+ *      Author: Martin
  */
 
- #include "hub75.h"
-#include "frame_buffer.h"
+#ifndef SRC_APP_H_
+#define SRC_APP_H_
+
+extern TIM_HandleTypeDef htim3;
+extern I2C_HandleTypeDef hi2c1;
+
+void appInit();
+
+void appUpdate();
+
+//mgalcuadrado: estas 3 funciones en realidad son internas del app, no necesitan estar acá en mi opinión
+void taskEscrutar();
+void taskProcesar();
+void taskActuar();
+
+
+#endif /* SRC_APP_H_ */

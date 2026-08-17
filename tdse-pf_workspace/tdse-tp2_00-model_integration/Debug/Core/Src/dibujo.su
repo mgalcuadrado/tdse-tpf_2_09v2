@@ -3,4 +3,3 @@
 ../Core/Src/dibujo.c:64:6:dibujoAvanzar	16	static
 ../Core/Src/dibujo.c:122:6:dibujoReiniciar	16	static
 ../Core/Src/dibujo.c:135:6:dibujoPintar	40	static
-../Core/Src/dibujo.c:149:6:dibujoCambiarPincelTick	64	static

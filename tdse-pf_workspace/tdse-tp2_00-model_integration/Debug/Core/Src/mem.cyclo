@@ -1,4 +1,5 @@
-../Core/Src/mem.c:22:19:memEscribir	3
-../Core/Src/mem.c:61:19:memLeer	1
-../Core/Src/mem.c:71:19:memEscribirMatriz	1
-../Core/Src/mem.c:77:19:memLeerMatriz	1
+../Core/Src/mem.c:38:19:memLeer	1
+../Core/Src/mem.c:51:6:memBufferearEscrituraMatriz	3
+../Core/Src/mem.c:72:6:memEstaOcupada	1
+../Core/Src/mem.c:77:19:memLeerMatriz	2
+../Core/Src/mem.c:85:6:memActuar	5

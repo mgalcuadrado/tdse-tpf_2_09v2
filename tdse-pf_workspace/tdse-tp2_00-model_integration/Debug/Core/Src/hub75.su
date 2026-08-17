@@ -1,4 +1,4 @@
-../Core/Src/hub75.c:27:6:hub75Init	4	static
-../Core/Src/hub75.c:37:6:hub75SetBrightness	16	static
-../Core/Src/hub75.c:46:6:hub75Refresh	16	static
-../Core/Src/hub75.c:78:6:hub75RefreshSinBuffer	16	static
+../Core/Src/hub75.c:26:6:hub75Init	4	static
+../Core/Src/hub75.c:36:6:hub75SetBrightness	16	static
+../Core/Src/hub75.c:43:6:hub75Refresh	16	static
+../Core/Src/hub75.c:71:6:hub75RefreshSinBuffer	16	static

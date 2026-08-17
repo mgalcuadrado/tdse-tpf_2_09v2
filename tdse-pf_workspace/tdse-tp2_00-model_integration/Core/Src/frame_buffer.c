@@ -20,13 +20,10 @@ void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz,
 
 //uint32_t pines_rgb = R1_Pin | G1_Pin | BL1_Pin | R2_Pin | G2_Pin | B2_Pin;
 volatile uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
+
+
 void frameBufferInit(void){
-   	//par de pixeles en negro: todos los pines_rgb se apagan (los pines están movidos al sector de reset)
-    for (int f = 0; f < BUFFER_FILAS; f++){
-        for (int c = 0; c < BUFFER_COLUMNAS; c++){
-        	framebuffer[f][c] = parpixeles_negro;
-        }
-    }
+	frameBufferLandingScreen();
 }
 
 void frameBufferLandingScreen(void){
@@ -34,6 +31,7 @@ for (int f = 0; f < 32; f++){
 		for (int c = 0; c < 32; c++){
 			if (matrizInicio[f][c]  == 1)
 				frameBufferUpdateCasillaColorDirecto(f, c, 255, 255, 255);
+			else frameBufferUpdateCasillaColorDirecto(f, c, 0, 0, 0);
 		}
 	}
 }

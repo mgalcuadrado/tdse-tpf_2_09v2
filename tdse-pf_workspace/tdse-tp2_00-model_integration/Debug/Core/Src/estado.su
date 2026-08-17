@@ -1,5 +1,6 @@
-../Core/Src/estado.c:17:6:sistemaCambiarEstado	16	static
-../Core/Src/estado.c:58:6:sistemaInit	8	static
+../Core/Src/estado.c:16:6:sistemaInit	4	static
+../Core/Src/estado.c:20:6:sistemaProcesar	16	static
+../Core/Src/estado.c:26:6:sistemaCambiarEstado	16	static
 ../Core/Src/estado.c:65:6:sistemaTick	16	static
 ../Core/Src/estado.c:111:6:sistemaTickTiempo	8	static
 ../Core/Src/estado.c:119:11:sistemaObtenerMatrizActiva	8	static
