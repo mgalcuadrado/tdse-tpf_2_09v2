@@ -17,7 +17,7 @@
 
 #define EEPROM_I2C_ADDR       (0x50 << 1)  // Dirección I2C base de la AT24C256
 #define EEPROM_PAGE_SIZE      64           // Tamaño de página de la AT24C256 (64 bytes)
-
+#define TIEMPO_ESPERA_MEMORIA 5			   // Tiempo en ms para
 
 //V2 con arquitectura nueva
 
@@ -105,7 +105,9 @@ void memActuar(void) {
     HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, EEPROM_I2C_ADDR, addrActual,
                                                 I2C_MEMADD_SIZE_16BIT,
                                                 &bufferMemoria[bytesEscritos],
-                                                sizeFragmento, 100);
+                                                sizeFragmento, 10);
+
+    ultimoTiempo = HAL_GetTick();
 
     if (status == HAL_OK) {
 
@@ -113,11 +115,15 @@ void memActuar(void) {
         addrActual += sizeFragmento;
         bytesEscritos += sizeFragmento;
         bytesRestantesAEscribir -= sizeFragmento;
-        ultimoTiempo = HAL_GetTick(); // Guardamos el tiempo de esta página
 
 
         if (bytesRestantesAEscribir == 0) {
-            memEscribiendo = false; // Baja la flag si
+            memEscribiendo = false; // Baja la flag si ya terminamos
         }
+
+    } else if (status == HAL_ERROR) {
+        // Desatasco el I2C si hay error
+        HAL_I2C_DeInit(&hi2c1);
+        HAL_I2C_Init(&hi2c1);
     }
 }
