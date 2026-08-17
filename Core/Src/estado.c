@@ -14,12 +14,6 @@
 static EstadoSistema_t estado_actual = ESTADO_MENU_PRINCIPAL;
 
 void sistemaInit(void) {
-	for (int f = 0; f < 32; f++){
-		for (int c = 0; c < 32; c++){
-			if (matrizInicio[f][c]  == 1)
-				frameBufferUpdateCasillaColorDirecto(f, c, 255, 255, 255);
-		}
-	}
     sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
 }
 
