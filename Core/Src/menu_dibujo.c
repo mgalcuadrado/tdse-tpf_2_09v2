@@ -222,6 +222,7 @@ void menuDibujoCambiarPincelTick(BotonEvento_t input) {
 		pincel_cambiado = false;
 		menuDibujoMostrar(seleccion, indice_seleccion);
 		sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
+		return;
 	}
 	switch (input) {
 	case BOTON_ARRIBA:

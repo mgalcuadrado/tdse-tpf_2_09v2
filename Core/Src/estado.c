@@ -69,16 +69,6 @@ void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
 }
 
 void sistemaTick(BotonEvento_t input) {
-
-	if (estado_actual == ESTADO_MOSTRANDO_SECUENCIA){
-		menuSecuenciaMostrarTick();
-		return;
-	}
-
-	if (estado_actual == ESTADO_COMPLETANDO_SECUENCIA) {
-		menuSecuenciaCompletarTick(input);
-		return;
-	}
 	
     if (input == BOTON_NINGUNO) {
         return;
