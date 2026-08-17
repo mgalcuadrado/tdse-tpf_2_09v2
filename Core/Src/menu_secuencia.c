@@ -33,6 +33,10 @@ static bool mostrando_iniciado = false;
 static bool secuencia_fallo = false;
 static uint32_t tiempo_fallo = 0;
 
+// Estado de victoria al completar la secuencia
+static bool secuencia_victoria = false;
+static uint32_t tiempo_victoria = 0;
+
 // Orden en que el usuario debe pintar las secciones
 // Cuenta cuántas secciones "encendidas" (lista_sec[0][pos] != 0) ya pintó el
 // usuario correctamente, en el mismo orden en que se mostraron (de menor a mayor
@@ -98,7 +102,6 @@ void menuSecuenciaOpcionElegida(int indice_seleccion) {
     switch (indice_seleccion) {
         case 0: // Jugar Secuencia -> primero se muestra la secuencia objetivo
         	secuenciaVaciar(secuencia_actual); // Empiezo el intento sin nada pintado por el usuario
-        	menuSecuenciaMostrarEntrar();
             sistemaCambiarEstado(ESTADO_MOSTRANDO_SECUENCIA);
             break;
         case 1: // Limpiar Secuencia
@@ -224,17 +227,22 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
 	}
 
 	if (secuenciaCompleta(secuencia_actual)) {
-		lcdVaciarBuffer();
-		lcdBufferearLinea(0, "Secuencia Completa :)");
-		lcdBufferearLinea(1, "Toca un boton");
-        matrizLlenar(matriz_actual, 0, 255, 0); // Toda la matriz VERDE
-		frameBufferUpdateAll(matriz_actual);
-        static uint32_t ultimoTiempo = 0;
-        if ((HAL_GetTick() - ultimoTiempo) > DEBOUNCE_MS * 40) {
+		if (!secuencia_victoria){
+			secuencia_victoria = true;
+			tiempo_victoria = HAL_GetTick();
+			lcdVaciarBuffer();
+			lcdBufferearLinea(0, "Secuencia Completa :)");
+			lcdBufferearLinea(1, "Toca un boton");
+			matrizLlenar(matriz_actual, 0, 255, 0); // Toda la matriz VERDE
+			frameBufferUpdateAll(matriz_actual);
+		}
+
+        if ((HAL_GetTick() - tiempo_victoria) > DEBOUNCE_MS * 40) {
 			matrizLlenar(matriz_actual, 0, 0, 0);
         	sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
+        	return;
 		} else {
-			ultimoTiempo = HAL_GetTick();
+			tiempo_victoria = HAL_GetTick();
 			return;
 		}
     }

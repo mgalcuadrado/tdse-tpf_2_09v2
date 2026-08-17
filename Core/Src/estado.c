@@ -14,12 +14,6 @@
 static EstadoSistema_t estado_actual = ESTADO_MENU_PRINCIPAL;
 
 void sistemaInit(void) {
-	for (int f = 0; f < 32; f++){
-		for (int c = 0; c < 32; c++){
-			if (matrizInicio[f][c]  == 1)
-				frameBufferUpdateCasillaColorDirecto(f, c, 255, 255, 255);
-		}
-	}
     sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
 }
 
@@ -34,6 +28,7 @@ void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
 
     switch (nuevo_estado) {
         case ESTADO_MENU_PRINCIPAL:
+			frameBufferLandingScreen();
             menuPrincipalEntrar();
             break;
         case ESTADO_CAMBIANDO_BRILLO:
@@ -69,16 +64,6 @@ void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
 }
 
 void sistemaTick(BotonEvento_t input) {
-
-	if (estado_actual == ESTADO_MOSTRANDO_SECUENCIA){
-		menuSecuenciaMostrarTick();
-		return;
-	}
-
-	if (estado_actual == ESTADO_COMPLETANDO_SECUENCIA) {
-		menuSecuenciaCompletarTick(input);
-		return;
-	}
 	
     if (input == BOTON_NINGUNO) {
         return;
