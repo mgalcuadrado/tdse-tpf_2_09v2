@@ -63,11 +63,9 @@ void menuDibujoMostrar(char seleccion[6], int indice_seleccion) {
         snprintf(mensaje0, sizeof(mensaje0), "(%c) Cargar Dibujo", seleccion[3]);
         snprintf(mensaje1, sizeof(mensaje1), "(%c) Cambiar Pincel", seleccion[4]);
 
-        lcdSetearCursor(0, 0);
-        lcdPrint(mensaje0);
-
-        lcdSetearCursor(0, 1);
-        lcdPrint(mensaje1);
+        lcdBufferearLinea(0, mensaje0);
+        lcdBufferearLinea(1, mensaje1);
+		
     } else {
         printf("Error en el Display/MenuDibujo \n");
     }
