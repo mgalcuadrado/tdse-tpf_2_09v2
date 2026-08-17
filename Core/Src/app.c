@@ -21,11 +21,11 @@
 //Acá entraría cualquier init necesario para el programa
 void appInit(){
 	frameBufferInit();
-	pote_init();
 	hub75Init();
 	lcdInicializar(&hi2c1);
 	sistemaInit();
 	HAL_TIM_Base_Start_IT(&htim3); // PARA ARRANCAR EL TIMER 3
+	pote_init();
 	return;
 }
 
