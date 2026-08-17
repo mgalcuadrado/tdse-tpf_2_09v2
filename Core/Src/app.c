@@ -8,7 +8,7 @@
 #include "matriz.h"
 #include "mem.h"
 #include "lcd.h"
-#include "boton.h"
+#include "boton.h" //mgalcuadrado: de aca en realidad no interesan varios... este por ejemplo
 #include "estado.h"
 #include <stdio.h>
 #include <stdbool.h>
@@ -25,6 +25,7 @@ void appInit(){
 	hub75Init();
 	lcdInicializar(&hi2c1);
 	sistemaInit();
+	HAL_TIM_Base_Start_IT(&htim3); // PARA ARRANCAR EL TIMER 3
 	return;
 }
 
@@ -36,7 +37,8 @@ void appUpdate(){
 
 void taskEscrutar(){
 	botonLeer();
-	//leerPotenciometros();
+	//mgalcuadrado: esto no debería estar comentado creo 
+	// leerPotenciometros();
 
 }
 void taskProcesar(){
@@ -44,5 +46,5 @@ void taskProcesar(){
 }
 void taskActuar(){
 	lcdActuar();
-	hub75Actuar();
+	//mgalcuadrado: el hub75 actúa en los tiempos dictados por el timer
 }

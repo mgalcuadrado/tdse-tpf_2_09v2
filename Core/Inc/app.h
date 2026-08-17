@@ -11,6 +11,8 @@
 void appInit();
 
 void appUpdate();
+
+//mgalcuadrado: estas 3 funciones en realidad son internas del app, no necesitan estar acá en mi opinión
 void taskEscrutar();
 void taskProcesar();
 void taskActuar();

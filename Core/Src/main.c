@@ -113,7 +113,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  frameBufferInit();
+ 
 
   /* USER CODE END SysInit */
 
@@ -125,25 +125,16 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
-  pote_init();
-
-  hub75Init();
-  HAL_TIM_Base_Start_IT(&htim3); // PARA ARRANCAR EL TIMER 3
-  //uint32_t ultimo_paso = 0;
-  //pantalla
-  // 1. Inicializar la pantalla
-
- lcdInicializar(&hi2c1);
- sistemaInit();
+  appInit();
 
 //3. Prueba de adc_a_posicion().
-uint16_t pruebas_adc[] = {
+/*uint16_t pruebas_adc[] = {
 	    0,
 	    1024,
 	    2048,
 	    3072,
 	    4095
-};
+};*/
 
 
   /* USER CODE END 2 */
@@ -174,8 +165,8 @@ uint16_t pruebas_adc[] = {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-	 BotonEvento_t btn = botonLeer();
+    appUpdate();
+	 /*BotonEvento_t btn = botonLeer();
 
 	if (btn != BOTON_NINGUNO) {
 
@@ -193,6 +184,7 @@ uint16_t pruebas_adc[] = {
 	HAL_Delay(20);
 
   }
+  */
   /* USER CODE END 3 */
 }
 
@@ -512,13 +504,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
     // Si salta el timer 3
     if (htim->Instance == TIM3) {
         hub75Refresh();
-
-
     }
 }
 
 
-//Para elñ test de menus/matriz/lo que sea
+//Para el test de menus/matriz/lo que sea
 /*
 void matrizImprimirConsola(Matriz_t *matriz) {
     if (matriz == NULL) return;
