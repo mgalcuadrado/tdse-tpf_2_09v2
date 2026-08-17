@@ -78,7 +78,8 @@ BotonEvento_t botonLeer() {
     estadoAnt_Aceptar = actual_Aceptar;
     estadoAnt_Atras = actual_Atras;
 
-    return evento;
+    ultimoEvento = evento;
+	return;
 }
 
 BotonEvento_t botonUltimoEvento (void) {
