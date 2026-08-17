@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "core_cm3.h"
-
+#include "stm32f1xx.h"
 
 #define CPU_FREQ_MHZ          64U
 #define NUM_MEDICIONES_WCET  1000U
