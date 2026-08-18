@@ -32,8 +32,7 @@ static bool refreshearLCD = false;						//Indica al actuador que tiene que updat
 //rs es el registro, es 0x00 si es un comando y 0x01 si es un dato (Como una letra)
 //data es el dato a mandar al lcd, o el comando.
 
-static void lcdMandarInterno(char data, uint8_t rs) {
-    HAL_StatusTypeDef res;
+static bool lcdMandarInterno(char data, uint8_t rs) {
     //Divido el byte, up son los primeros 4 bits y lo los ultimos 4 bits, quedan los dos de la forma xxxx 0000
     uint8_t up = data & 0xF0;
     uint8_t lo = (data << 4) & 0xF0;
@@ -47,16 +46,15 @@ static void lcdMandarInterno(char data, uint8_t rs) {
     arregloDatos[2] = lo | rs | 0x0C; // 0000 1100
     arregloDatos[3] = lo | rs | 0x08; // 0000 1000
 
-    res = HAL_I2C_Master_Transmit(lcd_hi2c, LCD_I2C_ADDR, arregloDatos, 4, 100);
-    (void)res;
+    return (HAL_I2C_Master_Transmit(lcd_hi2c, LCD_I2C_ADDR, arregloDatos, 4, 10) == HAL_OK);
 }
 
-void lcdMandarComando(char cmd) {
-    lcdMandarInterno(cmd, 0x00); // RS = 0 para comandos
+static bool  lcdMandarComando(char cmd) {
+    return lcdMandarInterno(cmd, 0x00); // RS = 0 para comandos
 }
 
-void lcdMandarDato(char data) {
-    lcdMandarInterno(data, 0x01); // RS = 1 para caracteres de texto
+static bool lcdMandarDato(char data) {
+    return lcdMandarInterno(data, 0x01); // RS = 1 para caracteres de texto
 }
 
 void lcdBorrar(void) {
@@ -65,18 +63,22 @@ void lcdBorrar(void) {
 }
 
 // Posiciona el cursor en un LCD 2004 (4 lineas x 20 columnas)
-void lcdSetearCursor(uint8_t col, uint8_t fil) {
+bool lcdSetearCursor(uint8_t col, uint8_t fil) {
     uint8_t offsets[] = {0x00, 0x40, 0x14, 0x54};	//Las direcciones de memoria DDRAM de cada fila están desordenadas
     if (fil < 4) {
-        lcdMandarComando(0x80 | (offsets[fil] + col));
+        return lcdMandarComando(0x80 | (offsets[fil] + col));
     }
+    return false;
 }
 
 //Imprime una cadena
-void lcdPrint(char *cadena) {
+static bool lcdPrint(char *cadena) {
     while (*cadena) {
-        lcdMandarDato(*cadena++);
+    	if (!lcdMandarDato(*cadena++)) {
+    		return false; // Retorna false si falla algún byte
+		}
     }
+    return true;
 }
 
 // Inicialización estándar en modo 4 bits para el controlador HD44780
@@ -132,15 +134,21 @@ void lcdBufferearLinea(uint8_t linea, char* cadena){
 
 //Esta función se llama en el actuador, toma el buffer y lo imprime.
 void lcdActuar(){
-	if(refreshearLCD==false){
+
+	if (lcd_hi2c->State != HAL_I2C_STATE_READY || !refreshearLCD) {
 		return;
 	}
 
 	for (uint8_t fil = 0; fil < LCD_FILAS; fil++) {
-	        lcdSetearCursor(0, fil);
-	        lcdPrint(bufferLCD[fil]);
+	        if(!lcdSetearCursor(0, fil)){
+	        	return;						//Si falla una de las 2, vuelve a intentar
+	        }
+
+	        if(!lcdPrint(bufferLCD[fil])){
+	        	return;
+	        }
 	}
-	refreshearLCD=false;
+	refreshearLCD=false;	//Cambia la flag si no tiene que reintentar el print
 }
 
 //Borrar buffer para el procesar, menos bloqueante que con el comando.
