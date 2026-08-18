@@ -1,0 +1,5 @@
+../Core/Src/dibujo.c:19:11:dibujoCrear	4
+../Core/Src/dibujo.c:49:6:dibujoBorrar	4
+../Core/Src/dibujo.c:64:6:dibujoAvanzar	10
+../Core/Src/dibujo.c:122:6:dibujoReiniciar	4
+../Core/Src/dibujo.c:135:6:dibujoPintar	5

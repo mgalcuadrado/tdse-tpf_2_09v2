@@ -1,0 +1,52 @@
+/*
+ * app.c
+ *
+ *  Created on: Aug 14, 2026
+ *      Author: Martin
+ */
+#include "main.h"
+#include "matriz.h"
+#include "mem.h"
+#include "lcd.h"
+#include "boton.h" //mgalcuadrado: de aca en realidad no interesan varios... este por ejemplo
+#include "estado.h"
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include "hub75.h"
+#include "frame_buffer.h"
+#include "potenciometro.h"
+#include "app.h"
+
+
+//Acá entraría cualquier init necesario para el programa
+void appInit(){
+	//mgalcuadrado aca hay que agregar rintfs indicando la inicializacion de cada cosa
+	frameBufferInit();
+	hub75Init();
+	lcdInicializar(&hi2c1);
+	sistemaInit();
+	HAL_TIM_Base_Start_IT(&htim3); // PARA ARRANCAR EL TIMER 3
+	return;
+}
+
+void appUpdate(){
+	hub75Refresh();
+	taskEscrutar();
+	hub75Refresh();
+	taskProcesar();
+	taskActuar();
+}
+
+void taskEscrutar(){
+	botonLeer();
+//	escrutarPotenciometros();
+
+}
+void taskProcesar(){
+	sistemaProcesar();
+}
+void taskActuar(){
+	lcdActuar();
+	//mgalcuadrado: el hub75 actúa en los tiempos dictados por el timer
+}

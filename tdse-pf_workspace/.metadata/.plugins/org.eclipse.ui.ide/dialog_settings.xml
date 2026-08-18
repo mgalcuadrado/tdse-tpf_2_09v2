@@ -6,15 +6,17 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integration"/>
 			<item value=""/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value="C:\Users\mechi\Downloads\tdse-tp4_01-adc-main.zip"/>
 			<item value="C:\Users\mechi\Downloads\tdse-tp2_00-model_integration.zip"/>
 		</list>
 		<section name="ExternalProjectImportWizard.dialogBounds">
-			<item key="DIALOG_X_ORIGIN" value="219"/>
-			<item key="DIALOG_Y_ORIGIN" value="-5"/>
-			<item key="DIALOG_WIDTH" value="718"/>
+			<item key="DIALOG_X_ORIGIN" value="341"/>
+			<item key="DIALOG_Y_ORIGIN" value="7"/>
+			<item key="DIALOG_WIDTH" value="613"/>
 			<item key="DIALOG_HEIGHT" value="672"/>
 			<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
 		</section>
@@ -31,10 +33,17 @@
 			<item key="DIALOG_HEIGHT" value="594"/>
 			<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
 		</section>
+		<section name="SmartImportWizard.dialogBounds">
+			<item key="DIALOG_X_ORIGIN" value="187"/>
+			<item key="DIALOG_Y_ORIGIN" value="7"/>
+			<item key="DIALOG_WIDTH" value="920"/>
+			<item key="DIALOG_HEIGHT" value="646"/>
+			<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+		</section>
 	</section>
 	<section name="CleanDialogSettings">
 		<item key="BUILD_NOW" value="true"/>
-		<item key="BUILD_ALL" value="true"/>
+		<item key="BUILD_ALL" value="false"/>
 		<item key="TOGGLE_SELECTED" value="false"/>
 		<item key="DIALOG_WIDTH" value="578"/>
 		<item key="DIALOG_HEIGHT" value="478"/>

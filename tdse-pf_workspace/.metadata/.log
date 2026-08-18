@@ -1293,3 +1293,2842 @@ java.lang.Exception: Resource '/ADC' does not exist.
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:615)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:563)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1415)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-08-17 17:04:37.714
+!MESSAGE Indexed 'tdse-tp2_00-model_integrationv1' (41 sources, 120 headers) in 8,22 sec: 11.641 declarations; 71.753 references; 2 unresolved inclusions; 36 syntax errors; 186 unresolved names (0,22 %)
+
+!ENTRY org.eclipse.core.resources 4 4 2026-08-17 17:22:49.255
+!MESSAGE Exception occurred while saving project preferences: /tdse-tp2_00-model_integration/.settings/com.st.stm32cube.ide.mcu.sfrview.prefs.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(/tdse-tp2_00-model_integration)[368]: java.lang.Exception: Resource '/tdse-tp2_00-model_integration' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:376)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:248)
+	at org.eclipse.core.internal.resources.Project.checkAccessible(Project.java:189)
+	at org.eclipse.core.internal.resources.Folder.assertCreateRequirements(Folder.java:43)
+	at org.eclipse.core.internal.resources.Folder.create(Folder.java:101)
+	at org.eclipse.core.internal.resources.ProjectPreferences.lambda$2(ProjectPreferences.java:770)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2505)
+	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:797)
+	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:442)
+	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:475)
+	at com.st.stm32cube.ide.mcu.sfrview.state.ProjectStateManager.persistState(ProjectStateManager.java:95)
+	at com.st.stm32cube.ide.mcu.sfrview.state.ProjectStateManager.refresh(ProjectStateManager.java:45)
+	at com.st.stm32cube.ide.mcu.sfrview.ui.SfrView.svdModelChanged(SfrView.java:1860)
+	at com.st.stm32cube.ide.mcu.sfr.model.SfrRegisterModel.notifyListeners(SfrRegisterModel.java:1180)
+	at com.st.stm32cube.ide.mcu.sfr.model.SfrRegisterModel.refresh(SfrRegisterModel.java:1211)
+	at com.st.stm32cube.ide.mcu.sfr.model.SfrRegisterModel.refresh(SfrRegisterModel.java:1198)
+	at com.st.stm32cube.ide.mcu.sfr.model.SfrRegisterModel.selectionChanged(SfrRegisterModel.java:1163)
+	at org.eclipse.ui.internal.e4.compatibility.SelectionService.notifyListeners(SelectionService.java:264)
+	at org.eclipse.ui.internal.e4.compatibility.SelectionService.handleSelectionChanged(SelectionService.java:98)
+	at org.eclipse.ui.internal.e4.compatibility.SelectionService.lambda$0(SelectionService.java:72)
+	at org.eclipse.e4.ui.internal.workbench.SelectionAggregator$1.run(SelectionAggregator.java:122)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.SelectionAggregator.notifyListeners(SelectionAggregator.java:119)
+	at org.eclipse.e4.ui.internal.workbench.SelectionAggregator$5.lambda$0(SelectionAggregator.java:219)
+	at org.eclipse.e4.core.contexts.RunAndTrack.runExternalCode(RunAndTrack.java:59)
+	at org.eclipse.e4.ui.internal.workbench.SelectionAggregator$5.changed(SelectionAggregator.java:219)
+	at org.eclipse.e4.core.internal.contexts.TrackableComputationExt.update(TrackableComputationExt.java:109)
+	at org.eclipse.e4.core.internal.contexts.EclipseContext.processScheduled(EclipseContext.java:371)
+	at org.eclipse.e4.core.internal.contexts.EclipseContext.set(EclipseContext.java:387)
+	at org.eclipse.e4.ui.internal.workbench.SelectionServiceImpl.setSelection(SelectionServiceImpl.java:34)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.selectionChanged(CompatibilityPart.java:473)
+	at org.eclipse.jface.viewers.Viewer$1.run(Viewer.java:151)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.jface.util.SafeRunnable.run(SafeRunnable.java:169)
+	at org.eclipse.jface.viewers.Viewer.fireSelectionChanged(Viewer.java:148)
+	at org.eclipse.jface.viewers.StructuredViewer.updateSelection(StructuredViewer.java:2132)
+	at org.eclipse.jface.viewers.ColumnViewer.updateSelection(ColumnViewer.java:1044)
+	at org.eclipse.jface.viewers.StructuredViewer.handleSelect(StructuredViewer.java:1173)
+	at org.eclipse.ui.navigator.CommonViewer.handleSelect(CommonViewer.java:482)
+	at org.eclipse.jface.viewers.StructuredViewer$4.widgetSelected(StructuredViewer.java:1202)
+	at org.eclipse.jface.util.OpenStrategy.fireSelectionEvent(OpenStrategy.java:262)
+	at org.eclipse.jface.util.OpenStrategy$1.handleEvent(OpenStrategy.java:420)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4364)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1217)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4162)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3750)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1147)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1038)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:677)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:583)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:185)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:219)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:149)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:115)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:467)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:298)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:615)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:563)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1415)
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2026-08-17 17:22:49.279
+!MESSAGE Resource '/tdse-tp2_00-model_integration' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/tdse-tp2_00-model_integration' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:376)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:248)
+	at org.eclipse.core.internal.resources.Project.checkAccessible(Project.java:189)
+	at org.eclipse.core.internal.resources.Folder.assertCreateRequirements(Folder.java:43)
+	at org.eclipse.core.internal.resources.Folder.create(Folder.java:101)
+	at org.eclipse.core.internal.resources.ProjectPreferences.lambda$2(ProjectPreferences.java:770)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2505)
+	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:797)
+	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:442)
+	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:475)
+	at com.st.stm32cube.ide.mcu.sfrview.state.ProjectStateManager.persistState(ProjectStateManager.java:95)
+	at com.st.stm32cube.ide.mcu.sfrview.state.ProjectStateManager.refresh(ProjectStateManager.java:45)
+	at com.st.stm32cube.ide.mcu.sfrview.ui.SfrView.svdModelChanged(SfrView.java:1860)
+	at com.st.stm32cube.ide.mcu.sfr.model.SfrRegisterModel.notifyListeners(SfrRegisterModel.java:1180)
+	at com.st.stm32cube.ide.mcu.sfr.model.SfrRegisterModel.refresh(SfrRegisterModel.java:1211)
+	at com.st.stm32cube.ide.mcu.sfr.model.SfrRegisterModel.refresh(SfrRegisterModel.java:1198)
+	at com.st.stm32cube.ide.mcu.sfr.model.SfrRegisterModel.selectionChanged(SfrRegisterModel.java:1163)
+	at org.eclipse.ui.internal.e4.compatibility.SelectionService.notifyListeners(SelectionService.java:264)
+	at org.eclipse.ui.internal.e4.compatibility.SelectionService.handleSelectionChanged(SelectionService.java:98)
+	at org.eclipse.ui.internal.e4.compatibility.SelectionService.lambda$0(SelectionService.java:72)
+	at org.eclipse.e4.ui.internal.workbench.SelectionAggregator$1.run(SelectionAggregator.java:122)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.SelectionAggregator.notifyListeners(SelectionAggregator.java:119)
+	at org.eclipse.e4.ui.internal.workbench.SelectionAggregator$5.lambda$0(SelectionAggregator.java:219)
+	at org.eclipse.e4.core.contexts.RunAndTrack.runExternalCode(RunAndTrack.java:59)
+	at org.eclipse.e4.ui.internal.workbench.SelectionAggregator$5.changed(SelectionAggregator.java:219)
+	at org.eclipse.e4.core.internal.contexts.TrackableComputationExt.update(TrackableComputationExt.java:109)
+	at org.eclipse.e4.core.internal.contexts.EclipseContext.processScheduled(EclipseContext.java:371)
+	at org.eclipse.e4.core.internal.contexts.EclipseContext.set(EclipseContext.java:387)
+	at org.eclipse.e4.ui.internal.workbench.SelectionServiceImpl.setSelection(SelectionServiceImpl.java:34)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.selectionChanged(CompatibilityPart.java:473)
+	at org.eclipse.jface.viewers.Viewer$1.run(Viewer.java:151)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.jface.util.SafeRunnable.run(SafeRunnable.java:169)
+	at org.eclipse.jface.viewers.Viewer.fireSelectionChanged(Viewer.java:148)
+	at org.eclipse.jface.viewers.StructuredViewer.updateSelection(StructuredViewer.java:2132)
+	at org.eclipse.jface.viewers.ColumnViewer.updateSelection(ColumnViewer.java:1044)
+	at org.eclipse.jface.viewers.StructuredViewer.handleSelect(StructuredViewer.java:1173)
+	at org.eclipse.ui.navigator.CommonViewer.handleSelect(CommonViewer.java:482)
+	at org.eclipse.jface.viewers.StructuredViewer$4.widgetSelected(StructuredViewer.java:1202)
+	at org.eclipse.jface.util.OpenStrategy.fireSelectionEvent(OpenStrategy.java:262)
+	at org.eclipse.jface.util.OpenStrategy$1.handleEvent(OpenStrategy.java:420)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4364)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1217)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4162)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3750)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1147)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1038)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:677)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:583)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:185)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:219)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:149)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:115)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:467)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:298)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:615)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:563)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1415)
+
+!ENTRY org.eclipse.ltk.ui.refactoring 4 10000 2026-08-17 17:23:15.452
+!MESSAGE Internal Error
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while moving resources.
+	at org.eclipse.core.internal.resources.Resource.move(Resource.java:1633)
+	at org.eclipse.ltk.core.refactoring.resource.RenameResourceChange.perform(RenameResourceChange.java:118)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:279)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.lambda$0(PerformChangeOperation.java:250)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2505)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2533)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:289)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:94)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:211)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2505)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2533)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:90)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:123)
+Contains: Resource already exists on disk: 'C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integration'.
+!SUBENTRY 1 org.eclipse.core.resources 1 4 2026-08-17 17:23:15.454
+!MESSAGE Problems encountered while moving resources.
+!SUBENTRY 2 org.eclipse.core.resources 1 4 2026-08-17 17:23:15.455
+!MESSAGE Resource already exists on disk: 'C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integration'.
+
+!ENTRY org.eclipse.ltk.ui.refactoring 4 10000 2026-08-17 17:23:36.335
+!MESSAGE Internal Error
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while moving resources.
+	at org.eclipse.core.internal.resources.Resource.move(Resource.java:1633)
+	at org.eclipse.ltk.core.refactoring.resource.RenameResourceChange.perform(RenameResourceChange.java:118)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:279)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.lambda$0(PerformChangeOperation.java:250)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2505)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2533)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:289)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:94)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:211)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2505)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2533)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:90)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:123)
+Contains: Resource already exists on disk: 'C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integration'.
+!SUBENTRY 1 org.eclipse.core.resources 1 4 2026-08-17 17:23:36.336
+!MESSAGE Problems encountered while moving resources.
+!SUBENTRY 2 org.eclipse.core.resources 1 4 2026-08-17 17:23:36.336
+!MESSAGE Resource already exists on disk: 'C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integration'.
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.622
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.631
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.632
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.634
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.635
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.638
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.639
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.640
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.641
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.642
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.643
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.644
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.645
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:35:32.647
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.665
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.671
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.672
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.673
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.675
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.677
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.678
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.679
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.682
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.683
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.685
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.687
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:38:56.689
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.038
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.042
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.042
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.043
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.043
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.044
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.044
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.046
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.047
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.047
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.048
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.048
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.049
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:39:58.050
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.233
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.236
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.238
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.238
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.240
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.241
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.242
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.243
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.243
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.245
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.246
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.247
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:40:43.248
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.611
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.613
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.614
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.616
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.616
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.617
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.618
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.619
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.619
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.621
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.621
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.623
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:49:41.623
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.953
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.954
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.955
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.956
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.957
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.957
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.959
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.959
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.960
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.961
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.963
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.964
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:50:12.965
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.881
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.884
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.884
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.884
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.886
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.886
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.886
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.888
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.888
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.888
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.888
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.888
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:53:46.888
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.257
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.259
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.260
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.261
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.262
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.264
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.265
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.266
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.267
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.268
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.269
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.270
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:54:18.271
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.655
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.657
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.658
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.659
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.659
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.661
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.662
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.663
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.664
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.665
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.666
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.666
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:13.667
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.951
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.953
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.954
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.955
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.956
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.957
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.958
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.960
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.960
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.961
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.961
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.963
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:56:44.964
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.123
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.125
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.125
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.127
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.128
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.128
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.129
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.131
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.131
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.132
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.132
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.134
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.135
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 17:59:35.136
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.454
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.468
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.468
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.470
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.471
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.472
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.473
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.474
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.475
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.476
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.476
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.478
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:01:09.479
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.241
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.244
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.245
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.246
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.248
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.248
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.250
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.251
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.251
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.252
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.254
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.254
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:02:34.255
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.128
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.129
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.132
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.133
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.134
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.135
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.136
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.136
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.137
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.139
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.139
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.141
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:03:06.141
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.217
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.219
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.220
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.220
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.222
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.223
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.224
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.225
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.226
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.226
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.227
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.227
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:17.229
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.939
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.947
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.950
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.952
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.953
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.956
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.958
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.961
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.969
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.971
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.973
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.976
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:14:48.977
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-17 18:17:39.886
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 29 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-17 18:17:39.895
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-17 18:17:39.902
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 29 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-17 18:17:39.906
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.325
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.327
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.329
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.330
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.331
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.332
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.334
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.336
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.337
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.339
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.339
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.340
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.341
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:17:54.343
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.833
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.856
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.856
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.866
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.866
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.873
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.877
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.877
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.887
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.898
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.899
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.899
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:20:40.899
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.339
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.345
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.346
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.348
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.349
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.350
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.351
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.354
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.354
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.356
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.357
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.358
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.359
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:31:44.361
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-17 18:31:45.218
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 30 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-17 18:31:45.220
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-17 18:31:45.222
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 30 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-17 18:31:45.223
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.625
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.628
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.628
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.630
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.631
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.632
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.633
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.635
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.637
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.638
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.639
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.640
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 18:32:37.641
+!MESSAGE port: COM16
+
+!ENTRY org.eclipse.ui 4 4 2026-08-17 18:45:03.903
+!MESSAGE Unable to create part
+!STACK 1
+org.eclipse.ui.PartInitException: Cannot determine URI for '/tdse-tp2_00-model_integration/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c'.
+	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3412)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.init(AbstractTextEditor.java:3425)
+	at org.eclipse.ui.internal.EditorReference.initialize(EditorReference.java:354)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.create(CompatibilityPart.java:346)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:1037)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:998)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalInject(InjectorImpl.java:142)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalMake(InjectorImpl.java:401)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.make(InjectorImpl.java:319)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.make(ContextInjectionFactory.java:203)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:90)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:59)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:42)
+	at org.eclipse.ui.internal.WorkbenchContributionFactory.create(WorkbenchContributionFactory.java:46)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer.createWidget(ContributedPartRenderer.java:133)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:987)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:658)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:762)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:726)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:710)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.lambda$0(PartServiceImpl.java:105)
+	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.lambda$0(UIEventHandler.java:38)
+	at org.eclipse.swt.widgets.Synchronizer.syncExec(Synchronizer.java:183)
+	at org.eclipse.ui.internal.UISynchronizer.syncExec(UISynchronizer.java:136)
+	at org.eclipse.swt.widgets.Display.syncExec(Display.java:4896)
+	at org.eclipse.e4.ui.workbench.swt.DisplayUISynchronize.syncExec(DisplayUISynchronize.java:34)
+	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.handleEvent(UIEventHandler.java:38)
+	at org.eclipse.equinox.internal.event.EventHandlerWrapper.handleEvent(EventHandlerWrapper.java:206)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:201)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:151)
+	at org.eclipse.equinox.internal.event.EventAdminImpl.dispatchEvent(EventAdminImpl.java:132)
+	at org.eclipse.equinox.internal.event.EventAdminImpl.sendEvent(EventAdminImpl.java:73)
+	at org.eclipse.equinox.internal.event.EventComponent.sendEvent(EventComponent.java:48)
+	at org.eclipse.e4.ui.services.internal.events.EventBroker.send(EventBroker.java:55)
+	at org.eclipse.e4.ui.internal.workbench.UIEventPublisher.notifyChanged(UIEventPublisher.java:61)
+	at org.eclipse.emf.common.notify.impl.BasicNotifierImpl.eNotify(BasicNotifierImpl.java:424)
+	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElementGen(ElementContainerImpl.java:168)
+	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElement(ElementContainerImpl.java:187)
+	at org.eclipse.e4.ui.internal.workbench.ModelServiceImpl.showElementInWindow(ModelServiceImpl.java:650)
+	at org.eclipse.e4.ui.internal.workbench.ModelServiceImpl.bringToTop(ModelServiceImpl.java:614)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.delegateBringToTop(PartServiceImpl.java:805)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.activate(PartServiceImpl.java:773)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.activate(PartServiceImpl.java:695)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.activate(PartServiceImpl.java:690)
+	at org.eclipse.e4.ui.internal.workbench.renderers.swt.BasicPartList.gotoSelectedElement(BasicPartList.java:178)
+	at org.eclipse.e4.ui.internal.workbench.renderers.swt.AbstractTableInformationControl.lambda$2(AbstractTableInformationControl.java:228)
+	at org.eclipse.swt.events.MouseListener$3.mouseUp(MouseListener.java:113)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:262)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4364)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1217)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4162)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3750)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1147)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1038)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:677)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:583)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:185)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:219)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:149)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:115)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:467)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:298)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:615)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:563)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1415)
+Caused by: org.eclipse.core.runtime.CoreException: Cannot determine URI for '/tdse-tp2_00-model_integration/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c'.
+	at org.eclipse.core.internal.filebuffers.ResourceFileBuffer.create(ResourceFileBuffer.java:240)
+	at org.eclipse.core.internal.filebuffers.TextFileBufferManager.connect(TextFileBufferManager.java:118)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.createFileInfo(TextFileDocumentProvider.java:607)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.createFileInfo(CDocumentProvider.java:792)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.connect(TextFileDocumentProvider.java:524)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.connect(CDocumentProvider.java:724)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.doSetInput(AbstractTextEditor.java:4443)
+	at org.eclipse.ui.texteditor.StatusTextEditor.doSetInput(StatusTextEditor.java:262)
+	at org.eclipse.ui.texteditor.AbstractDecoratedTextEditor.doSetInput(AbstractDecoratedTextEditor.java:1591)
+	at org.eclipse.ui.editors.text.TextEditor.doSetInput(TextEditor.java:156)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.internalDoSetInput(CEditor.java:1447)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.doSetInput(CEditor.java:1411)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.lambda$1(AbstractTextEditor.java:3381)
+	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:435)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:354)
+	at org.eclipse.ui.internal.WorkbenchWindow.lambda$7(WorkbenchWindow.java:2343)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2340)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3398)
+	... 77 more
+!SUBENTRY 1 org.eclipse.core.filebuffers 4 0 2026-08-17 18:45:03.923
+!MESSAGE Cannot determine URI for '/tdse-tp2_00-model_integration/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c'.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Cannot determine URI for '/tdse-tp2_00-model_integration/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c'.
+	at org.eclipse.core.internal.filebuffers.ResourceFileBuffer.create(ResourceFileBuffer.java:240)
+	at org.eclipse.core.internal.filebuffers.TextFileBufferManager.connect(TextFileBufferManager.java:118)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.createFileInfo(TextFileDocumentProvider.java:607)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.createFileInfo(CDocumentProvider.java:792)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.connect(TextFileDocumentProvider.java:524)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.connect(CDocumentProvider.java:724)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.doSetInput(AbstractTextEditor.java:4443)
+	at org.eclipse.ui.texteditor.StatusTextEditor.doSetInput(StatusTextEditor.java:262)
+	at org.eclipse.ui.texteditor.AbstractDecoratedTextEditor.doSetInput(AbstractDecoratedTextEditor.java:1591)
+	at org.eclipse.ui.editors.text.TextEditor.doSetInput(TextEditor.java:156)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.internalDoSetInput(CEditor.java:1447)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.doSetInput(CEditor.java:1411)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.lambda$1(AbstractTextEditor.java:3381)
+	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:435)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:354)
+	at org.eclipse.ui.internal.WorkbenchWindow.lambda$7(WorkbenchWindow.java:2343)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2340)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3398)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.init(AbstractTextEditor.java:3425)
+	at org.eclipse.ui.internal.EditorReference.initialize(EditorReference.java:354)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.create(CompatibilityPart.java:346)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:1037)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:998)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalInject(InjectorImpl.java:142)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalMake(InjectorImpl.java:401)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.make(InjectorImpl.java:319)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.make(ContextInjectionFactory.java:203)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:90)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:59)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:42)
+	at org.eclipse.ui.internal.WorkbenchContributionFactory.create(WorkbenchContributionFactory.java:46)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer.createWidget(ContributedPartRenderer.java:133)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:987)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:658)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:762)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:726)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:710)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.lambda$0(PartServiceImpl.java:105)
+	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.lambda$0(UIEventHandler.java:38)
+	at org.eclipse.swt.widgets.Synchronizer.syncExec(Synchronizer.java:183)
+	at org.eclipse.ui.internal.UISynchronizer.syncExec(UISynchronizer.java:136)
+	at org.eclipse.swt.widgets.Display.syncExec(Display.java:4896)
+	at org.eclipse.e4.ui.workbench.swt.DisplayUISynchronize.syncExec(DisplayUISynchronize.java:34)
+	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.handleEvent(UIEventHandler.java:38)
+	at org.eclipse.equinox.internal.event.EventHandlerWrapper.handleEvent(EventHandlerWrapper.java:206)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:201)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:151)
+	at org.eclipse.equinox.internal.event.EventAdminImpl.dispatchEvent(EventAdminImpl.java:132)
+	at org.eclipse.equinox.internal.event.EventAdminImpl.sendEvent(EventAdminImpl.java:73)
+	at org.eclipse.equinox.internal.event.EventComponent.sendEvent(EventComponent.java:48)
+	at org.eclipse.e4.ui.services.internal.events.EventBroker.send(EventBroker.java:55)
+	at org.eclipse.e4.ui.internal.workbench.UIEventPublisher.notifyChanged(UIEventPublisher.java:61)
+	at org.eclipse.emf.common.notify.impl.BasicNotifierImpl.eNotify(BasicNotifierImpl.java:424)
+	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElementGen(ElementContainerImpl.java:168)
+	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElement(ElementContainerImpl.java:187)
+	at org.eclipse.e4.ui.internal.workbench.ModelServiceImpl.showElementInWindow(ModelServiceImpl.java:650)
+	at org.eclipse.e4.ui.internal.workbench.ModelServiceImpl.bringToTop(ModelServiceImpl.java:614)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.delegateBringToTop(PartServiceImpl.java:805)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.activate(PartServiceImpl.java:773)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.activate(PartServiceImpl.java:695)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.activate(PartServiceImpl.java:690)
+	at org.eclipse.e4.ui.internal.workbench.renderers.swt.BasicPartList.gotoSelectedElement(BasicPartList.java:178)
+	at org.eclipse.e4.ui.internal.workbench.renderers.swt.AbstractTableInformationControl.lambda$2(AbstractTableInformationControl.java:228)
+	at org.eclipse.swt.events.MouseListener$3.mouseUp(MouseListener.java:113)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:262)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4364)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1217)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4162)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3750)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1147)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1038)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:677)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:583)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:185)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:219)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:149)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:115)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:467)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:298)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:615)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:563)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1415)
+!SUBENTRY 2 org.eclipse.core.filebuffers 4 0 2026-08-17 18:45:03.926
+!MESSAGE Cannot determine URI for '/tdse-tp2_00-model_integration/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c'.
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.804
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.872
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.875
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.875
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.878
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.879
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.880
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.881
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.881
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.882
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.883
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.884
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.885
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:08:13.886
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.945
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.954
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.955
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.956
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.957
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.958
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.958
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.959
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.960
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.961
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.961
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.963
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:13:40.963
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.587
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.613
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.613
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.614
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.615
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.617
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.617
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.618
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.620
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.621
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.621
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.622
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.622
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:30:09.629
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.811
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.826
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.827
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.828
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.830
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.831
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.832
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.834
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.836
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.837
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.839
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.840
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:31:55.841
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.682
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.688
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.689
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.690
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.692
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.692
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.693
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.695
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.696
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.698
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.698
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.699
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.700
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:34:58.702
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.289
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.290
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.292
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.294
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.295
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.297
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.298
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.299
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.299
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.300
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.303
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.304
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:35:53.305
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.285
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.298
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.301
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.302
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.304
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.307
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.309
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.312
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.314
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.316
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.317
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.320
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.322
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 19:55:10.325
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.941
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.956
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.957
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.959
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.959
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.960
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.961
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.961
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.963
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.964
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.965
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.965
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 20:00:43.966
+!MESSAGE port: COM16
+!SESSION 2026-08-17 21:09:37.773 -----------------------------------------------
+eclipse.buildId=Version 2.2.0
+java.version=21.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_AR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-08-17 21:09:52.303
+!MESSAGE Log4j2 initialized with config file C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-08-17 21:10:06.801
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-08-17 21:10:08.368
+!MESSAGE Indexed 'tdse-tp2_00-model_integrationv1' (41 sources, 120 headers) in 7,3 sec: 11.639 declarations; 71.862 references; 2 unresolved inclusions; 36 syntax errors; 186 unresolved names (0,22 %)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.120
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.121
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.122
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.124
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.125
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.126
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.126
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.127
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.129
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.130
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.131
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.132
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:10:38.133
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.611
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.614
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.616
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.618
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.619
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.620
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.621
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.622
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.622
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.623
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.624
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.624
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:11:31.626
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.180
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.182
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.183
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.184
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.186
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.187
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.188
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.189
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.190
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.191
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.192
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.194
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-17 21:12:03.196
+!MESSAGE port: COM16
+
+!ENTRY org.eclipse.ui 4 4 2026-08-17 21:14:10.045
+!MESSAGE Unable to create part
+!STACK 1
+org.eclipse.ui.PartInitException: Cannot determine URI for '/tdse-tp2_00-model_integration/app/src/task_sensor.c'.
+	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3412)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.init(AbstractTextEditor.java:3425)
+	at org.eclipse.ui.internal.EditorReference.initialize(EditorReference.java:354)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.create(CompatibilityPart.java:346)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:1037)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:998)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalInject(InjectorImpl.java:142)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalMake(InjectorImpl.java:401)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.make(InjectorImpl.java:319)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.make(ContextInjectionFactory.java:203)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:90)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:59)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:42)
+	at org.eclipse.ui.internal.WorkbenchContributionFactory.create(WorkbenchContributionFactory.java:46)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer.createWidget(ContributedPartRenderer.java:133)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:987)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:658)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:762)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:726)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:710)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.lambda$0(PartServiceImpl.java:105)
+	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.lambda$0(UIEventHandler.java:38)
+	at org.eclipse.swt.widgets.Synchronizer.syncExec(Synchronizer.java:183)
+	at org.eclipse.ui.internal.UISynchronizer.syncExec(UISynchronizer.java:136)
+	at org.eclipse.swt.widgets.Display.syncExec(Display.java:4896)
+	at org.eclipse.e4.ui.workbench.swt.DisplayUISynchronize.syncExec(DisplayUISynchronize.java:34)
+	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.handleEvent(UIEventHandler.java:38)
+	at org.eclipse.equinox.internal.event.EventHandlerWrapper.handleEvent(EventHandlerWrapper.java:206)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:201)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:151)
+	at org.eclipse.equinox.internal.event.EventAdminImpl.dispatchEvent(EventAdminImpl.java:132)
+	at org.eclipse.equinox.internal.event.EventAdminImpl.sendEvent(EventAdminImpl.java:73)
+	at org.eclipse.equinox.internal.event.EventComponent.sendEvent(EventComponent.java:48)
+	at org.eclipse.e4.ui.services.internal.events.EventBroker.send(EventBroker.java:55)
+	at org.eclipse.e4.ui.internal.workbench.UIEventPublisher.notifyChanged(UIEventPublisher.java:61)
+	at org.eclipse.emf.common.notify.impl.BasicNotifierImpl.eNotify(BasicNotifierImpl.java:424)
+	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElementGen(ElementContainerImpl.java:168)
+	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElement(ElementContainerImpl.java:187)
+	at org.eclipse.e4.ui.workbench.renderers.swt.StackRenderer.lambda$28(StackRenderer.java:1194)
+	at org.eclipse.swt.events.SelectionListener$1.widgetSelected(SelectionListener.java:83)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:290)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4364)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1217)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1241)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1226)
+	at org.eclipse.swt.widgets.Widget.notifyListeners(Widget.java:863)
+	at org.eclipse.swt.custom.CTabFolder.setSelection(CTabFolder.java:3265)
+	at org.eclipse.swt.custom.CTabFolder.onMouse(CTabFolder.java:1900)
+	at org.eclipse.swt.custom.CTabFolder.lambda$0(CTabFolder.java:332)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4364)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1217)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4162)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3750)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1147)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1038)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:677)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:583)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:185)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:219)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:149)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:115)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:467)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:298)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:615)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:563)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1415)
+Caused by: org.eclipse.core.runtime.CoreException: Cannot determine URI for '/tdse-tp2_00-model_integration/app/src/task_sensor.c'.
+	at org.eclipse.core.internal.filebuffers.ResourceFileBuffer.create(ResourceFileBuffer.java:240)
+	at org.eclipse.core.internal.filebuffers.TextFileBufferManager.connect(TextFileBufferManager.java:118)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.createFileInfo(TextFileDocumentProvider.java:607)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.createFileInfo(CDocumentProvider.java:792)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.connect(TextFileDocumentProvider.java:524)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.connect(CDocumentProvider.java:724)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.doSetInput(AbstractTextEditor.java:4443)
+	at org.eclipse.ui.texteditor.StatusTextEditor.doSetInput(StatusTextEditor.java:262)
+	at org.eclipse.ui.texteditor.AbstractDecoratedTextEditor.doSetInput(AbstractDecoratedTextEditor.java:1591)
+	at org.eclipse.ui.editors.text.TextEditor.doSetInput(TextEditor.java:156)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.internalDoSetInput(CEditor.java:1447)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.doSetInput(CEditor.java:1411)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.lambda$1(AbstractTextEditor.java:3381)
+	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:435)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:354)
+	at org.eclipse.ui.internal.WorkbenchWindow.lambda$7(WorkbenchWindow.java:2343)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2340)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3398)
+	... 79 more
+!SUBENTRY 1 org.eclipse.core.filebuffers 4 0 2026-08-17 21:14:10.059
+!MESSAGE Cannot determine URI for '/tdse-tp2_00-model_integration/app/src/task_sensor.c'.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Cannot determine URI for '/tdse-tp2_00-model_integration/app/src/task_sensor.c'.
+	at org.eclipse.core.internal.filebuffers.ResourceFileBuffer.create(ResourceFileBuffer.java:240)
+	at org.eclipse.core.internal.filebuffers.TextFileBufferManager.connect(TextFileBufferManager.java:118)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.createFileInfo(TextFileDocumentProvider.java:607)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.createFileInfo(CDocumentProvider.java:792)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.connect(TextFileDocumentProvider.java:524)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.connect(CDocumentProvider.java:724)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.doSetInput(AbstractTextEditor.java:4443)
+	at org.eclipse.ui.texteditor.StatusTextEditor.doSetInput(StatusTextEditor.java:262)
+	at org.eclipse.ui.texteditor.AbstractDecoratedTextEditor.doSetInput(AbstractDecoratedTextEditor.java:1591)
+	at org.eclipse.ui.editors.text.TextEditor.doSetInput(TextEditor.java:156)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.internalDoSetInput(CEditor.java:1447)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.doSetInput(CEditor.java:1411)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.lambda$1(AbstractTextEditor.java:3381)
+	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:435)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:354)
+	at org.eclipse.ui.internal.WorkbenchWindow.lambda$7(WorkbenchWindow.java:2343)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2340)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3398)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.init(AbstractTextEditor.java:3425)
+	at org.eclipse.ui.internal.EditorReference.initialize(EditorReference.java:354)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.create(CompatibilityPart.java:346)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:1037)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:998)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalInject(InjectorImpl.java:142)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalMake(InjectorImpl.java:401)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.make(InjectorImpl.java:319)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.make(ContextInjectionFactory.java:203)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:90)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:59)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:42)
+	at org.eclipse.ui.internal.WorkbenchContributionFactory.create(WorkbenchContributionFactory.java:46)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer.createWidget(ContributedPartRenderer.java:133)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:987)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:658)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:762)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:726)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:710)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.lambda$0(PartServiceImpl.java:105)
+	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.lambda$0(UIEventHandler.java:38)
+	at org.eclipse.swt.widgets.Synchronizer.syncExec(Synchronizer.java:183)
+	at org.eclipse.ui.internal.UISynchronizer.syncExec(UISynchronizer.java:136)
+	at org.eclipse.swt.widgets.Display.syncExec(Display.java:4896)
+	at org.eclipse.e4.ui.workbench.swt.DisplayUISynchronize.syncExec(DisplayUISynchronize.java:34)
+	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.handleEvent(UIEventHandler.java:38)
+	at org.eclipse.equinox.internal.event.EventHandlerWrapper.handleEvent(EventHandlerWrapper.java:206)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:201)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:151)
+	at org.eclipse.equinox.internal.event.EventAdminImpl.dispatchEvent(EventAdminImpl.java:132)
+	at org.eclipse.equinox.internal.event.EventAdminImpl.sendEvent(EventAdminImpl.java:73)
+	at org.eclipse.equinox.internal.event.EventComponent.sendEvent(EventComponent.java:48)
+	at org.eclipse.e4.ui.services.internal.events.EventBroker.send(EventBroker.java:55)
+	at org.eclipse.e4.ui.internal.workbench.UIEventPublisher.notifyChanged(UIEventPublisher.java:61)
+	at org.eclipse.emf.common.notify.impl.BasicNotifierImpl.eNotify(BasicNotifierImpl.java:424)
+	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElementGen(ElementContainerImpl.java:168)
+	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElement(ElementContainerImpl.java:187)
+	at org.eclipse.e4.ui.workbench.renderers.swt.StackRenderer.lambda$28(StackRenderer.java:1194)
+	at org.eclipse.swt.events.SelectionListener$1.widgetSelected(SelectionListener.java:83)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:290)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4364)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1217)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1241)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1226)
+	at org.eclipse.swt.widgets.Widget.notifyListeners(Widget.java:863)
+	at org.eclipse.swt.custom.CTabFolder.setSelection(CTabFolder.java:3265)
+	at org.eclipse.swt.custom.CTabFolder.onMouse(CTabFolder.java:1900)
+	at org.eclipse.swt.custom.CTabFolder.lambda$0(CTabFolder.java:332)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4364)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1217)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4162)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3750)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1147)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1038)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:677)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:583)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:185)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:219)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:149)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:115)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:467)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:298)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:615)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:563)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1415)
+!SUBENTRY 2 org.eclipse.core.filebuffers 4 0 2026-08-17 21:14:10.062
+!MESSAGE Cannot determine URI for '/tdse-tp2_00-model_integration/app/src/task_sensor.c'.
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.221
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.225
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.227
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.227
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.227
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.230
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.230
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.230
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.230
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.230
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.240
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.242
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.242
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 18:50:06.246
+!MESSAGE port: COM18
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 104 2026-08-18 18:52:00.394
+!MESSAGE Program file does not exist
+!STACK 0
+java.io.FileNotFoundException: C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integrationv1\Debug\tdse-tp2_00-model_integrationv1.elf not found
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.verifyProgramPath(LaunchUtils.java:130)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.checkBinaryDetails(GdbLaunchDelegate.java:332)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:154)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:111)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:99)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:335)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:778)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:689)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1052)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1254)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 104 2026-08-18 18:52:00.396
+!MESSAGE C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integrationv1\Debug\tdse-tp2_00-model_integrationv1.elf not found
+!STACK 0
+java.io.FileNotFoundException: C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integrationv1\Debug\tdse-tp2_00-model_integrationv1.elf not found
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.verifyProgramPath(LaunchUtils.java:130)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.checkBinaryDetails(GdbLaunchDelegate.java:332)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:154)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:111)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:99)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:335)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:778)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:689)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1052)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1254)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.835
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.840
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.841
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.842
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.843
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.844
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.844
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.845
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.847
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.848
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.848
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.849
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:38:35.850
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.685
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.687
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.688
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.689
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.689
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.690
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.691
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.692
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.694
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.695
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.695
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.696
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.696
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:42:47.697
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.463
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.464
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.466
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.466
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.468
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.468
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.469
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.470
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.470
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.472
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.472
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.473
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:43:21.474
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.441
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.450
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.451
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.452
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.452
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.455
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.456
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.458
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.460
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.460
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.463
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.464
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.466
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:48:05.469
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.900
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.910
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.911
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.912
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.914
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.916
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.918
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.919
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.919
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.921
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.922
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.923
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 19:59:23.924
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.788
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.790
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.791
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.793
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.794
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.794
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.795
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.796
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.799
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.801
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.803
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.804
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.807
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:04:43.808
+!MESSAGE port: COM18
+
+!ENTRY org.eclipse.ltk.ui.refactoring 4 10000 2026-08-18 20:07:29.405
+!MESSAGE Internal Error
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while moving resources.
+	at org.eclipse.core.internal.resources.Resource.move(Resource.java:1633)
+	at org.eclipse.ltk.core.refactoring.resource.RenameResourceChange.perform(RenameResourceChange.java:118)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:279)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.lambda$0(PerformChangeOperation.java:250)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2505)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2533)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:289)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:94)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:211)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2505)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2533)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:90)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:123)
+Contains: Resource already exists on disk: 'C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integration'.
+!SUBENTRY 1 org.eclipse.core.resources 1 4 2026-08-18 20:07:29.409
+!MESSAGE Problems encountered while moving resources.
+!SUBENTRY 2 org.eclipse.core.resources 1 4 2026-08-18 20:07:29.409
+!MESSAGE Resource already exists on disk: 'C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integration'.
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.111
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.116
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.117
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.118
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.119
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.121
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.122
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.123
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.124
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.125
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.126
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.127
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:12:55.127
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.871
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.875
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.877
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.878
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.878
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.879
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.879
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.881
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.882
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.883
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.883
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.885
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.887
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.889
+!MESSAGE port: COM18

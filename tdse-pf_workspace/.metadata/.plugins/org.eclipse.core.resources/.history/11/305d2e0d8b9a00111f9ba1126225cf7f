@@ -1,0 +1,39 @@
+/*
+ * matriz.h
+ *
+ *  Created on: Jul 17, 2026
+ *      Author: Martin
+ */
+
+#ifndef INC_MATRIZ_H_
+#define INC_MATRIZ_H_
+
+#include "stdint.h"
+
+// Dimensiones de la matriz
+#define MATRIZ_FILAS      32
+#define MATRIZ_COLUMNAS   32
+
+// TDA Casillero_t, es cada casilla de la matriz.
+typedef struct __attribute__((packed)) {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+} Casillero_t;
+
+// TDA Matriz_t, esta es la matriz
+typedef struct __attribute__((packed)){
+    Casillero_t grilla[MATRIZ_FILAS][MATRIZ_COLUMNAS];
+} Matriz_t;
+
+
+Matriz_t* matrizCrear(void);
+void      matrizBorrar(Matriz_t* matrizEntrada);
+
+
+void      matrizSetCasillero(Matriz_t* matrizEntrada, uint8_t fila, uint8_t col, uint8_t r, uint8_t g, uint8_t b);
+void      matrizGetCasillero(Matriz_t* matrizEntrada, uint8_t fila, uint8_t col, Casillero_t* salida);
+void      matrizGetColorCasillero(Matriz_t* matrizEntrada, uint8_t fila, uint8_t col, uint8_t* entradaR, uint8_t* entradaG, uint8_t* entradaB);
+void      matrizLlenar(Matriz_t* matrizEntrada, uint8_t r, uint8_t g, uint8_t b);
+
+#endif
