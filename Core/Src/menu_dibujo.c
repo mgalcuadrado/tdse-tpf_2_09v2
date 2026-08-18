@@ -24,14 +24,18 @@ static char seleccion[6] = {'*', ' ', ' ', ' ', ' '}; // 5 opciones + \n
 static int indice_seleccion = 0;
 static bool pincel_cambiado = false;
 
+static bool memoria_en_proceso = false;
+static uint32_t tiempo_memoria = 0;
+
+#define TIEMPO_MOSTRAR_SECCION_MS 1000 //300ms para guardar
+
 void menuDibujoEntrar(void) {
     // El dibujo se crea una sola vez (la primera vez que se entra al menú)
     // y se mantiene vivo mientras se navega entre Dibujar/Cambiar Pincel/etc.
     if (dibujo_actual == NULL) {
         dibujo_actual = dibujoCrear();
         if (dibujo_actual == NULL) {
-            printf("Error al crear dibujo \n");
-            sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
+        	sistemaCambiarOperacion(ESTADO_FALLA);
             return;
         }
         frameBufferUpdateAll(dibujo_actual->matriz);
@@ -68,7 +72,7 @@ void menuDibujoMostrar(char seleccion[6], int indice_seleccion) {
 		lcdBufferearLinea(2, " ");
 		lcdBufferearLinea(3, " ");
     } else {
-        printf("Error en el Display/MenuDibujo \n");
+    	sistemaCambiarOperacion(ESTADO_FALLA);
     }
 }
 
@@ -78,7 +82,7 @@ void menuDibujoOpcionElegida(int indice_seleccion) {
         	lcdVaciarBuffer();
 			lcdBufferearLinea(0, "Dibujando...");
 			lcdBufferearLinea(2, "Presione atras");
-			lcdBufferearLinea(3, "Para salir");
+			lcdBufferearLinea(3, "para salir");
             sistemaCambiarEstado(ESTADO_DIBUJANDO);
             break;
         case 1: // Nuevo Dibujo (Te manda a pedir confirmacion)
@@ -88,21 +92,54 @@ void menuDibujoOpcionElegida(int indice_seleccion) {
 			lcdBufferearLinea(2, "-> Atras");
 			sistemaCambiarEstado(ESTADO_LIMPIAR_DIBUJO);
             break;
+
+        	/* Timer via ticks
+			uint32_t ahora = HAL_GetTick();
+			if (!memoria_en_proceso){
+				tiempo_memoria = HAL_GetTick();
+				memoria_en_proceso = true;
+				lcdVaciarBuffer();
+				lcdBufferearLinea(1, "Cargando...");
+			}
+			if ((ahora - tiempo_memoria) < TIEMPO_MOSTRAR_SECCION_MS) {
+				return; // Todavia no pasaron los ~1 segundos de esta sección
+			}
+			memoria_en_proceso = false;*/
+
+
         case 2: // Guardar Dibujo
-        	lcdVaciarBuffer();
-        	lcdBufferearLinea(1, "Guardando. . .");
-            if (!memBufferearEscrituraMatriz(0x0000, dibujo_actual->matriz)) { //0x0000 posición de placeholder
-            	printf("Error al guardar dibujo");
+            lcdVaciarBuffer();
+            if (memEstaOcupada()) {
+            	tiempo_memoria = HAL_GetTick();
+				memoria_en_proceso = true;
+                lcdBufferearLinea(1, "Memoria Ocupada!");
+                menuDibujoEntrar();
+            } else {
+                lcdBufferearLinea(1, "Guardando. . .");
+                if (!memBufferearEscrituraMatriz(0x0000, dibujo_actual->matriz)) {
+                    lcdBufferearLinea(2, "Error al Guardar");
+                    sistemaCambiarOperacion(ESTADO_FALLA);
+                }
+                menuDibujoEntrar();
             }
-            frameBufferUpdateAll(dibujo_actual->matriz); // A revisar esto
-            menuDibujoEntrar();
             break;
+
         case 3: // Cargar Dibujo
-        	lcdVaciarBuffer();
-			lcdBufferearLinea(1, "Cargando...");
-			memLeerMatriz(0x0000, dibujo_actual->matriz); // 0x000 Placeholder
-            frameBufferUpdateAll(dibujo_actual->matriz); // A revisar esto
-            menuDibujoEntrar();
+            lcdVaciarBuffer();
+            if (memEstaOcupada()) {
+                lcdBufferearLinea(1, "Memoria Ocupada!");
+                menuDibujoEntrar();
+            } else {
+                lcdBufferearLinea(1, "Cargando...");
+                if (memLeerMatriz(0x0000, dibujo_actual->matriz) == HAL_OK) {
+                    frameBufferUpdateAll(dibujo_actual->matriz);
+                    lcdBufferearLinea(2, "Carga Exitosa!");
+                } else {
+                    lcdBufferearLinea(2, "Error al Cargar");
+                    sistemaCambiarOperacion(ESTADO_FALLA);
+                }
+                menuDibujoEntrar();
+            }
             break;
         case 4: // Cambiar Pincel -> transición de estado
             sistemaCambiarEstado(ESTADO_CAMBIANDO_PINCEL);
@@ -159,15 +196,15 @@ void menuDibujoDibujarTick(BotonEvento_t input) {
             // Lectura de potes para obtener valores R, G y B
             // dibujoPintar(dibujo_actual, r, g, b);
             // frameBufferUpdate(dibujo_actual->matriz);
-        	uint8_t r = 255;
-        	uint8_t g = 0; 	//Serian igualados a potenciometrosLeer();
-			uint8_t b = 0;
-			leer_potenciometros(&r, &g, &b);
-        	dibujo_actual->color_anterior->r = r;
-			dibujo_actual->color_anterior->g = g;
-			dibujo_actual->color_anterior->b = b;
+        	// uint8_t r = 255;
+        	// uint8_t g = 0; 	//Serian igualados a potenciometrosLeer();
+			// uint8_t b = 0;
+			Potenciometros_t valores = obtenerPotenciometros();
+        	dibujo_actual->color_anterior->r = valores.r;
+			dibujo_actual->color_anterior->g = valores.g;
+			dibujo_actual->color_anterior->b = valores.b;
 			char mensaje1[LCD_COLUMNAS];
-			snprintf(mensaje1, sizeof(mensaje1), "r %d g %d b %d", r,g,b);
+			snprintf(mensaje1, sizeof(mensaje1), "r %d g %d b %d", valores.r, valores.g, valores.b);
 			lcdVaciarBuffer();
 			lcdBufferearLinea(0, "Patron RGB:");
 			lcdBufferearLinea(1, mensaje1);

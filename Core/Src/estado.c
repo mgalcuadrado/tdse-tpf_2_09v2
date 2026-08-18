@@ -11,24 +11,51 @@
 #include "menu_secuencia.h"
 #include "matrizinicio.h"
 
-static EstadoSistema_t estado_actual = ESTADO_MENU_PRINCIPAL;
+static EstadoSistema_t estado_sistema_actual = ESTADO_MENU_PRINCIPAL;
+static EstadoOperacion_t estado_operacion_actual = ESTADO_SETUP;
 
 void sistemaInit(void) {
-    sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
+    sistemaCambiarOperacion(ESTADO_NORMAL);
 }
 
 void sistemaProcesar(void) {
-	sistemaTickTiempo();
-	BotonEvento_t input = botonUltimoEvento();
-	sistemaTick(input);
+	switch (estado_operacion_actual){
+		case ESTADO_SETUP:
+			sistemaCambiarOperacion(ESTADO_FALLA);
+			break;
+		case ESTADO_NORMAL:
+			sistemaTickTiempo();
+			BotonEvento_t input = botonUltimoEvento();
+			sistemaTick(input);
+			break;
+		case ESTADO_FALLA:
+			sistemaError();
+			break;
+	}
 }
 
+void sistemaCambiarOperacion(EstadoOperacion_t nueva_operacion) {
+	estado_operacion_actual = nueva_operacion;
+
+	switch (nueva_operacion) {
+	case ESTADO_SETUP:
+		sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
+		break;
+	case ESTADO_NORMAL:
+		sistemaProcesar();
+		break;
+	case ESTADO_FALLA:
+		sistemaError();
+		break;
+	}
+}
+
+
 void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
-    estado_actual = nuevo_estado; //Arranca en MENU_PRINCIPAL
+    estado_sistema_actual = nuevo_estado; //Arranca en MENU_PRINCIPAL
 
     switch (nuevo_estado) {
         case ESTADO_MENU_PRINCIPAL:
-			frameBufferLandingScreen();
             menuPrincipalEntrar();
             break;
         case ESTADO_CAMBIANDO_BRILLO:
@@ -69,7 +96,7 @@ void sistemaTick(BotonEvento_t input) {
         return;
     }
 
-    switch (estado_actual) {
+    switch (estado_sistema_actual) {
         case ESTADO_MENU_PRINCIPAL:
             menuPrincipalTick(input);
             break;
@@ -100,15 +127,27 @@ void sistemaTick(BotonEvento_t input) {
 }
 
 void sistemaTickTiempo(void) {
-    if (estado_actual == ESTADO_MOSTRANDO_SECUENCIA) {
+    if (estado_sistema_actual == ESTADO_MOSTRANDO_SECUENCIA) {
         menuSecuenciaMostrarTick();
-    } else if (estado_actual == ESTADO_COMPLETANDO_SECUENCIA) {
+    } else if (estado_sistema_actual == ESTADO_COMPLETANDO_SECUENCIA) {
         menuSecuenciaCompletarTick(BOTON_NINGUNO); // Evalua cuando el usuario haya completado la secuencia o fallado
     }
 }
 
+void sistemaError() {
+	static bool primera_falla_tick = false;
+	if(!primera_falla_tick){
+		primera_falla_tick = true;
+		lcdBufferearLinea(0, "Error en Sistema");
+		lcdBufferearLinea(1, "Para reanudar");
+		lcdBufferearLinea(2, "el funcionamiento");
+		lcdBufferearLinea(3, "reiniciar placa");
+	}
+	// NVIC_SystemReset(); seria una solución para reiniciar la placa y reanudar el funcionamiento
+}
+
 Matriz_t* sistemaObtenerMatrizActiva(void) {
-    switch (estado_actual) {
+    switch (estado_sistema_actual) {
         case ESTADO_DIBUJANDO:
         case ESTADO_CAMBIANDO_PINCEL:
             return menuDibujoObtenerMatriz();

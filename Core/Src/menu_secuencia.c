@@ -63,7 +63,7 @@ void menuSecuenciaEntrar(void) {
         secuencia_actual = secuenciaCrear();
         if (secuencia_actual == NULL) {
 
-            sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
+        	sistemaCambiarOperacion(ESTADO_FALLA);
             return;
         }
     }
@@ -73,7 +73,7 @@ void menuSecuenciaEntrar(void) {
 
             secuenciaBorrar(secuencia_actual);
             secuencia_actual = NULL;
-            sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
+            sistemaCambiarOperacion(ESTADO_FALLA);
             return;
         }
     }
@@ -90,8 +90,8 @@ void menuSecuenciaPrint(char seleccion[3], int indice_seleccion) {
     char mensaje0[LCD_COLUMNAS];
     char mensaje1[LCD_COLUMNAS];
 
-    snprintf(mensaje0, sizeof(mensaje0), "(%c) Jugar Secuencia", seleccion[0]);
-    snprintf(mensaje1, sizeof(mensaje1), "(%c) BorrarSecuencia", seleccion[1]);
+    snprintf(mensaje0, sizeof(mensaje0), "(%c) Jugar Sec.", seleccion[0]);
+    snprintf(mensaje1, sizeof(mensaje1), "(%c) Borrar Sec,", seleccion[1]);
 
     lcdBufferearLinea(0, mensaje0);
     lcdBufferearLinea(1, mensaje1);
