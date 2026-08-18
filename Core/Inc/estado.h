@@ -11,6 +11,12 @@
 #include "matriz.h"
 
 typedef enum {
+    ESTADO_SETUP = 0,
+	ESTADO_NORMAL,
+    ESTADO_FALLA,
+} EstadoOperacion_t;
+
+typedef enum {
     ESTADO_MENU_PRINCIPAL = 0,
 	ESTADO_CAMBIANDO_BRILLO,
     ESTADO_MENU_DIBUJO,
@@ -30,9 +36,13 @@ void sistemaProcesar(void); // Adjunta todas las funciones necesarias para el fu
 
 void sistemaTick(BotonEvento_t input);// Llamar una vez por vuelta del loop principal, con el evento leído por botonLeer()
 
+void sistemaCambiarOperacion(EstadoOperacion_t nueva_operacion);
+
 void sistemaCambiarEstado(EstadoSistema_t nuevo_estado); // Usada por los módulos de menú para pedir una transición de pantalla
 
 void sistemaTickTiempo(void); // no depende de botones
+
+void sistemaError();
 
 Matriz_t* sistemaObtenerMatrizActiva(void);
 
