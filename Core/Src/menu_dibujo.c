@@ -93,53 +93,11 @@ void menuDibujoOpcionElegida(int indice_seleccion) {
 			sistemaCambiarEstado(ESTADO_LIMPIAR_DIBUJO);
             break;
 
-        	/* Timer via ticks
-			uint32_t ahora = HAL_GetTick();
-			if (!memoria_en_proceso){
-				tiempo_memoria = HAL_GetTick();
-				memoria_en_proceso = true;
-				lcdVaciarBuffer();
-				lcdBufferearLinea(1, "Cargando...");
-			}
-			if ((ahora - tiempo_memoria) < TIEMPO_MOSTRAR_SECCION_MS) {
-				return; // Todavia no pasaron los ~1 segundos de esta sección
-			}
-			memoria_en_proceso = false;*/
-
-
         case 2: // Guardar Dibujo
-            lcdVaciarBuffer();
-            if (memEstaOcupada()) {
-            	tiempo_memoria = HAL_GetTick();
-				memoria_en_proceso = true;
-                lcdBufferearLinea(1, "Memoria Ocupada!");
-                menuDibujoEntrar();
-            } else {
-                lcdBufferearLinea(1, "Guardando. . .");
-                if (!memBufferearEscrituraMatriz(0x0000, dibujo_actual->matriz)) {
-                    lcdBufferearLinea(2, "Error al Guardar");
-                    sistemaCambiarOperacion(ESTADO_FALLA);
-                }
-                menuDibujoEntrar();
-            }
-            break;
-
+        	sistemaCambiarEstado(ESTADO_GUARDANDO_DIBUJO);
+        	break;
         case 3: // Cargar Dibujo
-            lcdVaciarBuffer();
-            if (memEstaOcupada()) {
-                lcdBufferearLinea(1, "Memoria Ocupada!");
-                menuDibujoEntrar();
-            } else {
-                lcdBufferearLinea(1, "Cargando...");
-                if (memLeerMatriz(0x0000, dibujo_actual->matriz) == HAL_OK) {
-                    frameBufferUpdateAll(dibujo_actual->matriz);
-                    lcdBufferearLinea(2, "Carga Exitosa!");
-                } else {
-                    lcdBufferearLinea(2, "Error al Cargar");
-                    sistemaCambiarOperacion(ESTADO_FALLA);
-                }
-                menuDibujoEntrar();
-            }
+            sistemaCambiarEstado(ESTADO_CARGANDO_DIBUJO);
             break;
         case 4: // Cambiar Pincel -> transición de estado
             sistemaCambiarEstado(ESTADO_CAMBIANDO_PINCEL);
@@ -251,6 +209,69 @@ void menuDibujoDibujarPrint(BotonEvento_t input) {
 		break;
 	}
 }
+
+void menuDibujoGuardando() {
+	uint32_t ahora = HAL_GetTick();
+
+	if (memoria_en_proceso){
+		if ((ahora - tiempo_memoria) < TIEMPO_MOSTRAR_SECCION_MS && memoria_en_proceso) {
+			return; // Todavia no pasaron los ~1 segundos de esta sección
+		}
+		memoria_en_proceso = false;
+		sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
+		return;
+	}
+
+	if (memEstaOcupada()) {
+		lcdVaciarBuffer();
+		lcdBufferearLinea(1, "Memoria Ocupada!");
+		return;
+	} else {
+		memoria_en_proceso = true;
+		tiempo_memoria = HAL_GetTick();
+		lcdVaciarBuffer();
+		lcdBufferearLinea(1, "Guardando. . .");
+		if (!memBufferearEscrituraMatriz(0x0000, dibujo_actual->matriz)) {
+			lcdBufferearLinea(2, "Error al Guardar");
+			sistemaCambiarOperacion(ESTADO_FALLA);
+		} else {
+			lcdBufferearLinea(2, "Guardado Exitoso!");
+		}
+		return;
+	}
+}
+
+void menuDibujoCargando() {
+	uint32_t ahora = HAL_GetTick();
+
+	if (memoria_en_proceso){
+		if ((ahora - tiempo_memoria) < TIEMPO_MOSTRAR_SECCION_MS && memoria_en_proceso) {
+			return; // Todavia no pasaron los ~1 segundos de esta sección
+		}
+		memoria_en_proceso = false;
+		sistemaCambiarEstado(ESTADO_MENU_DIBUJO);
+		return;
+	}
+
+	if (memEstaOcupada()) {
+		lcdVaciarBuffer();
+		lcdBufferearLinea(1, "Memoria Ocupada!");
+		return;
+	} else {
+		memoria_en_proceso = true;
+		tiempo_memoria = HAL_GetTick();
+		lcdVaciarBuffer();
+		lcdBufferearLinea(1, "Cargando...");
+		if (memLeerMatriz(0x0000, dibujo_actual->matriz) == HAL_OK) {
+			frameBufferUpdateAll(dibujo_actual->matriz);
+			lcdBufferearLinea(2, "Carga Exitosa!");
+		} else {
+			lcdBufferearLinea(2, "Error al Cargar");
+		}
+		return;
+	}
+}
+
 
 void menuDibujoCambiarPincelTick(BotonEvento_t input) {
 	if (dibujo_actual == NULL) return;

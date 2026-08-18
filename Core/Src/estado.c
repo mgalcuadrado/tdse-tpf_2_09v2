@@ -64,6 +64,12 @@ void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
         case ESTADO_MENU_DIBUJO:
             menuDibujoEntrar();
             break;
+        case ESTADO_GUARDANDO_DIBUJO:
+        	menuDibujoGuardando();
+        	break;
+        case ESTADO_CARGANDO_DIBUJO:
+        	menuDibujoCargando();
+            break;
         case ESTADO_MENU_SECUENCIA:
             menuSecuenciaEntrar();
             break;
@@ -127,11 +133,22 @@ void sistemaTick(BotonEvento_t input) {
 }
 
 void sistemaTickTiempo(void) {
-    if (estado_sistema_actual == ESTADO_MOSTRANDO_SECUENCIA) {
-        menuSecuenciaMostrarTick();
-    } else if (estado_sistema_actual == ESTADO_COMPLETANDO_SECUENCIA) {
-        menuSecuenciaCompletarTick(BOTON_NINGUNO); // Evalua cuando el usuario haya completado la secuencia o fallado
-    }
+	switch (estado_sistema_actual){
+	case ESTADO_MOSTRANDO_SECUENCIA:
+		menuSecuenciaMostrarTick();
+		break;
+	case ESTADO_COMPLETANDO_SECUENCIA:
+		menuSecuenciaCompletarTick(BOTON_NINGUNO);
+		break;
+	case ESTADO_GUARDANDO_DIBUJO:
+		menuDibujoGuardando();
+		break;
+	case ESTADO_CARGANDO_DIBUJO:
+		menuDibujoCargando();
+		break;
+	default:
+		break;
+	}
 }
 
 void sistemaError() {
