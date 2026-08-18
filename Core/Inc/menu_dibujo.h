@@ -29,6 +29,10 @@ void menuDibujoCambiarPincelTick(BotonEvento_t input);
 
 void menuDibujoMostrar(char seleccion[6], int indice_seleccion);
 
+void menuDibujoGuardando(void);
+
+void menuDibujoCargando(void);
+
 void menuDibujoOpcionElegida(int indice_seleccion);
 
 Matriz_t* menuDibujoObtenerMatriz(void);
