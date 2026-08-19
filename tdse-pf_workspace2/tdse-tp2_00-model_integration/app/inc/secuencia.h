@@ -12,6 +12,7 @@
 #include "matriz.h"
 #include <stdbool.h>
 #include "boton.h"
+#include "stm32f1xx_hal.h"
 
 
 #define CANT_ELEMENTOS 16 // 32 x 32 dado un pincel de 8 x 8 = 4 x 4 casilleros
@@ -21,8 +22,8 @@
 //Cambiar casillero
 
 typedef struct Secuencia_t {
-        uint8_t lista_sec[2][CANT_ELEMENTOS];
-        uint8_t indice_sec;
+        uint8_t listaSec[2][CANT_ELEMENTOS];
+        uint8_t indiceSec;
 } Secuencia_t;
 
 

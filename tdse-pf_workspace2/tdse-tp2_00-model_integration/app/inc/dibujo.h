@@ -20,10 +20,10 @@
 
 typedef struct  {
         Matriz_t* matriz;
-        uint8_t indice_fil;
-        uint8_t indice_col;
-        uint8_t tam_pincel;
-        Casillero_t* color_anterior;
+        uint8_t indiceFil;
+        uint8_t indiceCol;
+        uint8_t tamPincel;
+        Casillero_t* colorAnterior;
 } Dibujo_t;
 
 

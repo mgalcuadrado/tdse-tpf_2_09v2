@@ -18,36 +18,36 @@
 #include "estado.h"
 
 static char seleccion[4] = {'*', ' ',' '};
-static int indice_seleccion = 0;
+static int indiceSeleccion = 0;
 static int brillo = 25;
 
 void menuPrincipalEntrar(void) {
-    indice_seleccion = 0; //A medida que aumenta, va a la opcion mas abajo en el display.
+    indiceSeleccion = 0; //A medida que aumenta, va a la opcion mas abajo en el display.
     seleccion[0] = '*';
     seleccion[1] = ' ';
     //hub75SetBrightness(brillo);
-    menuPrincipalPrint(seleccion, indice_seleccion);
+    menuPrincipalPrint(seleccion, indiceSeleccion);
 }
 
 void menuPrincipalTick(BotonEvento_t input) {
     switch (input) {
     	case BOTON_ABAJO:
-			seleccion[indice_seleccion] = ' ';
-			indice_seleccion = (indice_seleccion >= 2) ? 0 : indice_seleccion + 1;
-			seleccion[indice_seleccion] = '*';
+			seleccion[indiceSeleccion] = ' ';
+			indiceSeleccion = (indiceSeleccion >= 2) ? 0 : indiceSeleccion + 1;
+			seleccion[indiceSeleccion] = '*';
 
-			menuPrincipalPrint(seleccion, indice_seleccion);
+			menuPrincipalPrint(seleccion, indiceSeleccion);
 			break;
 		case BOTON_ARRIBA:
-			seleccion[indice_seleccion] = ' ';
-			indice_seleccion = (indice_seleccion <= 0) ? 2 : indice_seleccion - 1;
-			seleccion[indice_seleccion] = '*';
+			seleccion[indiceSeleccion] = ' ';
+			indiceSeleccion = (indiceSeleccion <= 0) ? 2 : indiceSeleccion - 1;
+			seleccion[indiceSeleccion] = '*';
 
-			menuPrincipalPrint(seleccion, indice_seleccion);
+			menuPrincipalPrint(seleccion, indiceSeleccion);
             break;
         case BOTON_ACEPTAR:
-        	seleccion[indice_seleccion] = ' ';
-            menuPrincipalOpcionElegida(indice_seleccion);
+        	seleccion[indiceSeleccion] = ' ';
+            menuPrincipalOpcionElegida(indiceSeleccion);
             break;
         default:
             break;
@@ -103,7 +103,7 @@ void menuPrincipalCambiandoBrilloTick(BotonEvento_t input) {
 }
 
 void menuPrincipalPrint(char seleccion[3], int indice_seleccion) {
-	lcdVaciarBuffer();
+
     char mensaje0[LCD_COLUMNAS];
     char mensaje1[LCD_COLUMNAS];
     char mensaje2[LCD_COLUMNAS];
