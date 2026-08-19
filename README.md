@@ -53,14 +53,19 @@ Los materiales utilizados fueron los siguientes:
 |--------------------------------------------------|---------------------|--------------------|
 | Microcontrolador (NUCLEO-F103RB) (x1)            | 15.000              | 
 | Módulo Pantalla Led P10 RGB 16x32cm (x2)         | 53.000              | mercadolibre.com.ar|
-| Pulsadores tipo arcade (x5)                      | 2.000               | mercadolibre.com.ar|
-| Fuente de alimentación (x2)                      | 3.500               | mercadolibre.com.ar|
+| Pulsadores tipo arcade (x6)                      | 2.000               | mercadolibre.com.ar|
+| Fuente switching 5V 20A                   | 29.000               | mercadolibre.com.ar|
 | Módulo display 20x04 (x1)                        | 15.000              | nubbeo.com.ar      |
 | Módulo I2C para display (x1)                     | 3.200               | nubbeo.com.ar      |
 | Módulo Memoria I2C (x1)                          | 1.999               | nubbeo.com.ar      |
 | Buffers 74HCT245 (x4)                            | 6.000               | mercadolibre.com.ar|
-| Regulador de tensión Step Down regulable (x1)    | 3.500               | nubbeo.com.ar      |
-| PCB                                              | 10.000              | 
+| Bornera B2P (x7)                                              | 3.884              | microelectronicash.com
+| Placa de cobre simple faz 10x15                                              | 9.501              | microelectronicash.com
+| Tira de Pines hembra doble 2.54mm                                              | 14.000              | microelectronicash.com
+|Potenciometros 10k (x3)                                            | 5.000              | microelectronicash.com
+| Zocalos 2x10 (x2)                                            | 563             | microelectronicash.com
+| Capacitor electrolitico 100uF  (x2)                                            | 410             | microelectronicash.com
+| 
 
 ### Nota importante sobre las pantallas obtenidas
 Las pantallas a comprar requerían ser accesibles en precio, relativamente económicas y aptas para exteriores dado que los stands de UBA en Acción se realizan de día y al aire libre. El mejor trade-off entre estas características se encontró en las pantallas P10-3535-2S; sin embargo, la documentación de las mismas resultó ser escasa por lo que su funcionamiento adecuado fue analizado por inspección, prueba e investigación de variantes de los protocolos usuales de pantallas de esta índole. Esto se discutirá en detalle en [la documentación de las pantallas](#4-sección-4-documentación-de-las-pantallas-frame-buffer-y-hub75).
