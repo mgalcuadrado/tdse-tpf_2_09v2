@@ -49,7 +49,8 @@ El proyecto consiste en un sistema con pantallas RGB de 32x32 pixeles de modo de
 ### Detalle del Hardware
 
 Los materiales utilizados fueron los siguientes:
-Productos                                          / Precio (ARS)        / Enlace del producto
+|Productos                                          | Precio (ARS)        | Enlace del producto|
+|---------------|---------------|---------------|
 * Microcontrolador (NUCLEO-F103RB) (x1)            / 15.000              / 
 * Módulo Pantalla Led P10 RGB 16x32cm (x2)         / 53.000              /
 * Pulsadores tipo arcade (x5)                      / 2.000               /
