@@ -49,18 +49,17 @@ El proyecto consiste en un sistema con pantallas RGB de 32x32 pixeles de modo de
 ### Detalle del Hardware
 
 Los materiales utilizados fueron los siguientes:
-
-* Microcontrolador (NUCLEO-F103RB) (x1)
-* Módulo Pantalla
-* Led P10 RGB 16x32cm (x2)
-* Pulsadores tipo arcade (x5)
-* Fuente de alimentación (x2)
-* Módulo display 20x04 (x1)
-* Módulo I2C para display (x1)
-* Módulo Memoria I2C (x1)
-* Buffers 74HCT245 (x4)
-* Regulador de tensión Step Down regulable (x1)
-* PCB 
+Productos                                          / Precio (ARS)        / Enlace del producto
+* Microcontrolador (NUCLEO-F103RB) (x1)            / 15.000              / 
+* Módulo Pantalla Led P10 RGB 16x32cm (x2)         / 53.000              /
+* Pulsadores tipo arcade (x5)                      / 2.000               /
+* Fuente de alimentación (x2)                      / 3.500               /
+* Módulo display 20x04 (x1)                        / 15.000              /
+* Módulo I2C para display (x1)                     / 3.200               /
+* Módulo Memoria I2C (x1)                          / 1.999               /
+* Buffers 74HCT245 (x4)                            / 6.000               /
+* Regulador de tensión Step Down regulable (x1)    / 3.500               /
+* PCB                                              / 10.000              /
 
 ### Nota importante sobre las pantallas obtenidas
 Las pantallas a comprar requerían ser accesibles en precio, relativamente económicas y aptas para exteriores dado que los stands de UBA en Acción se realizan de día y al aire libre. El mejor trade-off entre estas características se encontró en las pantallas P10-3535-2S; sin embargo, la documentación de las mismas resultó ser escasa por lo que su funcionamiento adecuado fue analizado por inspección, prueba e investigación de variantes de los protocolos usuales de pantallas de esta índole. Esto se discutirá en detalle en [la documentación de las pantallas](#4-sección-4-documentación-de-las-pantallas-frame-buffer-y-hub75).
