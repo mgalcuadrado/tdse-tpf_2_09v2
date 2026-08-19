@@ -22,12 +22,12 @@ Secuencia_t* secuenciaCrear() {
         return NULL;
     }
 
-    s->indice_sec = 0;
+    s->indiceSec = 0;
     secuenciaVaciar(s);
     srand(HAL_GetTick());
     for (uint8_t i = 0; i < CANT_ELEMENTOS; i++){
         uint8_t ran = rand() % 2; //Se usar srand(GetTickCount()) en el main que funcione adecuadamente
-        s->lista_sec[0][i] = (ran == 0) ? 0 : 255;
+        s->listaSec[0][i] = (ran == 0) ? 0 : 255;
     }
     return s;
 }
@@ -46,7 +46,7 @@ void secuenciaPintarSeccion(Matriz_t* matriz, uint8_t pos, uint8_t r, uint8_t g,
 //2 auxiliares privadas que tienen que ir arriba
 //Se usa para devolver una casilla a su color anterior cuando se le saca el cursor de encima
 static void secuenciaRestaurarCasilla(Secuencia_t* sec, Matriz_t* matriz, uint8_t pos) {
-    uint8_t colorCasilla = sec->lista_sec[1][pos];
+    uint8_t colorCasilla = sec->listaSec[1][pos];
     secuenciaPintarSeccion(matriz, pos, 0, 0, colorCasilla);
 }
 
@@ -58,7 +58,7 @@ void secuenciaInsertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz
 	}
 
 	uint8_t pos = col/TAM_PINCEL_SECUENCIA + fil/TAM_PINCEL_SECUENCIA * DIM_SECUENCIA; //Calcula la posicion en la secuencia de la matriz
-    sec->lista_sec[1][pos] = color;
+    sec->listaSec[1][pos] = color;
     uint8_t red = 0;
     uint8_t green = 0;
     uint8_t blue = color;
@@ -75,47 +75,47 @@ void secuenciaInsertarElemento(Secuencia_t* sec, uint8_t color, Matriz_t* matriz
 }
 
 void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input, Matriz_t* matriz) {
-	if (sec == NULL || sec->indice_sec >= (DIM_SECUENCIA * DIM_SECUENCIA)) {
+	if (sec == NULL || sec->indiceSec >= (DIM_SECUENCIA * DIM_SECUENCIA)) {
 		printf("Error al acceder Secuencia \n"); //Por swv no deberiamos tener problema con los printf
 		return;
 	}
 
 	// Antes que nada devuelvo la casilla a su color original
 	if (matriz != NULL) {
-		secuenciaRestaurarCasilla(sec, matriz, sec->indice_sec);
+		secuenciaRestaurarCasilla(sec, matriz, sec->indiceSec);
 	}
 
 	// Muy similar a dibujoAvanzar, se mueve en la matriz y pinta el cursor
 	switch (input) {
 	case BOTON_IZQUIERDA:
-		if (sec->indice_sec % DIM_SECUENCIA > 0){
-			sec->indice_sec -= 1;
+		if (sec->indiceSec % DIM_SECUENCIA > 0){
+			sec->indiceSec -= 1;
 		} else {
-			sec->indice_sec += DIM_SECUENCIA - 1;
+			sec->indiceSec += DIM_SECUENCIA - 1;
 		}
 		break;
 
 	case BOTON_ABAJO:
-		if (sec->indice_sec / DIM_SECUENCIA < DIM_SECUENCIA - 1){
-			sec->indice_sec += DIM_SECUENCIA;
+		if (sec->indiceSec / DIM_SECUENCIA < DIM_SECUENCIA - 1){
+			sec->indiceSec += DIM_SECUENCIA;
 		} else {
-			sec->indice_sec -= (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
+			sec->indiceSec -= (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
 		}
 		break;
 
 	case BOTON_DERECHA:
-		if (sec->indice_sec % DIM_SECUENCIA < DIM_SECUENCIA - 1){
-			sec->indice_sec += 1;
+		if (sec->indiceSec % DIM_SECUENCIA < DIM_SECUENCIA - 1){
+			sec->indiceSec += 1;
 		} else {
-			sec->indice_sec -= DIM_SECUENCIA - 1;
+			sec->indiceSec -= DIM_SECUENCIA - 1;
 		}
 		break;
 
 	case BOTON_ARRIBA:
-		if (sec->indice_sec / DIM_SECUENCIA > 0){
-			sec->indice_sec -= DIM_SECUENCIA;
+		if (sec->indiceSec / DIM_SECUENCIA > 0){
+			sec->indiceSec -= DIM_SECUENCIA;
 		} else {
-			sec->indice_sec += (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
+			sec->indiceSec += (DIM_SECUENCIA * (DIM_SECUENCIA - 1));
 		}
 		break;
 
@@ -125,34 +125,34 @@ void secuenciaAvanzar(Secuencia_t* sec, BotonEvento_t input, Matriz_t* matriz) {
 
 	// Pinta el cursor
 	if (matriz != NULL) {
-		secuenciaPintarSeccion(matriz, sec->indice_sec, 250, 0, 0);
+		secuenciaPintarSeccion(matriz, sec->indiceSec, 250, 0, 0);
 	}
 }
 
 uint8_t secuenciaElementoActual(Secuencia_t* sec) {
-	return sec->lista_sec[1][sec->indice_sec];
+	return sec->listaSec[1][sec->indiceSec];
 }
 
 
 void secuenciaPrint(Secuencia_t* sec) {
-    printf("%d Indice \n", sec->indice_sec);
+    printf("%d Indice \n", sec->indiceSec);
     for (uint8_t i = 0; i<CANT_ELEMENTOS; i++) {
-        printf("%d Objetivo %d \n", sec->lista_sec[0][i], i);
-        printf("%d Usuario %d \n", sec->lista_sec[1][i], i);
+        printf("%d Objetivo %d \n", sec->listaSec[0][i], i);
+        printf("%d Usuario %d \n", sec->listaSec[1][i], i);
     }
 }
 
 void secuenciaVaciar(Secuencia_t* sec) {
     for (uint8_t i = 0; i < CANT_ELEMENTOS; i++)
     {
-        sec->lista_sec[1][i]= 0;
+        sec->listaSec[1][i]= 0;
     }
     
 }
 
 bool secuenciaCompleta(Secuencia_t* sec) {
     for (uint8_t i = 0; i < CANT_ELEMENTOS; i++){
-        if (sec->lista_sec[0][i] != sec->lista_sec[1][i]){
+        if (sec->listaSec[0][i] != sec->listaSec[1][i]){
             return false;
         }
 
