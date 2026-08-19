@@ -17,38 +17,38 @@
 #include "menu_secuencia.h"
 #include "estado.h"
 
-static Secuencia_t* secuencia_actual = NULL;
-static Matriz_t* matriz_actual = NULL;
+static Secuencia_t* secuenciaActual = NULL;
+static Matriz_t* matrizActual = NULL;
 static char seleccion[3] = {'*', ' '};
-static int indice_seleccion = 0;
+static int indiceSeleccion = 0;
 
 // Pantalla "mostrar secuencia"
 #define TIEMPO_MOSTRAR_SECCION_MS 1000 //Originalmente 2000
 
-static uint8_t indice_mostrando = 0;
-static uint32_t tiempo_ultima_seccion = 0;
-static bool mostrando_iniciado = false;
+static uint8_t indiceMostrando = 0;
+static uint32_t tiempoUltimaSeccion = 0;
+static bool mostrandoIniciado = false;
 
 // Estado de error al completar la secuencia
-static bool secuencia_fallo = false;
-static uint32_t tiempo_fallo = 0;
+static bool secuenciaFallo = false;
+static uint32_t tiempoFallo = 0;
 
 // Estado de victoria al completar la secuencia
-static bool secuencia_victoria = false;
-static uint32_t tiempo_victoria = 0;
+static bool secuenciaVictoria = false;
+static uint32_t tiempoVictoria = 0;
 
 // Orden en que el usuario debe pintar las secciones
-// Cuenta cuántas secciones "encendidas" (lista_sec[0][pos] != 0) ya pintó el
+// Cuenta cuántas secciones "encendidas" (listaSec[0][pos] != 0) ya pintó el
 // usuario correctamente, en el mismo orden en que se mostraron (de menor a mayor
 // índice). Se reinicia en cada intento nuevo, dentro de menuSecuenciaMostrarEntrar.
-static uint8_t orden_contador = 0;
+static uint8_t ordenContador = 0;
 
 // Devuelve la posición (0..CANT_ELEMENTOS-1) de la próxima sección encendida que el
 // usuario debe pintar,
 static uint8_t menuSecuenciaPosicionEsperada(uint8_t contador) {
     uint8_t encontrados = 0;
     for (uint8_t pos = 0; pos < CANT_ELEMENTOS; pos++) {
-        if (secuencia_actual->lista_sec[0][pos] != 0) {
+        if (secuenciaActual->listaSec[0][pos] != 0) {
             if (encontrados == contador) {
                 return pos;
             }
@@ -59,29 +59,29 @@ static uint8_t menuSecuenciaPosicionEsperada(uint8_t contador) {
 }
 
 void menuSecuenciaEntrar(void) {
-    if (secuencia_actual == NULL) {
-        secuencia_actual = secuenciaCrear();
-        if (secuencia_actual == NULL) {
+    if (secuenciaActual == NULL) {
+        secuenciaActual = secuenciaCrear();
+        if (secuenciaActual == NULL) {
 
         	sistemaCambiarOperacion(ESTADO_FALLA);
             return;
         }
     }
-    if (matriz_actual == NULL) {
-        matriz_actual = matrizCrear();
-        if (matriz_actual == NULL) {
+    if (matrizActual == NULL) {
+        matrizActual = matrizCrear();
+        if (matrizActual == NULL) {
 
-            secuenciaBorrar(secuencia_actual);
-            secuencia_actual = NULL;
+            secuenciaBorrar(secuenciaActual);
+            secuenciaActual = NULL;
             sistemaCambiarOperacion(ESTADO_FALLA);
             return;
         }
     }
 
-    indice_seleccion = 0;
+    indiceSeleccion = 0;
     seleccion[0] = '*';
     seleccion[1] = ' ';
-    menuSecuenciaPrint(seleccion, indice_seleccion);
+    menuSecuenciaPrint(seleccion, indiceSeleccion);
 }
 
 void menuSecuenciaPrint(char seleccion[3], int indice_seleccion) {
@@ -101,7 +101,7 @@ void menuSecuenciaPrint(char seleccion[3], int indice_seleccion) {
 void menuSecuenciaOpcionElegida(int indice_seleccion) {
     switch (indice_seleccion) {
         case 0: // Jugar Secuencia -> primero se muestra la secuencia objetivo
-        	secuenciaVaciar(secuencia_actual); // Empiezo el intento sin nada pintado por el usuario
+        	secuenciaVaciar(secuenciaActual); // Empiezo el intento sin nada pintado por el usuario
             sistemaCambiarEstado(ESTADO_MOSTRANDO_SECUENCIA);
             break;
         case 1: // Limpiar Secuencia
@@ -121,22 +121,22 @@ void menuSecuenciaTick(BotonEvento_t input) {
     switch (input) {
         case BOTON_ABAJO:
         case BOTON_ARRIBA:
-            seleccion[indice_seleccion] = ' ';
-            indice_seleccion = (indice_seleccion == 1) ? 0 : 1;
-            seleccion[indice_seleccion] = '*';
+            seleccion[indiceSeleccion] = ' ';
+            indiceSeleccion = (indiceSeleccion == 1) ? 0 : 1;
+            seleccion[indiceSeleccion] = '*';
 
-            menuSecuenciaPrint(seleccion, indice_seleccion);
+            menuSecuenciaPrint(seleccion, indiceSeleccion);
             break;
         case BOTON_ACEPTAR:
-        	seleccion[indice_seleccion] = ' ';
-            menuSecuenciaOpcionElegida(indice_seleccion);
+        	seleccion[indiceSeleccion] = ' ';
+            menuSecuenciaOpcionElegida(indiceSeleccion);
             break;
         case BOTON_ATRAS:
-            secuenciaBorrar(secuencia_actual);
-            matrizLlenar(matriz_actual, 0, 0, 0);
-            matrizBorrar(matriz_actual);
-            secuencia_actual = NULL;
-            matriz_actual = NULL;
+            secuenciaBorrar(secuenciaActual);
+            matrizLlenar(matrizActual, 0, 0, 0);
+            matrizBorrar(matrizActual);
+            secuenciaActual = NULL;
+            matrizActual = NULL;
             sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
             break;
         default:
@@ -148,51 +148,51 @@ void menuSecuenciaTick(BotonEvento_t input) {
 // La primera sección se pinta recién en el primer llamado a menuSecuenciaMostrarTick,
 // para no depender de HAL_GetTick() antes de cambiar de estado.
 void menuSecuenciaMostrarEntrar(void) {
-    indice_mostrando = 0;
-    mostrando_iniciado = false;
-    orden_contador = 0;
+    indiceMostrando = 0;
+    mostrandoIniciado = false;
+    ordenContador = 0;
 
     lcdVaciarBuffer();
     lcdBufferearLinea(0, "Memoriza la");
     lcdBufferearLinea(1, "Secuencia");
 
-    matrizLlenar(matriz_actual, 0, 0, 0);
-    frameBufferUpdateAll(matriz_actual);
+    matrizLlenar(matrizActual, 0, 0, 0);
+    frameBufferUpdateAll(matrizActual);
 }
 
 // usa HAL_GetTick() (mismo patrón de debounce que ya se usaba en
 // menuSecuenciaCompletarTick) para ir pintando de azul, una por una, las secciones de
-// lista_sec[0] que están "encendidas", con ~2s de por medio.
+// listaSec[0] que están "encendidas", con ~2s de por medio.
 void menuSecuenciaMostrarTick(void) {
 
     uint32_t ahora = HAL_GetTick();
 
-    if (!mostrando_iniciado) {
-        uint8_t objetivo = secuencia_actual->lista_sec[0][indice_mostrando];
+    if (!mostrandoIniciado) {
+        uint8_t objetivo = secuenciaActual->listaSec[0][indiceMostrando];
         if (objetivo != 0) {
-            secuenciaPintarSeccion(matriz_actual, indice_mostrando, 0, 0, 255); // AZUL
-            frameBufferUpdateAll(matriz_actual);
+            secuenciaPintarSeccion(matrizActual, indiceMostrando, 0, 0, 255); // AZUL
+            frameBufferUpdateAll(matrizActual);
         }
-        tiempo_ultima_seccion = ahora;
-        mostrando_iniciado = true;
+        tiempoUltimaSeccion = ahora;
+        mostrandoIniciado = true;
         return;
     }
 
-    if ((ahora - tiempo_ultima_seccion) < TIEMPO_MOSTRAR_SECCION_MS) {
+    if ((ahora - tiempoUltimaSeccion) < TIEMPO_MOSTRAR_SECCION_MS) {
         return; // Todavia no pasaron los ~2 segundos de esta sección
     }
 
     // Apago la sección anterior antes de mostrar la siguiente
-    secuenciaPintarSeccion(matriz_actual, indice_mostrando, 0, 0, 0);
-    frameBufferUpdateAll(matriz_actual);
-    indice_mostrando++;
+    secuenciaPintarSeccion(matrizActual, indiceMostrando, 0, 0, 0);
+    frameBufferUpdateAll(matrizActual);
+    indiceMostrando++;
 
-    if (indice_mostrando >= CANT_ELEMENTOS) {
+    if (indiceMostrando >= CANT_ELEMENTOS) {
         // Terminé de mostrar toda la secuencia: arranca el turno del usuario
-        matrizLlenar(matriz_actual, 0, 0, 0);
-        secuencia_actual->indice_sec = 0;
-        secuenciaPintarSeccion(matriz_actual, 0, 250, 0, 0); // cursor inicial
-        frameBufferUpdateAll(matriz_actual);
+        matrizLlenar(matrizActual, 0, 0, 0);
+        secuenciaActual->indiceSec = 0;
+        secuenciaPintarSeccion(matrizActual, 0, 250, 0, 0); // cursor inicial
+        frameBufferUpdateAll(matrizActual);
 
         lcdVaciarBuffer();
 		lcdBufferearLinea(0, "Repeti Secuencia");
@@ -203,12 +203,13 @@ void menuSecuenciaMostrarTick(void) {
         return;
     }
 
-    uint8_t objetivo = secuencia_actual->lista_sec[0][indice_mostrando];
+    uint8_t objetivo = secuenciaActual->listaSec[0][indiceMostrando];
     if (objetivo != 0) {
-        secuenciaPintarSeccion(matriz_actual, indice_mostrando, 0, 0, 255); // AZUL
-        frameBufferUpdateAll(matriz_actual);
+        secuenciaPintarSeccion(matrizActual, indiceMostrando, 0, 0, 255); // AZUL
+        frameBufferUpdateAll(matrizActual);
+        tiempoUltimaSeccion = ahora;
     }
-    tiempo_ultima_seccion = ahora;
+
 }
 
 void menuSecuenciaCompletarTick(BotonEvento_t input) {
@@ -216,33 +217,33 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
 	// La matriz ya se pintó toda de rojo al detectar el error (ver caso BOTON_ACEPTAR).
 	// Espero un ratito para que el usuario vea el rojo y reinicio el intento mostrando
 	// la secuencia objetivo de nuevo, igual que hace el caso de éxito más abajo.
-	if (secuencia_fallo) {
-		if ((HAL_GetTick() - tiempo_fallo) > DEBOUNCE_MS * 40) {
-			secuencia_fallo = false;
-			secuenciaVaciar(secuencia_actual);
+	if (secuenciaFallo) {
+		if ((HAL_GetTick() - tiempoFallo) > DEBOUNCE_MS * 40) {
+			secuenciaFallo = false;
+			secuenciaVaciar(secuenciaActual);
 			menuSecuenciaMostrarEntrar();
 			sistemaCambiarEstado(ESTADO_MOSTRANDO_SECUENCIA);
 		}
 		return;
 	}
 
-	if (secuenciaCompleta(secuencia_actual)) {
-		if (!secuencia_victoria){
-			secuencia_victoria = true;
-			tiempo_victoria = HAL_GetTick();
+	if (secuenciaCompleta(secuenciaActual)) {
+		if (!secuenciaVictoria){
+			secuenciaVictoria = true;
+			tiempoVictoria = HAL_GetTick();
 			lcdVaciarBuffer();
 			lcdBufferearLinea(0, "Secuencia Completa :)");
 			lcdBufferearLinea(1, "Toca un boton");
-			matrizLlenar(matriz_actual, 0, 255, 0); // Toda la matriz VERDE
-			frameBufferUpdateAll(matriz_actual);
+			matrizLlenar(matrizActual, 0, 255, 0); // Toda la matriz VERDE
+			frameBufferUpdateAll(matrizActual);
 		}
 
-        if ((HAL_GetTick() - tiempo_victoria) > DEBOUNCE_MS * 40) {
-			matrizLlenar(matriz_actual, 0, 0, 0);
+        if ((HAL_GetTick() - tiempoVictoria) > DEBOUNCE_MS * 40) {
+			matrizLlenar(matrizActual, 0, 0, 0);
         	sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
         	return;
 		} else {
-			tiempo_victoria = HAL_GetTick();
+			tiempoVictoria = HAL_GetTick();
 			return;
 		}
     }
@@ -252,24 +253,24 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
         case BOTON_ABAJO:
         case BOTON_IZQUIERDA:
         case BOTON_DERECHA:
-            secuenciaAvanzar(secuencia_actual, input, matriz_actual);
-            if (matriz_actual != NULL) {
-				secuenciaPintarSeccion(matriz_actual, secuencia_actual->indice_sec, 250, 0, 0); //Cursor
-				frameBufferUpdateAll(matriz_actual);
+            secuenciaAvanzar(secuenciaActual, input, matrizActual);
+            if (matrizActual != NULL) {
+				secuenciaPintarSeccion(matrizActual, secuenciaActual->indiceSec, 250, 0, 0); //Cursor
+				frameBufferUpdateAll(matrizActual);
 			}
             menuSecuenciaCompletandoPrint(input);
             break;
         case BOTON_ACEPTAR: {
-            uint8_t idx = secuencia_actual->indice_sec;
+            uint8_t idx = secuenciaActual->indiceSec;
             uint8_t fil = (idx / DIM_SECUENCIA) * TAM_PINCEL_SECUENCIA;
             uint8_t col = (idx % DIM_SECUENCIA) * TAM_PINCEL_SECUENCIA;
-            uint8_t esperado = menuSecuenciaPosicionEsperada(orden_contador);
+            uint8_t esperado = menuSecuenciaPosicionEsperada(ordenContador);
 
             if (idx == esperado) {
                 // Acierto Y en el orden correcto: marco la sección y la pinto de verde
-                secuenciaInsertarElemento(secuencia_actual, 255, matriz_actual, fil, col);
-                secuenciaPintarSeccion(matriz_actual, idx, 0, 255, 0); // VERDE
-                orden_contador++;
+                secuenciaInsertarElemento(secuenciaActual, 255, matrizActual, fil, col);
+                secuenciaPintarSeccion(matrizActual, idx, 0, 255, 0); // VERDE
+                ordenContador++;
 
                 /* Redibujo el cursor porque a veces se tapa
                 for (uint8_t i = 0; i < TAM_PINCEL_SECUENCIA; i++) {
@@ -277,25 +278,25 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
                         matrizSetCasillero(matriz_actual, fil + i, col + j, 250, 0, 0);
                     }
                 }*/
-                frameBufferUpdateAll(matriz_actual);
+                frameBufferUpdateAll(matrizActual);
             } else {
                 // Error: sección equivocada o fuera del orden mostrado
-                matrizLlenar(matriz_actual, 255, 0, 0); // Toda la matriz ROJA
-                frameBufferUpdateAll(matriz_actual);
+                matrizLlenar(matrizActual, 255, 0, 0); // Toda la matriz ROJA
+                frameBufferUpdateAll(matrizActual);
 
                 lcdVaciarBuffer();
 				lcdBufferearLinea(0, "Error! :(");
 				lcdBufferearLinea(1, "Reintentando...");
 
-                secuencia_fallo = true;
-                tiempo_fallo = HAL_GetTick();
+                secuenciaFallo = true;
+                tiempoFallo = HAL_GetTick();
             }
             break;
         }
         case BOTON_ATRAS:
             sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
             lcdBorrar();
-            menuSecuenciaPrint(seleccion, indice_seleccion); // reimprime el menú al volver
+            menuSecuenciaPrint(seleccion, indiceSeleccion); // reimprime el menú al volver
             return;
         default:
             break;
@@ -305,7 +306,7 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
 }
 
 Matriz_t* menuSecuenciaObtenerMatriz(void) {
-    return matriz_actual;
+    return matrizActual;
 }
 
 void menuSecuenciaCompletandoPrint(BotonEvento_t input) {
@@ -336,9 +337,9 @@ void menuSecuenciaCompletandoPrint(BotonEvento_t input) {
 void menuSecuenciaLimpiandoTick(BotonEvento_t input) {
     switch (input) {
         case BOTON_ACEPTAR:
-        	matrizLlenar(matriz_actual, 0, 0, 0);
-			frameBufferUpdateAll(matriz_actual);
-			secuenciaVaciar(secuencia_actual);
+        	matrizLlenar(matrizActual, 0, 0, 0);
+			frameBufferUpdateAll(matrizActual);
+			secuenciaVaciar(secuenciaActual);
 
 			sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
 

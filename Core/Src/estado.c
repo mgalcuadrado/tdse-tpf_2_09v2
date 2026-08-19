@@ -11,15 +11,15 @@
 #include "menu_secuencia.h"
 #include "matrizinicio.h"
 
-static EstadoSistema_t estado_sistema_actual = ESTADO_MENU_PRINCIPAL;
-static EstadoOperacion_t estado_operacion_actual = ESTADO_SETUP;
+static EstadoSistema_t estadoSistemaActual = ESTADO_MENU_PRINCIPAL;
+static EstadoOperacion_t estadoOperacionActual = ESTADO_SETUP;
 
 void sistemaInit(void) {
     sistemaCambiarOperacion(ESTADO_NORMAL);
 }
 
 void sistemaProcesar(void) {
-	switch (estado_operacion_actual){
+	switch (estadoOperacionActual){
 		case ESTADO_SETUP:
 			sistemaCambiarOperacion(ESTADO_FALLA);
 			break;
@@ -35,7 +35,7 @@ void sistemaProcesar(void) {
 }
 
 void sistemaCambiarOperacion(EstadoOperacion_t nueva_operacion) {
-	estado_operacion_actual = nueva_operacion;
+	estadoOperacionActual = nueva_operacion;
 
 	switch (nueva_operacion) {
 	case ESTADO_SETUP:
@@ -52,7 +52,7 @@ void sistemaCambiarOperacion(EstadoOperacion_t nueva_operacion) {
 
 
 void sistemaCambiarEstado(EstadoSistema_t nuevo_estado) {
-    estado_sistema_actual = nuevo_estado; //Arranca en MENU_PRINCIPAL
+    estadoSistemaActual = nuevo_estado; //Arranca en MENU_PRINCIPAL
 
     switch (nuevo_estado) {
         case ESTADO_MENU_PRINCIPAL:
@@ -102,7 +102,7 @@ void sistemaTick(BotonEvento_t input) {
         return;
     }
 
-    switch (estado_sistema_actual) {
+    switch (estadoSistemaActual) {
         case ESTADO_MENU_PRINCIPAL:
             menuPrincipalTick(input);
             break;
@@ -121,6 +121,9 @@ void sistemaTick(BotonEvento_t input) {
         case ESTADO_MENU_SECUENCIA:
             menuSecuenciaTick(input);
             break;
+        case ESTADO_COMPLETANDO_SECUENCIA:
+			menuSecuenciaCompletarTick(input);
+			break;
         case ESTADO_LIMPIAR_DIBUJO:
         	menuDibujoLimpiandoTick(input);
         	break;
@@ -133,7 +136,7 @@ void sistemaTick(BotonEvento_t input) {
 }
 
 void sistemaTickTiempo(void) {
-	switch (estado_sistema_actual){
+	switch (estadoSistemaActual){
 	case ESTADO_MOSTRANDO_SECUENCIA:
 		menuSecuenciaMostrarTick();
 		break;
@@ -164,7 +167,7 @@ void sistemaError() {
 }
 
 Matriz_t* sistemaObtenerMatrizActiva(void) {
-    switch (estado_sistema_actual) {
+    switch (estadoSistemaActual) {
         case ESTADO_DIBUJANDO:
         case ESTADO_CAMBIANDO_PINCEL:
             return menuDibujoObtenerMatriz();
