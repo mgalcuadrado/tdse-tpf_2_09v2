@@ -22,8 +22,8 @@
 //Cambiar casillero
 
 typedef struct Secuencia_t {
-        uint8_t lista_sec[2][CANT_ELEMENTOS];
-        uint8_t indice_sec;
+        uint8_t listaSec[2][CANT_ELEMENTOS];
+        uint8_t indiceSec;
 } Secuencia_t;
 
 
