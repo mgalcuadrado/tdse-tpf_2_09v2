@@ -1,0 +1,22 @@
+2026-08-19 04:44:00,756 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2026-08-19 04:44:00,828 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2026-08-19 04:44:00,829 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2026-08-19 04:44:00,829 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2026-08-19 04:44:00,830 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2026-08-19 04:44:03,144 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2026-08-19 04:44:03,145 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2026-08-19 04:44:03,145 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2026-08-19 04:44:03,145 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2026-08-19 04:44:03,145 [ERROR] AdobePublisher:162 - Exception while opening the connection: java.net.SocketTimeoutException: Connect timed out
+2026-08-19 11:14:27,039 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ago 19, 2026 11:14:26 A. M. com.github.weisj.jsvg.nodes.container.BaseContainerNode isAcceptableType
+2026-08-19 11:14:27,048 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ADVERTENCIA: Element <g> not allowed in <clippath> (or not implemented)
+2026-08-19 11:14:27,049 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-08-19 11:14:27,076 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ago 19, 2026 11:14:27 A. M. com.github.weisj.jsvg.nodes.container.BaseContainerNode isAcceptableType
+2026-08-19 11:14:27,078 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ADVERTENCIA: Element <g> not allowed in <clippath> (or not implemented)
+2026-08-19 11:14:27,079 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-08-19 11:14:27,091 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ago 19, 2026 11:14:27 A. M. com.github.weisj.jsvg.nodes.container.BaseContainerNode isAcceptableType
+2026-08-19 11:14:27,094 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ADVERTENCIA: Element <g> not allowed in <clippath> (or not implemented)
+2026-08-19 11:14:27,095 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 
+2026-08-19 11:14:27,107 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ago 19, 2026 11:14:27 A. M. com.github.weisj.jsvg.nodes.container.BaseContainerNode isAcceptableType
+2026-08-19 11:14:27,109 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] ADVERTENCIA: Element <g> not allowed in <clippath> (or not implemented)
+2026-08-19 11:14:27,110 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] 

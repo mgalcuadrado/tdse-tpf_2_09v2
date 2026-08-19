@@ -1,0 +1,51 @@
+/*
+ * app.c
+ *
+ *  Created on: Aug 14, 2026
+ *      Author: Martin
+ */
+#include "main.h"
+#include "matriz.h"
+#include "mem.h"
+#include "lcd.h"
+#include "boton.h"
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include "hub75.h"
+#include "frame_buffer.h"
+#include "potenciometro.h"
+#include "app.h"
+#include "estado.h"
+
+
+//Acá entraría cualquier init necesario para el programa
+void appInit(){
+	//mgalcuadrado aca hay que agregar rintfs indicando la inicializacion de cada cosa
+	frameBufferInit();
+	hub75Init();
+	lcdInicializar(&hi2c1);
+	sistemaInit();
+
+	return;
+}
+
+void appUpdate(){
+	hub75Update();
+	taskEscrutar();
+	taskProcesar();
+	taskActuar();
+}
+
+void taskEscrutar(){
+	botonLeer();
+	//escrutarPotenciometros();
+
+}
+void taskProcesar(){
+	sistemaProcesar();
+}
+void taskActuar(){
+	lcdActuar();
+	//mgalcuadrado ver si muevo aca el hub75Udate
+}

@@ -26,7 +26,7 @@ void appInit(){
 	hub75Init();
 	lcdInicializar(&hi2c1);
 	sistemaInit();
-
+	poteInit();
 	return;
 }
 

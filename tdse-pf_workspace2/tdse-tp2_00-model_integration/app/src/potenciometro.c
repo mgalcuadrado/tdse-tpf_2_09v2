@@ -1,52 +1,25 @@
 #include "potenciometro.h"
 #include "stm32f1xx_hal.h"
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
 
+#define UMBRAL_FILTRO 2
 extern ADC_HandleTypeDef hadc1;
 
-#define UMBRAL_FILTRO   2
-#define POLL_TIMEOUT_MS 11
+uint16_t muestras_adc[3] = {0,0,0};
 
-
+static volatile uint8_t flagADCLectura = 0;
 static uint8_t valor_r = 0;
 static uint8_t valor_g = 0;
 static uint8_t valor_b = 0;
 
-
-
-static bool leer_3_canales(uint16_t raw[3]) {
-	 uint32_t canales[3] = {ADC_CHANNEL_0, ADC_CHANNEL_1, ADC_CHANNEL_2};
-	 ADC_ChannelConfTypeDef sConfig = {0};
-
-	     // Los canales se leen uno a uno
-	     sConfig.Rank = ADC_REGULAR_RANK_1;
-	     sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
-	  for (int i = 0; i < 3; i++) {
-	        	sConfig.Channel = canales[i];
-	        	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
-	        	            return false;
-	        	        }
-        if (HAL_ADC_Start(&hadc1) != HAL_OK) {
-            HAL_ADC_Stop(&hadc1);
-            return false;
-        }
-
-
-			if (HAL_ADC_PollForConversion(&hadc1, POLL_TIMEOUT_MS) != HAL_OK) {
-				HAL_ADC_Stop(&hadc1);
-				return false;
-        }
-
-        raw[i] = (uint16_t)HAL_ADC_GetValue(&hadc1);
-    }
-
-    HAL_ADC_Stop(&hadc1);
-
-    return true;
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+	if (hadc->Instance == ADC1) {
+	        flagADCLectura = 1;
+	}
 }
-
 
 static uint8_t aplicar_filtro_ruido(uint8_t nuevo, uint8_t anterior) {
     if (abs((int)nuevo - (int)anterior) <= UMBRAL_FILTRO) {
@@ -57,12 +30,9 @@ static uint8_t aplicar_filtro_ruido(uint8_t nuevo, uint8_t anterior) {
 }
 
 
-void pote_init(void)
+void poteInit(void)
 {
-    /*
-     * Como se utiliza polling, no es necesario iniciar
-     * ninguna conversión durante la inicialización.
-     */
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t*) muestras_adc, 3);
 }
 
 
@@ -72,15 +42,13 @@ uint8_t adc_a_color(uint16_t valor_raw) {
 
 
 void escrutarPotenciometros(void) {
-    uint16_t raw[3] = {0};
-
-    if (!leer_3_canales(raw)) {
+    if (!flagADCLectura) {
         return;
     }
-
-    uint8_t r_nuevo = adc_a_color(raw[0]);
-    uint8_t g_nuevo = adc_a_color(raw[1]);
-    uint8_t b_nuevo = adc_a_color(raw[2]);
+    flagADCLectura = 0;
+    uint8_t r_nuevo = adc_a_color(muestras_adc[0]);
+    uint8_t g_nuevo = adc_a_color(muestras_adc[1]);
+    uint8_t b_nuevo = adc_a_color(muestras_adc[2]);
 
     /*
      * Aplicación del filtro de ruido.

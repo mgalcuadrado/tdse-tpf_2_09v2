@@ -11,7 +11,9 @@ typedef struct {
 } Potenciometros_t;
 
 
-void pote_init(void);
+extern uint16_t muestras_adc[3];
+
+void poteInit(void);
 
 uint8_t adc_a_color(uint16_t valor_raw);
 
