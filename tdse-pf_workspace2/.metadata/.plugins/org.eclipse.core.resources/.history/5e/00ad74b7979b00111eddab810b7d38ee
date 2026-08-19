@@ -111,7 +111,7 @@ int main(void)
   MX_ADC1_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_ADCEx_Calibration_Start(&hadc1);
+
   /* Application Init */
   //app_init(); //para testear wcet
   appInit();

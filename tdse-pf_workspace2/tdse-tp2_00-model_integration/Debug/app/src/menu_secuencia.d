@@ -1,6 +1,5 @@
 app/src/menu_secuencia.o: ../app/src/menu_secuencia.c ../app/inc/matriz.h \
  ../app/inc/secuencia.h ../app/inc/matriz.h ../app/inc/boton.h \
- ../app/inc/frame_buffer.h ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -27,15 +26,14 @@ app/src/menu_secuencia.o: ../app/src/menu_secuencia.c ../app/inc/matriz.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
- ../app/inc/lcd.h ../app/inc/boton.h ../app/inc/menu_secuencia.h \
- ../app/inc/mem.h ../app/inc/secuencia.h ../app/inc/frame_buffer.h \
- ../app/inc/lcd.h ../app/inc/estado.h
+ ../app/inc/frame_buffer.h ../Core/Inc/main.h ../app/inc/lcd.h \
+ ../app/inc/boton.h ../app/inc/menu_secuencia.h ../app/inc/mem.h \
+ ../app/inc/secuencia.h ../app/inc/frame_buffer.h ../app/inc/lcd.h \
+ ../app/inc/estado.h
 ../app/inc/matriz.h:
 ../app/inc/secuencia.h:
 ../app/inc/matriz.h:
 ../app/inc/boton.h:
-../app/inc/frame_buffer.h:
-../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:
@@ -62,6 +60,8 @@ app/src/menu_secuencia.o: ../app/src/menu_secuencia.c ../app/inc/matriz.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
+../app/inc/frame_buffer.h:
+../Core/Inc/main.h:
 ../app/inc/lcd.h:
 ../app/inc/boton.h:
 ../app/inc/menu_secuencia.h:

@@ -1,6 +1,6 @@
 app/src/secuencia.o: ../app/src/secuencia.c ../app/inc/secuencia.h \
- ../app/inc/matriz.h ../app/inc/boton.h ../app/inc/matriz.h \
- ../app/inc/boton.h ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+ ../app/inc/matriz.h ../app/inc/boton.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -25,10 +25,9 @@ app/src/secuencia.o: ../app/src/secuencia.c ../app/inc/secuencia.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
- ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
+ ../app/inc/matriz.h ../app/inc/boton.h
 ../app/inc/secuencia.h:
-../app/inc/matriz.h:
-../app/inc/boton.h:
 ../app/inc/matriz.h:
 ../app/inc/boton.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
@@ -57,3 +56,5 @@ app/src/secuencia.o: ../app/src/secuencia.c ../app/inc/secuencia.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
+../app/inc/matriz.h:
+../app/inc/boton.h:

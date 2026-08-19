@@ -71,7 +71,7 @@ uint8_t adc_a_color(uint16_t valor_raw) {
 }
 
 
-void escrutarPotenciometros(void) {
+void escrutar_potenciometros(void) {
     uint16_t raw[3] = {0};
 
     if (!leer_3_canales(raw)) {
