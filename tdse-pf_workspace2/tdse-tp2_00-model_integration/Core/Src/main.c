@@ -25,6 +25,7 @@
 /* Application includes */
 #include "logger.h"
 #include "app.h"
+#include "test.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -67,11 +68,14 @@ static void MX_I2C1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#if (1 == LOGGER_CONFIG_USE_SEMIHOSTING)
+static void DWT_Init(void)
+{
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
-extern void initialise_monitor_handles(void);
+    DWT->CYCCNT = 0;
 
-#endif
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+}
 
 /* USER CODE END 0 */
 
@@ -83,12 +87,8 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  /*#if (1 == LOGGER_CONFIG_USE_SEMIHOSTING)
 
-  initialise_monitor_handles();
 
-  #endif
-	*/
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -104,7 +104,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  DWT_Init();
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -116,8 +116,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* Application Init */
-  //app_init(); //para testear wcet
+
   appInit();
+  testearWCET();//para testear wcet
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -129,7 +130,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
     /* Application Update */
-    //app_update(); //para testear wcet
+
 	  appUpdate();
   }
   /* USER CODE END 3 */

@@ -175,9 +175,18 @@ BU6 | PC5
 
 Se configura el modo *Analog* del IOC. Se utiliza el ADC1, en particular los canales ```IN0```, ```IN1``` e ```IN4``` del ```ADC1```. 
 
-En _Parameter Settings_ se:
+En *Parameter Settings* se:
 - aumenta el number of conversions a 3
 - modifican los Ranks de modo que en el Rank 1 se escuche el Channel 0, Rank 2 al Chanmel 1 y Rank 3 al Channel 4; y el sampling rate se fijó en 239.5 Cycles para los tres canales.
+- Scan Conversion Mode y Continuous Conversion Mode Enabled
+
+En *NVIC Settings* se añaden las global interrupts del DMA1 y del ADC1 como se muestra a continuación:
+
+![NVIC Settings del ADC](bitacoras/img/ADCNVICSettingsIOC.png)
+
+En *DMA Settings* se añade a las DMA Requests el ADC1 con modo Circular con la data width en Peripheral y Memory como Half Word. Se agrega el Increment Address de la memoria. 
+
+![DMA Settings del ADC](bitacoras/img/ADCDMASettingsIOC.png)
 
 ### Clock Configuration
 
@@ -199,10 +208,123 @@ Adicionalmente, verificar lo marcado en verde  en la imagen a continuación. Se 
 
 ## 4. Sección 4: Documentación de las pantallas (frame buffer y HUB75)
 
-* **Responsables:** [Nombre del compañero / Equipo]
+* **Responsables:** [Maria de las Mercedes Gamberale (mgalcuadrado)]
 
-### Gestión de Pantallas
-Explicación del protocolo HUB75, la gestión de la memoria (Frame Buffer), tasas de refresco y controladores de pantalla.
+
+### Nota importante sobre las pantallas obtenidas
+Las pantallas a comprar requerían ser accesibles en precio, relativamente económicas y aptas para exteriores dado que los stands de UBA en Acción se realizan de día y al aire libre. El mejor trade-off entre estas características se encontró en las pantallas P10-3535-2S; sin embargo, la documentación de las mismas resultó ser escasa por lo que su funcionamiento adecuado fue analizado por inspección, prueba e investigación de variantes de los protocolos usuales de pantallas de esta índole. Esto se discutirá en detalle en [la documentación de las pantallas](#4-sección-4-documentación-de-las-pantallas-frame-buffer-y-hub75).
+
+Se utilizaron dos pantallas RGB de 16x32 píxeles conectadas en cascada (_daisy chain_) y colocadas con la siguiente distribución:
+
+![Distribución Pantallas](bitacoras/img/conexionado_pantallas.png)
+
+Se destaca que las pantallas están invertidas una respecto a la otra ya que el cable de conexionado proveído por el fabricante no era lo suficientemente largo como para colocarlas con la misma orientación y, en lugar de rehacer el cable con un largo mayor, simplemente se rotó una de las pantallas para que los conectoeres de salida de la pantalla 1 y de entrada de la pantalla 2 quedaran alineados; esto se corrigió con relativa facilidad por software, no agregando complejidad mayor al problema en cuestión.  
+
+### Protocolo HUB75-ish
+Las pantallas en rigor tienen una variante del protocolo HUB75, que está deplorablemente documentado en el Internet. El pinout de la entrada de las pantallas como se muestra en la serigrafía de las pantallas es la siguiente: 
+
+![Pinout HUB75 pantalla](bitacoras/img/pinout_hub75.png)
+
+Por medio de pruebas y con especial éxito hallado al secuenciar en función de lo planteado en la imagen a continuación, indicando los tiempos de activación de las distintas señales de control, se identificó que la pantalla efecivamente posee un escaneo 1/2 (direccionamiento con un solo bit `A`).
+
+![Secuencia señales HUB75](http://www.moonbaseotago.com/hub75/wd1.png)
+
+En base a esto se planteo un framebuffer, donde guardar la imagen a mostrar en las pantallas, de 2 filas (`A=0` y `A=1`). Como con cada escritura se cargan tanto los valores para el pixel en la fila _i_ columna _i_ y en la fila _i+8_ columna _i_ (por medio de RGB1 y  RGB2, que reaccionan al mismo pulso de Clock enviado por el pin CLK), el framebuffer resultante es una matriz de 2 filas y 256 columnas.
+
+### Mappeo de los pixeles en las pantallas
+A continuación se puede ver el valor que tienen en las columnas del framebuffer los bloques de misma fila del buffer (pares subsiguientes desde el 16, impares desde el 17) en función de esta distribucion de serpentina.
+
+>Nota importante: por cada fila del frame buffer, primero se escribe toda la pantalla 2 y luego la 1. Además, la pantalla 1 y la pantalla 2 se colocaron una invertida con respecto a la otra por el largo del cable IDC originalmente dado por el proveedor de las pantallas LED.
+
+Se trabajará analizando bloques de 4x16, ya que siguen la misma lógica dentro de la misma pantalla independientemente de su fila en el framebuffer. Los bloques de 4x16 se condicen al siguiente orden del framebuffer (esto se verificó usando el test `void testBarridoBuffer(void)`, que se presentará más adelante.)
+
+![Secuencia bloques pantallas](bitacoras/img/secuencia_bloques_pantallas.png)
+
+Dependiendo de la pantalla analizada el mappeo de los datos dentro del bloque de 4x16 diferirá por la posición elegida para las pantallas (una está invertida con respecto a la otra). 
+Se muestran en el orden de las columnas en la matriz (CM) para mayor claridad visual. Como luego se trabajará con estos valores (bloques de 4 filas y 32 columnas), se indican las filas (FM) 0 y 2,
+correspondientes a ese bloque de la pantalla, en el bocetado del patrón de serpentina mostrado a continuación:
+
+#### PANTALLA 2
+
+```
+CM	 00	..... 07   08 ..... 15	 16 ..... 23   24 ..... 31
+FM
+0 || 63 <---- 56 | 47 <---- 40 | 31 <---- 24 | 15 <---- 08 ||
+2 || 48 ----> 56 | 32 ----> 56 | 16 ----> 23 | 00 ----> 07 ||
+```				
+
+#### PANTALLA 1
+
+```
+CM	 00	..... 07   08 ..... 15	 16 ..... 23   24 ..... 31
+FM
+ 2 || 07 <---- 00 | 23 <---- 16 | 39 <---- 32 | 55 <---- 48 ||
+ 0 || 08 ----> 15 | 24 ----> 31 | 40 ----> 47 | 63 ----> 56 ||
+```
+
+El mappeo se realiza por medio de la función interna `void conversorPosicionMatrizAPosicionBuffer(int fila_matriz, int columna_matriz, int * fila_buffer, int * columna_buffer, uint8_t * pines_rgb);`
+que recibe una posición de la matriz original y la mappea a su posición equivalente en el frameBuffer para que el pixel quede en la posición correcta, devolviendo la fila y columna a editar en el framebuffer junto a la indicacion de que pines RGB del hub75 deben utilizarse. 
+
+`frameBufferUpdate` lo que ha
+
+### Tests de las pantallas 
+
+#### testBarridoBuffer(void)
+
+Para hallar cómo realizar el mappeo correcto de los datos de la matriz al buffer se utilizó la función `void testBarridoBuffer(void)` que por cada llamado agrega un pixel encendido azul para el RGB1 y blanco para el RGB2 en una posición del framebuffer del 0 al BUFFER_COLUMNAS (256) para filas del 0 al BUFFER_FILAS (2)
+#### testBarridoCompleto(Matriz_t * matriz)
+
+Para verificar que el mappeo resultante de este análisis del framebuffer para ubicar las casillas de la matriz a los pixeles de las pantallas se creó la prueba `void testBarridoCompleto(Matriz_t * matriz)`. Esta modifica de a una las casillas de la matriz y actualiza el buffer. 
+
+El resultado esperado es que se enciendan en orden los pixeles de las columnas 0 a MATRIZ_FILAS (32) para cada una de las filas, en orden, de 0 a MATRIZ_COLUMNAS (32). 
+
+
+#### Líneas a agregar al main para probar estos tests   
+
+```
+/* USER CODE BEGIN SysInit */
+  frameBufferInit();
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_USART2_UART_Init();
+  MX_TIM3_Init();
+  /* USER CODE BEGIN 2 */
+
+  /* Application Init */
+  //app_init();
+  Matriz_t * matriz = matrizCrear();
+
+  matrizLlenar(matriz, 0,0,0);
+  hub75Init();
+  HAL_TIM_Base_Start_IT(&htim3); // PARA ARRANCAR EL TIMER 3
+
+  uint32_t ultimo_paso = 0;
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+
+
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+
+   /*  Application Update */
+	  if (HAL_GetTick() - ultimo_paso >= 250){
+    //comentar una u otra en función del test a correr
+		    //testBarridoCompleto(matriz);
+		    //testBarridoBuffer();
+		  ultimo_paso = HAL_GetTick();
+	 }
+    //app_update();
+  }
+  /* USER CODE END 3 */
+
+```
 
 [Volver al Índice](#índice)
 
@@ -210,10 +332,10 @@ Explicación del protocolo HUB75, la gestión de la memoria (Frame Buffer), tasa
 
 ## 5. Sección 5: Documentación de la matriz
 
-* **Responsables:** [Nombre del compañero / Equipo]
+* **Responsables:** [ ]
 
-### Control de la Matriz
-Mapeo de LEDs, lógica de renderizado, coordenadas y funciones para manipular la matriz.
+### Sobre la Matriz
+
 
 [Volver al Índice](#índice)
 

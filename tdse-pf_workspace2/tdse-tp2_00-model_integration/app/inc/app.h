@@ -8,6 +8,7 @@
 #ifndef SRC_APP_H_
 #define SRC_APP_H_
 
+#include "main.h"
 extern I2C_HandleTypeDef hi2c1;
 
 void appInit();

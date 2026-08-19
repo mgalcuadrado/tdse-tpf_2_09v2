@@ -32,8 +32,8 @@
  * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
  */
 
-#ifndef APP_H_
-#define APP_H_
+#ifndef TEST_H_
+#define TEST_H_
 
 /********************** CPP guard ********************************************/
 #ifdef __cplusplus
@@ -42,22 +42,7 @@ extern "C" {
 
 /********************** inclusions *******************************************/
 
-/********************** macros ***********************************************/
-#define TEST_0 (0)
-#define TEST_1 (1)
-#define TEST_2 (2)
-
-#define TEST_X (TEST_0)
-
-/********************** typedef **********************************************/
-
-/********************** external data declaration ****************************/
-extern uint32_t g_app_cnt;
-extern uint32_t g_app_runtime_us;
-
-/********************** external functions declaration ***********************/
-extern void app_init(void);
-extern void app_update(void);
+void testearWCET(void);
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus

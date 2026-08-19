@@ -1,2 +1,1 @@
-../app/src/test.c:98:6:app_init	32	static,ignoring_inline_asm
-../app/src/test.c:134:6:app_update	16	static,ignoring_inline_asm
+../app/src/test.c:16:6:testearWCET	8	static

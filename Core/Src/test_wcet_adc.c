@@ -28,7 +28,7 @@ void testWCETADC(void) {
 
         inicio = DWT->CYCCNT;
 
-        escrutar_potenciometros();
+        escrutarPotenciometros();
 
         fin = DWT->CYCCNT;
 
