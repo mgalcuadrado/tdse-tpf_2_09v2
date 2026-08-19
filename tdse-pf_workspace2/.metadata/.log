@@ -1,0 +1,467 @@
+!SESSION 2026-08-18 23:34:52.928 -----------------------------------------------
+eclipse.buildId=Version 2.2.0
+java.version=21.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_AR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace2
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-08-18 23:35:04.463
+!MESSAGE Log4j2 initialized with config file C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace2\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-08-18 23:35:13.147
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.187
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.191
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.195
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.196
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.197
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.200
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.201
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.203
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.206
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.208
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.212
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.217
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 23:35:45.218
+!MESSAGE port: COM16
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-08-18 23:36:27.937
+!MESSAGE Indexed 'tdse-tp2_00-model_integration' (26 sources, 98 headers) in 7,17 sec: 7.374 declarations; 29.861 references; 10 unresolved inclusions; 740 syntax errors; 975 unresolved names (2,6 %)
+
+!ENTRY org.eclipse.ltk.core.refactoring 4 10000 2026-08-18 23:40:48.100
+!MESSAGE Internal Error
+!STACK 1
+org.eclipse.core.runtime.CoreException: Could not delete: C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace2\.metadata\.plugins\org.eclipse.ltk.core.refactoring\.refactorings\.workspace\2026\8\34.
+	at org.eclipse.core.internal.filesystem.local.LocalFile.delete(LocalFile.java:205)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryManager.removeIndexTree(RefactoringHistoryManager.java:364)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryManager.removeRefactoringDescriptors(RefactoringHistoryManager.java:981)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryManager.removeRefactoringDescriptors(RefactoringHistoryManager.java:1068)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistorySerializer.processHistoryNotification(RefactoringHistorySerializer.java:118)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistorySerializer.historyNotification(RefactoringHistorySerializer.java:85)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryService$3.run(RefactoringHistoryService.java:580)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryService.fireRefactoringHistoryEvent(RefactoringHistoryService.java:571)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryService.performHistoryNotification(RefactoringHistoryService.java:934)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryService.lambda$0(RefactoringHistoryService.java:370)
+	at org.eclipse.core.commands.operations.DefaultOperationHistory$2.run(DefaultOperationHistory.java:867)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.core.commands.operations.DefaultOperationHistory.notifyListeners(DefaultOperationHistory.java:856)
+	at org.eclipse.core.commands.operations.DefaultOperationHistory.notifyUndone(DefaultOperationHistory.java:978)
+	at org.eclipse.core.commands.operations.DefaultOperationHistory.doUndo(DefaultOperationHistory.java:438)
+	at org.eclipse.core.commands.operations.DefaultOperationHistory.undo(DefaultOperationHistory.java:1140)
+	at org.eclipse.ui.operations.UndoActionHandler.runCommand(UndoActionHandler.java:85)
+	at org.eclipse.ui.operations.OperationHistoryActionHandler.lambda$0(OperationHistoryActionHandler.java:296)
+	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:435)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:354)
+	at org.eclipse.jface.dialogs.ProgressMonitorDialog.run(ProgressMonitorDialog.java:472)
+	at org.eclipse.ui.internal.operations.TimeTriggeredProgressMonitorDialog.access$1(TimeTriggeredProgressMonitorDialog.java:1)
+	at org.eclipse.ui.internal.operations.TimeTriggeredProgressMonitorDialog.lambda$0(TimeTriggeredProgressMonitorDialog.java:154)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)
+	at org.eclipse.ui.internal.operations.TimeTriggeredProgressMonitorDialog.run(TimeTriggeredProgressMonitorDialog.java:166)
+	at org.eclipse.ui.operations.OperationHistoryActionHandler.run(OperationHistoryActionHandler.java:335)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:474)
+	at org.eclipse.jface.commands.ActionHandler.execute(ActionHandler.java:124)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:305)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:237)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:174)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:165)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:488)
+	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:484)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:204)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.executeCommand(KeyBindingDispatcher.java:320)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.press(KeyBindingDispatcher.java:580)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.processKeyEvent(KeyBindingDispatcher.java:661)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.filterKeySequenceBindings(KeyBindingDispatcher.java:450)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher$KeyDownFilter.handleEvent(KeyBindingDispatcher.java:104)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1342)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1216)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1241)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1226)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1268)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1264)
+	at org.eclipse.swt.widgets.Widget.wmChar(Widget.java:1747)
+	at org.eclipse.swt.widgets.Control.WM_CHAR(Control.java:4982)
+	at org.eclipse.swt.widgets.Tree.WM_CHAR(Tree.java:6160)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4859)
+	at org.eclipse.swt.widgets.Tree.windowProc(Tree.java:6155)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:5132)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(Native Method)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3748)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1147)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1038)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:677)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:583)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:185)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:219)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:149)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:115)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:467)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:298)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:615)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:563)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1415)
+Caused by: java.nio.file.AccessDeniedException: C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace2\.metadata\.plugins\org.eclipse.ltk.core.refactoring\.refactorings\.workspace\2026\8\34
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:89)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:273)
+	at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+	at java.base/java.nio.file.Files.deleteIfExists(Files.java:1192)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.internalDelete(LocalFile.java:312)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.delete(LocalFile.java:203)
+	... 78 more
+!SUBENTRY 1 org.eclipse.core.filesystem 4 273 2026-08-18 23:40:48.133
+!MESSAGE Could not delete: C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace2\.metadata\.plugins\org.eclipse.ltk.core.refactoring\.refactorings\.workspace\2026\8\34.
+!STACK 0
+java.nio.file.AccessDeniedException: C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace2\.metadata\.plugins\org.eclipse.ltk.core.refactoring\.refactorings\.workspace\2026\8\34
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:89)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:273)
+	at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+	at java.base/java.nio.file.Files.deleteIfExists(Files.java:1192)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.internalDelete(LocalFile.java:312)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.delete(LocalFile.java:203)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryManager.removeIndexTree(RefactoringHistoryManager.java:364)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryManager.removeRefactoringDescriptors(RefactoringHistoryManager.java:981)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryManager.removeRefactoringDescriptors(RefactoringHistoryManager.java:1068)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistorySerializer.processHistoryNotification(RefactoringHistorySerializer.java:118)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistorySerializer.historyNotification(RefactoringHistorySerializer.java:85)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryService$3.run(RefactoringHistoryService.java:580)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryService.fireRefactoringHistoryEvent(RefactoringHistoryService.java:571)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryService.performHistoryNotification(RefactoringHistoryService.java:934)
+	at org.eclipse.ltk.internal.core.refactoring.history.RefactoringHistoryService.lambda$0(RefactoringHistoryService.java:370)
+	at org.eclipse.core.commands.operations.DefaultOperationHistory$2.run(DefaultOperationHistory.java:867)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.core.commands.operations.DefaultOperationHistory.notifyListeners(DefaultOperationHistory.java:856)
+	at org.eclipse.core.commands.operations.DefaultOperationHistory.notifyUndone(DefaultOperationHistory.java:978)
+	at org.eclipse.core.commands.operations.DefaultOperationHistory.doUndo(DefaultOperationHistory.java:438)
+	at org.eclipse.core.commands.operations.DefaultOperationHistory.undo(DefaultOperationHistory.java:1140)
+	at org.eclipse.ui.operations.UndoActionHandler.runCommand(UndoActionHandler.java:85)
+	at org.eclipse.ui.operations.OperationHistoryActionHandler.lambda$0(OperationHistoryActionHandler.java:296)
+	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:435)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:354)
+	at org.eclipse.jface.dialogs.ProgressMonitorDialog.run(ProgressMonitorDialog.java:472)
+	at org.eclipse.ui.internal.operations.TimeTriggeredProgressMonitorDialog.access$1(TimeTriggeredProgressMonitorDialog.java:1)
+	at org.eclipse.ui.internal.operations.TimeTriggeredProgressMonitorDialog.lambda$0(TimeTriggeredProgressMonitorDialog.java:154)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:67)
+	at org.eclipse.ui.internal.operations.TimeTriggeredProgressMonitorDialog.run(TimeTriggeredProgressMonitorDialog.java:166)
+	at org.eclipse.ui.operations.OperationHistoryActionHandler.run(OperationHistoryActionHandler.java:335)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:474)
+	at org.eclipse.jface.commands.ActionHandler.execute(ActionHandler.java:124)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:98)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:305)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:237)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:174)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:165)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:488)
+	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:484)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:204)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.executeCommand(KeyBindingDispatcher.java:320)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.press(KeyBindingDispatcher.java:580)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.processKeyEvent(KeyBindingDispatcher.java:661)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.filterKeySequenceBindings(KeyBindingDispatcher.java:450)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher$KeyDownFilter.handleEvent(KeyBindingDispatcher.java:104)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1342)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1216)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1241)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1226)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1268)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1264)
+	at org.eclipse.swt.widgets.Widget.wmChar(Widget.java:1747)
+	at org.eclipse.swt.widgets.Control.WM_CHAR(Control.java:4982)
+	at org.eclipse.swt.widgets.Tree.WM_CHAR(Tree.java:6160)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4859)
+	at org.eclipse.swt.widgets.Tree.windowProc(Tree.java:6155)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:5132)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(Native Method)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3748)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1147)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1038)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:677)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:583)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:185)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:219)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:149)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:115)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:467)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:298)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:615)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:563)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1415)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.081
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.086
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.088
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.089
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.090
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.091
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.092
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.094
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.095
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.095
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.096
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.096
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.099
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:49:55.100
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.299
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.308
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.309
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.310
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.329
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.334
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.335
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.336
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.339
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.340
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.340
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.341
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 02:51:00.342
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.686
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.688
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.688
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.689
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.691
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.692
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.693
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.695
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.696
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.697
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.698
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.698
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.699
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:01:50.700
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.775
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.789
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.791
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.796
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.808
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.809
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.810
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.811
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.811
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.817
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.832
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.834
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-19 03:02:27.835
+!MESSAGE port: COM16

@@ -5,7 +5,7 @@
 ../Core/Src/menu_secuencia.c:120:6:menuSecuenciaTick	6
 ../Core/Src/menu_secuencia.c:150:6:menuSecuenciaMostrarEntrar	1
 ../Core/Src/menu_secuencia.c:166:6:menuSecuenciaMostrarTick	6
-../Core/Src/menu_secuencia.c:214:6:menuSecuenciaCompletarTick	13
-../Core/Src/menu_secuencia.c:307:11:menuSecuenciaObtenerMatriz	1
-../Core/Src/menu_secuencia.c:311:6:menuSecuenciaCompletandoPrint	5
-../Core/Src/menu_secuencia.c:336:6:menuSecuenciaLimpiandoTick	3
+../Core/Src/menu_secuencia.c:215:6:menuSecuenciaCompletarTick	13
+../Core/Src/menu_secuencia.c:308:11:menuSecuenciaObtenerMatriz	1
+../Core/Src/menu_secuencia.c:312:6:menuSecuenciaCompletandoPrint	5
+../Core/Src/menu_secuencia.c:337:6:menuSecuenciaLimpiandoTick	3

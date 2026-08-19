@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="java.lang.Class">
-		<item key="replaceBarOpen" value="false"/>
+		<item key="replaceBarOpen" value="true"/>
 		<list key="findhistory">
+			<item value="tim"/>
+			<item value="obtener"/>
 			<item value="rand"/>
 			<item value="leer"/>
 			<item value="brillo"/>

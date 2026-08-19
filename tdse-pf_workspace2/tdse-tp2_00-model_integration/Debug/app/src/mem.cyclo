@@ -1,0 +1,5 @@
+../app/src/mem.c:38:19:memLeer	1
+../app/src/mem.c:51:6:memBufferearEscrituraMatriz	3
+../app/src/mem.c:72:6:memEstaOcupada	1
+../app/src/mem.c:77:19:memLeerMatriz	2
+../app/src/mem.c:85:6:memActuar	6

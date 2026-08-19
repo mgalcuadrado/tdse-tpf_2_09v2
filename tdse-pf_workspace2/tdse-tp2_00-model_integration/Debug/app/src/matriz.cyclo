@@ -1,0 +1,6 @@
+../app/src/matriz.c:14:11:matrizCrear	1
+../app/src/matriz.c:23:6:matrizBorrar	2
+../app/src/matriz.c:30:6:matrizSetCasillero	4
+../app/src/matriz.c:41:6:matrizGetCasillero	5
+../app/src/matriz.c:47:6:matrizGetColorCasillero	1
+../app/src/matriz.c:54:6:matrizLlenar	3

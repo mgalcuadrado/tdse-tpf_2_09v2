@@ -1,0 +1,6 @@
+../app/src/matriz.c:14:11:matrizCrear	16	static
+../app/src/matriz.c:23:6:matrizBorrar	16	static
+../app/src/matriz.c:30:6:matrizSetCasillero	16	static
+../app/src/matriz.c:41:6:matrizGetCasillero	24	static
+../app/src/matriz.c:47:6:matrizGetColorCasillero	24	static
+../app/src/matriz.c:54:6:matrizLlenar	32	static

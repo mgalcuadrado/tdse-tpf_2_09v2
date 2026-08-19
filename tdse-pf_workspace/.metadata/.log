@@ -4132,3 +4132,175 @@ COM18
 
 !ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 20:27:20.889
 !MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.641
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.643
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.644
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.645
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.646
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.648
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.649
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.650
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.651
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.652
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.652
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.653
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:11:50.654
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.369
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+COM18
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.375
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.376
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.377
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.379
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.380
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.381
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.381
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.382
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.383
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.384
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.386
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.387
+!MESSAGE port: COM16
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:45:20.388
+!MESSAGE port: COM18
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-18 21:50:11.289
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 27 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-18 21:50:11.291
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-18 21:50:11.296
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 27 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-08-18 21:50:11.297
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.784
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM5
+COM6
+COM8
+COM17
+COM3
+COM9
+COM10
+COM11
+COM12
+COM13
+COM16
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.786
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.787
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.788
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.788
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.789
+!MESSAGE port: COM17
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.790
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.792
+!MESSAGE port: COM9
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.792
+!MESSAGE port: COM10
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.793
+!MESSAGE port: COM11
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.795
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.795
+!MESSAGE port: COM13
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-18 21:50:50.796
+!MESSAGE port: COM16

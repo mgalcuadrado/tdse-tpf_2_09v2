@@ -1,0 +1,8 @@
+../app/src/estado.c:17:6:sistemaInit	1
+../app/src/estado.c:21:6:sistemaProcesar	5
+../app/src/estado.c:37:6:sistemaCambiarOperacion	5
+../app/src/estado.c:54:6:sistemaCambiarEstado	13
+../app/src/estado.c:99:6:sistemaTick	11
+../app/src/estado.c:138:6:sistemaTickTiempo	5
+../app/src/estado.c:157:6:sistemaError	2
+../app/src/estado.c:169:11:sistemaObtenerMatrizActiva	4

@@ -1,0 +1,5 @@
+../app/src/app.c:23:6:appInit	1
+../app/src/app.c:33:6:appUpdate	1
+../app/src/app.c:40:6:taskEscrutar	1
+../app/src/app.c:45:6:taskProcesar	1
+../app/src/app.c:48:6:taskActuar	1

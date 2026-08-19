@@ -1,0 +1,10 @@
+../app/src/lcd.c:35:13:lcdMandarInterno	32	static
+../app/src/lcd.c:52:14:lcdMandarComando	16	static
+../app/src/lcd.c:56:13:lcdMandarDato	16	static
+../app/src/lcd.c:60:6:lcdBorrar	8	static
+../app/src/lcd.c:66:6:lcdSetearCursor	24	static
+../app/src/lcd.c:75:13:lcdPrint	16	static
+../app/src/lcd.c:85:6:lcdInicializar	16	static
+../app/src/lcd.c:106:6:lcdBufferearLinea	24	static
+../app/src/lcd.c:136:6:lcdActuar	16	static
+../app/src/lcd.c:155:6:lcdVaciarBuffer	16	static

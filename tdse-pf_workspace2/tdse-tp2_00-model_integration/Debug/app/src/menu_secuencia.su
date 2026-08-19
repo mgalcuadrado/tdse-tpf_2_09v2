@@ -1,0 +1,11 @@
+../app/src/menu_secuencia.c:48:16:menuSecuenciaPosicionEsperada	24	static
+../app/src/menu_secuencia.c:61:6:menuSecuenciaEntrar	8	static
+../app/src/menu_secuencia.c:87:6:menuSecuenciaPrint	56	static
+../app/src/menu_secuencia.c:101:6:menuSecuenciaOpcionElegida	16	static
+../app/src/menu_secuencia.c:120:6:menuSecuenciaTick	16	static
+../app/src/menu_secuencia.c:150:6:menuSecuenciaMostrarEntrar	8	static
+../app/src/menu_secuencia.c:166:6:menuSecuenciaMostrarTick	24	static
+../app/src/menu_secuencia.c:215:6:menuSecuenciaCompletarTick	32	static
+../app/src/menu_secuencia.c:308:11:menuSecuenciaObtenerMatriz	4	static
+../app/src/menu_secuencia.c:312:6:menuSecuenciaCompletandoPrint	16	static
+../app/src/menu_secuencia.c:337:6:menuSecuenciaLimpiandoTick	16	static

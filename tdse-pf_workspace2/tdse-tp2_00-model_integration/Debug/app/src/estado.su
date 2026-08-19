@@ -1,0 +1,8 @@
+../app/src/estado.c:17:6:sistemaInit	8	static
+../app/src/estado.c:21:6:sistemaProcesar	16	static
+../app/src/estado.c:37:6:sistemaCambiarOperacion	16	static
+../app/src/estado.c:54:6:sistemaCambiarEstado	16	static
+../app/src/estado.c:99:6:sistemaTick	16	static
+../app/src/estado.c:138:6:sistemaTickTiempo	8	static
+../app/src/estado.c:157:6:sistemaError	8	static
+../app/src/estado.c:169:11:sistemaObtenerMatrizActiva	8	static

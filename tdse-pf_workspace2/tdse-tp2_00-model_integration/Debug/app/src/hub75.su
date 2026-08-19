@@ -1,0 +1,4 @@
+../app/src/hub75.c:29:6:hub75Init	4	static
+../app/src/hub75.c:38:6:hub75Update	16	static
+../app/src/hub75.c:52:6:hub75Refresh	16	static
+../app/src/hub75.c:74:6:hub75SetBrightness	16	static

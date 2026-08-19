@@ -1,0 +1,11 @@
+../app/src/menu_dibujo.c:32:6:menuDibujoEntrar	8	static
+../app/src/menu_dibujo.c:49:6:menuDibujoMostrar	80	static
+../app/src/menu_dibujo.c:79:6:menuDibujoOpcionElegida	16	static
+../app/src/menu_dibujo.c:110:6:menuDibujoTick	16	static
+../app/src/menu_dibujo.c:142:6:menuDibujoDibujarTick	56	static
+../app/src/menu_dibujo.c:189:6:menuDibujoDibujarPrint	16	static
+../app/src/menu_dibujo.c:213:6:menuDibujoGuardando	16	static
+../app/src/menu_dibujo.c:244:6:menuDibujoCargando	16	static
+../app/src/menu_dibujo.c:276:6:menuDibujoCambiarPincelTick	64	static
+../app/src/menu_dibujo.c:318:11:menuDibujoObtenerMatriz	4	static
+../app/src/menu_dibujo.c:325:6:menuDibujoLimpiandoTick	16	static

@@ -3,6 +3,6 @@
 ../Core/Src/estado.c:37:6:sistemaCambiarOperacion	16	static
 ../Core/Src/estado.c:54:6:sistemaCambiarEstado	16	static
 ../Core/Src/estado.c:99:6:sistemaTick	16	static
-../Core/Src/estado.c:135:6:sistemaTickTiempo	8	static
-../Core/Src/estado.c:154:6:sistemaError	8	static
-../Core/Src/estado.c:166:11:sistemaObtenerMatrizActiva	8	static
+../Core/Src/estado.c:138:6:sistemaTickTiempo	8	static
+../Core/Src/estado.c:157:6:sistemaError	8	static
+../Core/Src/estado.c:169:11:sistemaObtenerMatrizActiva	8	static

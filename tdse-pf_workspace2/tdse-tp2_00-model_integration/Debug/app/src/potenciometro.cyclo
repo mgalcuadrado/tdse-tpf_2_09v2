@@ -1,0 +1,6 @@
+../app/src/potenciometro.c:19:13:leer_3_canales	4
+../app/src/potenciometro.c:40:16:aplicar_filtro_ruido	3
+../app/src/potenciometro.c:49:6:pote_init	1
+../app/src/potenciometro.c:58:9:adc_a_color	1
+../app/src/potenciometro.c:63:6:escrutarPotenciometros	2
+../app/src/potenciometro.c:83:18:obtenerPotenciometros	1

@@ -1,0 +1,9 @@
+../app/src/frame_buffer.c:25:6:frameBufferInit	8	static
+../app/src/frame_buffer.c:29:6:frameBufferLandingScreen	24	static
+../app/src/frame_buffer.c:40:6:frameBufferColourAll	16	static
+../app/src/frame_buffer.c:52:6:frameBufferUpdateAll	24	static
+../app/src/frame_buffer.c:58:6:frameBufferUpdateCasilla	56	static
+../app/src/frame_buffer.c:94:6:frameBufferUpdateCasillaColorDirecto	56	static
+../app/src/frame_buffer.c:137:6:conversorPosicionMatrizAPosicionBuffer	32	static
+../app/src/frame_buffer.c:223:6:testBarridoCompleto	32	static
+../app/src/frame_buffer.c:246:6:testBarridoBuffer	4	static

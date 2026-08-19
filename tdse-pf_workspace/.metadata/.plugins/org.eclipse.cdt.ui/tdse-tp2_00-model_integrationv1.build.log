@@ -1,10 +1,20 @@
-20:39:09 **** Incremental Build of configuration Debug for project tdse-tp2_00-model_integrationv1 ****
+21:49:49 **** Incremental Build of configuration Debug for project tdse-tp2_00-model_integrationv1 ****
 make -j8 all 
+arm-none-eabi-gcc "../Core/Src/menu_secuencia.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../app/inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/menu_secuencia.d" -MT"Core/Src/menu_secuencia.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/menu_secuencia.o"
+arm-none-eabi-gcc -o "tdse-tp2_00-model_integrationv1.elf" @"objects.list"  -lrdimon -mcpu=cortex-m3 -T"C:\Users\mechi\OneDrive\FIUBA\2026_1C\TdSEpf\tdse-pf_workspace\tdse-tp2_00-model_integrationv1\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="tdse-tp2_00-model_integrationv1.map" -Wl,--gc-sections -static -specs=rdimon.specs --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.18.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_1.18.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc_nano.a(libc_a-signalr.o): in function `_kill_r':
+(.text._kill_r+0xe): warning: _kill is not implemented and will always fail
+C:/ST/STM32CubeIDE_1.18.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_1.18.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc_nano.a(libc_a-signalr.o): note: the message above does not take linker garbage collection into account
+Finished building target: tdse-tp2_00-model_integrationv1.elf
+ 
 arm-none-eabi-size  tdse-tp2_00-model_integrationv1.elf 
+arm-none-eabi-objdump -h -S tdse-tp2_00-model_integrationv1.elf  > "tdse-tp2_00-model_integrationv1.list"
    text	   data	    bss	    dec	    hex	filename
-  30748	   4228	   7572	  42548	   a634	tdse-tp2_00-model_integrationv1.elf
+  30760	   4228	   7572	  42560	   a640	tdse-tp2_00-model_integrationv1.elf
 Finished building: default.size.stdout
  
+Finished building: tdse-tp2_00-model_integrationv1.list
+ 
 
-20:39:10 Build Finished. 0 errors, 0 warnings. (took 1s.117ms)
+21:49:52 Build Failed. 1 errors, 1 warnings. (took 3s.348ms)
 

@@ -5,4 +5,4 @@ configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tdse-tp2_00-mode
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tdse-tp2_00-model_integration/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tdse-tp2_00-model_integration/activeLaunchTarget=null\:---
-org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tdse-tp2_00-model_integrationv1\ Debug/activeLaunchMode=debug
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tdse-tp2_00-model_integrationv1\ Debug/activeLaunchMode=run
