@@ -206,22 +206,26 @@ Mapeo de LEDs, lógica de renderizado, coordenadas y funciones para manipular la
 
 ## 6. Sección 6: Documentación de los módulos I2C
 
-* **Responsables:** [Nombre del compañero / Equipo]
-* 
+* **Responsable:** Martín León.
+
 Se detalla a continuación el modo en el que se maneja la lógica de la matriz para su posterior uso como salida en la matriz de luces HUB75, y la implementación de las funciones hehcas en el TDA para su uso.
 
 Se consideró para este proyecto, a la matriz como un cuadrado de 32x32. Cada casillero se guarda como una estructura Casillero_t, en la cual hay 3 valores, siendo estos R, G, y B respectivamente. 
 
 typedef struct {
+
     uint8_t r;
     uint8_t g;
     uint8_t b;
+    
 } Casillero_t;
 
 La matriz entonces, se guarda como una estructura Matriz_t, en la cual se tiene una grilla de datos Casillero_t.
 
 typedef struct {
+
     Casillero_t grilla[MATRIZ_FILAS][MATRIZ_COLUMNAS];
+    
 } Matriz_t;
 
 El TDA matriz incluye las siguientes funciones:
@@ -251,10 +255,10 @@ Se detalla a continuación el planteo y modo de uso de ambos dispositivos I2C ut
 Para el display LCD2004, se utilizó una placa conversora PCF8574 cuya dirección I2C es de 0x27. Esta placa convierte señales I2C en señales aptas para ser recibidas por los 8 pines del display. Cuando se envía 1 Byte (8 bits) por el I2C, se envía cada bit a las terminales P0 a P7 del LCD.
 De estas, las primeras 4 se usan para opciones y manejo general:
 
-•	P0: Register Select	(En 0 indica comando, en 1 indica datos)
-•	P1: Read/Write	(Generalmente en 0 para escribir)
-•	P2: Enable 		(Para el clock, detallado mas adelante)
-•	P3: Backlight		(En general siempre en 0 para mantenerla prendida)
+-	P0: Register Select	(En 0 indica comando, en 1 indica datos)
+-	P1: Read/Write	(Generalmente en 0 para escribir)
+-	P2: Enable 		(Para el clock, detallado mas adelante)
+-	P3: Backlight		(En general siempre en 0 para mantenerla prendida)
 
 Las siguientes 4 terminales (P4-P7) se usan para enviar datos o comandos.
 
