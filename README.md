@@ -207,9 +207,104 @@ Mapeo de LEDs, lógica de renderizado, coordenadas y funciones para manipular la
 ## 6. Sección 6: Documentación de los módulos I2C
 
 * **Responsables:** [Nombre del compañero / Equipo]
+* 
+Se detalla a continuación el modo en el que se maneja la lógica de la matriz para su posterior uso como salida en la matriz de luces HUB75, y la implementación de las funciones hehcas en el TDA para su uso.
+
+Se consideró para este proyecto, a la matriz como un cuadrado de 32x32. Cada casillero se guarda como una estructura Casillero_t, en la cual hay 3 valores, siendo estos R, G, y B respectivamente. 
+
+typedef struct {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+} Casillero_t;
+
+La matriz entonces, se guarda como una estructura Matriz_t, en la cual se tiene una grilla de datos Casillero_t.
+
+typedef struct {
+    Casillero_t grilla[MATRIZ_FILAS][MATRIZ_COLUMNAS];
+} Matriz_t;
+
+El TDA matriz incluye las siguientes funciones:
+- Matriz_t* matrizCrear(void);
+
+Esta función permite crear una instancia de matriz, haciendo el manejo de memoria dinámica correspondiente. Devuelve un puntero a la matriz recientemente creada, y la inicializa con todos sus casilleros en negro. Si falla en crearla, devuelve NULL
+
+- void      matrizBorrar(Matriz_t* matrizEntrada);
+Esta función elimina una instancia de la matriz, tomando un puntero a la matriz a destruir como argumento de entrada. 
+
+- void      matrizSetCasillero(Matriz_t* matrizEntrada, uint8_t fila, uint8_t col, uint8_t r, uint8_t g, uint8_t b);
+Esta función recibe como argumentos un puntero a la matriz a modificar, la fila y columna a modificar, y el color a poner en dicho casillero. Si se le da una ubicación fuera de los límites de la matriz, da un error a la consola de debugging y no hace nada más. De lo contrario, Pone el color recibido en el casillero indicado.
+
+- void matrizGetCasillero(Matriz_t* matrizEntrada, uint8_t fila, uint8_t col, Casillero_t* salida)
+Esta función recibe como argumentos un puntero a la matriz, la fila y columna deseadas, y un puntero a Casillero_t en el que se devolverá el casillero deseado. Si los punteros no son NULL y la ubicación no está fuera de limites, hace que Casillero_t* salida esté dirigido hacia el casillero pedido.
+
+- void      matrizGetColorCasillero(Matriz_t* matrizEntrada, uint8_t fila, uint8_t col, uint8_t* entradaR, uint8_t* entradaG, uint8_t* entradaB);
+Esta función recibe como argumentos un puntero a la matriz a modificar, la fila y columna deseadas, y 3 punteros entradaR, entradaG, y entradaB en los que se devuelven los valores RGB del casillero pedido.
+
+- void matrizLlenar(Matriz_t* matrizEntrada, uint8_t r, uint8_t g, uint8_t b);
+Esta función recibe como argumentos un puntero a la matriz a modificar, y el color deseado. Se asume que Matriz_t apunta a una matriz válida. La función modifica el color de todos los casilleros en matrizEntrada y lo convierte en el color indicado.
+
 
 ### Comunicación I2C
-Direcciones I2C de los sensores/módulos, velocidades de bus, registros principales y funciones de lectura/escritura.
+Se detalla a continuación el planteo y modo de uso de ambos dispositivos I2C utilizados en este proyecto; La memoria EEPROM y el display LCD2004.
+
+Para el display LCD2004, se utilizó una placa conversora PCF8574 cuya dirección I2C es de 0x27. Esta placa convierte señales I2C en señales aptas para ser recibidas por los 8 pines del display. Cuando se envía 1 Byte (8 bits) por el I2C, se envía cada bit a las terminales P0 a P7 del LCD.
+De estas, las primeras 4 se usan para opciones y manejo general:
+
+•	P0: Register Select	(En 0 indica comando, en 1 indica datos)
+•	P1: Read/Write	(Generalmente en 0 para escribir)
+•	P2: Enable 		(Para el clock, detallado mas adelante)
+•	P3: Backlight		(En general siempre en 0 para mantenerla prendida)
+
+Las siguientes 4 terminales (P4-P7) se usan para enviar datos o comandos.
+
+Dado que se deben enviar bytes de 8 bits y solo hay 4 terminales donde mandar bits, se emplea un mecanismo para dividir el bit a enviar en partes. Esto se hace con la función
+
+- static void lcdMandarInterno(char data, uint8_t rs)
+Esta función recibe un byte a enviar al LCD, y un rs que indica si el dato es un comando o un dato a imprimir. Divide el byte en 2 partes, y convierte cada parte en los primeros 4 bits de un byte. Luego envía al I2C 4 bytes: 2 para cada fragmento. Se envían 2 bytes por fragmento porque la lectura del LCD es de flanco descendente: Primero se envía el fragmento con el bit enable en 1, y luego se envía con el bit enable en 0.
+
+El resto de funciones del LCD se basan en el uso de lcdMandarInterno:
+
+- void lcdMandarComando(char cmd);
+Envía un dato, el cual será interpretado como comando (Setea rs en 0).
+
+- void lcdMandarDato(char data);
+Envía un dato, el cual será interpretado como dato a imprimir (Setea rs en 1).
+
+- void lcdBorrar(void);
+Limpia la pantalla del LCD, haciendo uso del comando 0x01.
+
+- void lcdSetearCursor(uint8_t col, uint8_t fil);
+Pone el cursor en la fila y columna indicadas, para luego poder imprimir en esa posición. Se presupone que fil y col son valores que no sobrepasan la cantidad máxima de caracteres del LCD, pero no mueve el cursor si no es así.
+
+- void lcdPrint(char *cadena);
+Imprime una cadena, empezando desde la posición del cursor actual. Se presupone que la cadena no sobrepasa el límite máximo de caracteres del LCD.
+
+- void lcdInicializar(I2C_HandleTypeDef *hi2c);
+Inicializa el LCD. Primero lo setea a modo 8 bits 2 veces con el comando 0x30, y luego lo setea a modo 4 bits con el comando 0x32. Esto es sugerido por el fabricante porque el chip no sabe en qué modo inicia al encenderse.
+Luego, se pone en modo de 4 líneas con el comando 0x28, y enciende la pantalla y esconde el cursor con el comando 0x0C.
+Finalmente, borra lo que esté previamente impreso en el LCD, y setea el cursor de manera que avance a la derecha luego de imprimir cada caracter.
+
+- void lcdBufferearLinea(uint8_t linea, char* cadena);
+Esta es la función que se llama desde la etapa de procesado. Pone  una línea en el buffer, la cual luego puede imprimirse en la etapa de actuadores.
+
+---
+Se procede a la documentación de la EEPROM
+
+Para la memoria EEPROM, se utilizó el integrado AT24C256 que permite almacenar datos de manera no volátil. La comunicación se hace mediante I2C, usando direcciones internas de memoria de 16 bits (I2C_MEMADD_SIZE_16BIT). La dirección I2C de la memoria es de 0x50.
+Dado que se deben escribir bloques de datos de tamaño variable y la memoria no puede escribir atravesando un límite de página de 64 bytes, los datos a enviar se dividen en fragmentos, manteniéndolos por debajo del espacio en la página actual.
+
+- HAL_StatusTypeDef memEscribir(uint16_t addr, uint8_t *datos, uint16_t largo);
+Recibe la dirección de memoria addr donde se empieza a escribir, el puntero a los datos y la cantidad de bytes a guardar. Calcula cuántos bytes se pueden escribir dentro de la página actual antes de chocar con el límite de 64 bytes y envía ese fragmento mediante HAL_I2C_Mem_Write. Luego espera 5 ms y actualiza las direcciones para repetir el proceso en un bucle while hasta haber enviado todos los datos a la EEPROM.
+
+- HAL_StatusTypeDef memLeer(uint16_t addr, uint8_t *datos, uint16_t largo);
+Lee una cantidad de bytes indicada por largo desde la dirección addr y los guarda en el puntero de salida uint8_t *datos.  La lectura completa se hace en un solo llamado a HAL_I2C_Mem_Read , ya que la operación de lectura en la EEPROM no tiene la restricción de límite de página.
+
+- HAL_StatusTypeDef memEscribirMatriz(uint16_t addr, Matriz_t* matriz) ;
+Guarda la estructura completa de la matriz en la EEPROM a partir de la dirección addr. Hace uso de memEscribir, funcionando como un wrapper para mayor comodidad de uso fuera del TDA.
+
+- HAL_StatusTypeDef memLeerMatriz(uint16_t addr, Matriz_t* matriz);
+ Carga en la estructura matriz los datos previamente guardados en la EEPROM desde la dirección addr. Hace uso de memLeer, funcionando como un wrapper para mayor comodidad de uso fuera del TDA.
 
 [Volver al Índice](#índice)
 
