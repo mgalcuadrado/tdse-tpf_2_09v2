@@ -250,10 +250,240 @@ Estructura jerárquica del menú, navegación entre pantallas, renderizado de op
 
 ## 10. Sección 10: Documentación de los potenciómetros
 
-* **Responsables:** [Nombre del compañero / Equipo]
+* **Responsables:** [Cloe Gabay]
+
+### Entradas analógicas
+
+Los potenciómetros se utilizan como entradas analógicas para controlar el color RGB utilizado por el sistema. Cada potenciómetro está asociado a uno de los componentes del color:
+
+- Potenciómetro 1 → Rojo (R)
+- Potenciómetro 2 → Verde (G)
+- Potenciómetro 3 → Azul (B)
+
+Las señales analógicas son adquiridas mediante el ADC1 de la STM32 NÚCLEO F103RB.
+
+### Canales utilizados
+
+Se utilizan tres canales del ADC1:
+
+| Potenciómetro | Canal ADC | Pin |
+|---------------|-----------|-----|
+| Rojo | ADC1_IN0 | PA0 |
+| Verde | ADC1_IN1 | PA1 |
+| Azul | ADC1_IN4 | PA4 |
+
+Los tres pines se configuran en modo analógico.
+
+### Configuración del ADC
+
+El ADC1 se configura para realizar una secuencia de tres conversiones.
+
+La configuración utilizada es:
+
+- **ADC:** ADC1
+- **Scan Conversion Mode:** Enabled
+- **Número de conversiones:** 3
+- **Rank 1:** Channel 0
+- **Rank 2:** Channel 1
+- **Rank 3:** Channel 4
+- **Sampling Time:** 239.5 ADC cycles para los tres canales
+
+De esta manera, cada vez que se inicia una secuencia se realizan las siguientes conversiones:
+
+ADC1
+ │
+ ├── Rank 1 → Channel 0 (PA0) → Rojo
+ │
+ ├── Rank 2 → Channel 1 (PA1) → Verde
+ │
+ └── Rank 3 → Channel 4 (PA4) → Azul
 
 ### Entradas Analógicas (ADC)
 Configuración de canales ADC, escalado de valores, filtrado de ruido (promedios, DMA) y asignación a parámetros del sistema.
+
+Debido a que los potenciómetros utilizan tres canales del ADC1 mediante una secuencia de conversiones, se utiliza DMA (Direct Memory Access) para almacenar automáticamente los resultados de las conversiones en memoria.
+
+En el IOC se configura el DMA asociado al ADC1:
+
+- **DMA:** DMA1
+- **Canal:** Channel 1
+- **Dirección:** Peripheral to Memory
+- **Modo:** Normal
+- **Incremento de periférico:** Disabled
+- **Incremento de memoria:** Enabled
+- **Alineación del periférico:** Half Word (16 bits)
+- **Alineación de memoria:** Half Word (16 bits)
+- **Prioridad:** High
+
+El incremento de memoria permite que cada conversión de la secuencia sea almacenada en una posición consecutiva del buffer.
+
+La correspondencia utilizada es:
+
+| Conversión | Canal ADC | Posición en buffer | Potenciómetro |
+|------------|-----------|--------------------|---------------|
+| Rank 1 | ADC1_IN0 | `adc_buffer[0]` | Rojo |
+| Rank 2 | ADC1_IN1 | `adc_buffer[1]` | Verde |
+| Rank 3 | ADC1_IN4 | `adc_buffer[2]` | Azul |
+
+El DMA se encuentra asociado al ADC mediante `__HAL_LINKDMA()`, de manera que el ADC1 utiliza el canal DMA configurado para transferir automáticamente los resultados de las conversiones hacia el buffer de memoria.
+
+Uso del DMA
+Para obtener los resultados de las tres conversiones se utiliza DMA (Direct Memory Access).
+
+El DMA permite transferir los resultados generados por el ADC directamente a una zona de memoria sin que el procesador tenga que realizar una lectura individual de cada conversión.
+
+Se utiliza un buffer de tres posiciones: static uint16_t adc_buffer[3];
+
+La configuración del DMA permite incrementar la dirección de memoria después de cada transferencia. Por lo tanto, los resultados quedan almacenados de la siguiente manera:
+
+adc_buffer[0] → ADC1_IN0 → Rojo
+adc_buffer[1] → ADC1_IN1 → Verde
+adc_buffer[2] → ADC1_IN4 → Azul
+
+El tamaño de cada elemento es de 16 bits (uint16_t), coincidiendo con la resolución del ADC.
+
+Secuencia de adquisición: la función encargada de obtener los tres valores es 
+         static bool leer_3_canales(uint16_t raw[3])
+
+Esta función inicia una secuencia de tres conversiones mediante:
+         HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, 3);
+
+El tercer argumento indica que se deben transferir tres resultados al buffer.
+
+Una vez iniciada la conversión, el programa espera a que el DMA complete la transferencia:
+
+         HAL_DMA_PollForTransfer(
+             &hdma_adc1,
+             HAL_DMA_FULL_TRANSFER,
+             DMA_TIMEOUT_MS
+         );
+
+Cuando la transferencia finaliza, los valores almacenados en el buffer se copian al arreglo recibido por la función:
+
+raw[0] = adc_buffer[0];
+raw[1] = adc_buffer[1];
+raw[2] = adc_buffer[2];
+
+
+Conversión de ADC a color
+
+El ADC entrega valores de 12 bits, en el rango: 0 ... 4095 y el sistema utiliza valores de color de 8 bits: 0 ... 255.
+
+Para realizar esta conversión se utiliza:
+
+         uint8_t adc_a_color(uint16_t valor_raw)
+         {
+             return (uint8_t)(valor_raw >> 4);
+         }
+
+El desplazamiento de cuatro bits equivale aproximadamente a dividir el valor del ADC por 16:
+4095 / 16 ≈ 255 -> Por lo tanto:
+         ADC = 0    → color = 0
+         ADC = 4095 → color = 255
+
+Filtrado de ruido: para evitar pequeñas variaciones producidas por ruido eléctrico o fluctuaciones naturales de la señal analógica se implementa un filtro por umbral. Se utiliza:
+
+         #define UMBRAL_FILTRO 2
+
+La función:
+         
+         static uint8_t aplicar_filtro_ruido(
+             uint8_t nuevo,
+             uint8_t anterior
+         )
+
+compara el nuevo valor con el valor anteriormente almacenado, tal que si la diferencia es menor o igual al umbral, se conserva el valor anterior:
+         
+         |nuevo - anterior| ≤ 2
+                 │
+                 └── Se conserva el valor anterior
+
+Si la diferencia supera el umbral, se acepta el nuevo valor, evitando qye pequeñas fluctuaciones del ADC produzcan cambios visibles innecesarios en el color mostrado.
+
+Función de escrutinio - actualizar los potenciómetros es:
+         void escrutarPotenciometros(void)
+
+Su funcionamiento general es:
+         
+         escrutarPotenciometros()
+                 │
+                 ▼
+         leer_3_canales()
+                 │
+                 ▼
+         ADC1 + DMA
+                 │
+                 ├── raw[0] → Rojo
+                 ├── raw[1] → Verde
+                 └── raw[2] → Azul
+                 │
+                 ▼
+         adc_a_color()
+                 │
+                 ▼
+         Filtro de ruido
+                 │
+                 ▼
+         valor_r
+         valor_g
+         valor_b
+
+Los valores procesados se mantienen internamente en:
+         
+         static uint8_t valor_r;
+         static uint8_t valor_g;
+         static uint8_t valor_b;
+
+Para acceder a ellos desde el resto de la aplicación se utiliza:
+
+         Potenciometros_t obtenerPotenciometros(void)
+
+Esta función devuelve una estructura con los tres componentes:
+
+         Potenciometros_t valores;
+         valores.r = valor_r;
+         valores.g = valor_g;
+         valores.b = valor_b;
+
+De esta forma, el resto del sistema no necesita conocer cómo se realiza la adquisición mediante ADC y DMA.
+
+
+La lectura de los potenciómetros se realiza dentro de la tarea de escrutinio:
+         
+         void taskEscrutar(){
+         
+             botonLeer();
+             escrutarPotenciometros();
+         }
+
+La arquitectura de la aplicación queda entonces:
+
+         appUpdate()
+             │
+             ├── hub75Update()
+             │
+             ├── taskEscrutar()
+             │       │
+             │       ├── botonLeer()
+             │       │
+             │       └── escrutarPotenciometros()
+             │               │
+             │               └── ADC1 + DMA
+             │
+             ├── taskProcesar()
+             │
+             └── taskActuar()
+
+
+La inicialización del ADC y del DMA es realizada por las funciones generadas por STM32CubeMX/HAL.
+
+El módulo de potenciómetros dispone de: void pote_init(void) - aunque actualmente no requiere realizar una inicialización adicional, ya que los periféricos son inicializados durante el arranque del sistema.
+
+Consideraciones sobre DMA
+El uso de DMA permite desacoplar la transferencia de los resultados del ADC de la lectura individual realizada por el procesador. 
+En esta implementación se utiliza el modo DMA_NORMAL, por lo que cada llamada a HAL_ADC_Start_DMA() realiza una transferencia de tres muestras y finaliza.
+
+La implementación actual espera explícitamente la finalización de la transferencia mediante HAL_DMA_PollForTransfer(). Esto simplifica el control de la adquisición y permite garantizar que los tres valores estén disponibles antes de continuar con el procesamiento.
 
 [Volver al Índice](#índice)
 
