@@ -1,0 +1,10 @@
+../Core/Src/secuencia.c:18:14:secuenciaCrear	24	static
+../Core/Src/secuencia.c:37:6:secuenciaPintarSeccion	32	static
+../Core/Src/secuencia.c:48:13:secuenciaRestaurarCasilla	40	static
+../Core/Src/secuencia.c:54:6:secuenciaInsertarElemento	40	static
+../Core/Src/secuencia.c:77:6:secuenciaAvanzar	32	static
+../Core/Src/secuencia.c:132:9:secuenciaElementoActual	16	static
+../Core/Src/secuencia.c:137:6:secuenciaPrint	24	static
+../Core/Src/secuencia.c:145:6:secuenciaVaciar	24	static
+../Core/Src/secuencia.c:153:6:secuenciaCompleta	24	static
+../Core/Src/secuencia.c:163:6:secuenciaBorrar	16	static

@@ -25,7 +25,7 @@
 /* Application includes */
 #include "logger.h"
 #include "app.h"
-#include "test.h"
+//#include "test.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -68,14 +68,6 @@ static void MX_I2C1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-static void DWT_Init(void)
-{
-    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-
-    DWT->CYCCNT = 0;
-
-    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
-}
 
 /* USER CODE END 0 */
 
@@ -104,7 +96,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  DWT_Init();
+  //DWT_Init();
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -118,7 +110,7 @@ int main(void)
   /* Application Init */
 
   appInit();
-  testearWCET();//para testear wcet
+ // testearWCET();//para testear wcet
   /* USER CODE END 2 */
 
   /* Infinite loop */

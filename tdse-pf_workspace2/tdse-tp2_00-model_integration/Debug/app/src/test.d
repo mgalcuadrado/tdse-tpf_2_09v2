@@ -24,10 +24,7 @@ app/src/test.o: ../app/src/test.c ../app/inc/test.h ../app/inc/app.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
- ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
- ../app/inc/test_wcet_adc.h ../app/inc/test_wcet_boton.h \
- ../app/inc/test_wcet_hub75.h ../app/inc/test_wcet_sistema.h \
- ../app/inc/boton.h ../app/inc/test_wcet_lcd.h
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 ../app/inc/test.h:
 ../app/inc/app.h:
 ../Core/Inc/main.h:
@@ -57,9 +54,3 @@ app/src/test.o: ../app/src/test.c ../app/inc/test.h ../app/inc/app.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
-../app/inc/test_wcet_adc.h:
-../app/inc/test_wcet_boton.h:
-../app/inc/test_wcet_hub75.h:
-../app/inc/test_wcet_sistema.h:
-../app/inc/boton.h:
-../app/inc/test_wcet_lcd.h:

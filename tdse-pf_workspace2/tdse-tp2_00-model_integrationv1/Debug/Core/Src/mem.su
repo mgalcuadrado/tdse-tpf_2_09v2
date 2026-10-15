@@ -1,0 +1,5 @@
+../Core/Src/mem.c:38:19:memLeer	32	static
+../Core/Src/mem.c:51:6:memBufferearEscrituraMatriz	16	static
+../Core/Src/mem.c:72:6:memEstaOcupada	4	static
+../Core/Src/mem.c:77:19:memLeerMatriz	16	static
+../Core/Src/mem.c:85:6:memActuar	32	static

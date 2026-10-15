@@ -90,8 +90,8 @@ void menuSecuenciaPrint(char seleccion[3], int indice_seleccion) {
     char mensaje0[LCD_COLUMNAS];
     char mensaje1[LCD_COLUMNAS];
 
-    snprintf(mensaje0, sizeof(mensaje0), "(%c) Jugar Sec.", seleccion[0]);
-    snprintf(mensaje1, sizeof(mensaje1), "(%c) Borrar Sec,", seleccion[1]);
+    snprintf(mensaje0, sizeof(mensaje0), "(%c) Jugar Secuencia", seleccion[0]);
+    snprintf(mensaje1, sizeof(mensaje1), "(%c) BorrarSecuencia", seleccion[1]);
 
     lcdBufferearLinea(0, mensaje0);
     lcdBufferearLinea(1, mensaje1);
@@ -227,26 +227,36 @@ void menuSecuenciaCompletarTick(BotonEvento_t input) {
 		return;
 	}
 
+	if (secuenciaVictoria){
+		if ((HAL_GetTick() - tiempoVictoria) > DEBOUNCE_MS * 40) {
+			secuenciaVictoria = false;
+					matrizLlenar(matrizActual, 0, 0, 0);
+					frameBufferUpdateAll(matrizActual);
+
+		        	sistemaCambiarEstado(ESTADO_MENU_PRINCIPAL);
+		        	return;
+		}
+		return;
+	}
+
 	if (secuenciaCompleta(secuenciaActual)) {
 		if (!secuenciaVictoria){
 			secuenciaVictoria = true;
 			tiempoVictoria = HAL_GetTick();
 			lcdVaciarBuffer();
 			lcdBufferearLinea(0, "Secuencia Completa :)");
-			lcdBufferearLinea(1, "Toca un boton");
+			lcdBufferearLinea(1, "¡Felicitaciones!");
 			matrizLlenar(matrizActual, 0, 255, 0); // Toda la matriz VERDE
 			frameBufferUpdateAll(matrizActual);
 		}
 
-        if ((HAL_GetTick() - tiempoVictoria) > DEBOUNCE_MS * 40) {
-			matrizLlenar(matrizActual, 0, 0, 0);
-        	sistemaCambiarEstado(ESTADO_MENU_SECUENCIA);
-        	return;
-		} else {
-			tiempoVictoria = HAL_GetTick();
-			return;
-		}
+        //else {
+			//tiempoVictoria = HAL_GetTick();
+			//return;
+		//}
     }
+
+
 
 	switch (input) {
         case BOTON_ARRIBA:

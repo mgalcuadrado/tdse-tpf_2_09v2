@@ -36,8 +36,3 @@
 "./app/src/potenciometro.o"
 "./app/src/secuencia.o"
 "./app/src/test.o"
-"./app/src/test_wcet_LCD.o"
-"./app/src/test_wcet_adc.o"
-"./app/src/test_wcet_boton.o"
-"./app/src/test_wcet_hub75.o"
-"./app/src/test_wcet_sistema.o"

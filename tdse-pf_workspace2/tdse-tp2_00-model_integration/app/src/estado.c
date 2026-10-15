@@ -15,13 +15,13 @@ static EstadoSistema_t estadoSistemaActual = ESTADO_MENU_PRINCIPAL;
 static EstadoOperacion_t estadoOperacionActual = ESTADO_SETUP;
 
 void sistemaInit(void) {
-    sistemaCambiarOperacion(ESTADO_NORMAL);
+    sistemaCambiarOperacion(ESTADO_SETUP);
 }
 
 void sistemaProcesar(void) {
 	switch (estadoOperacionActual){
 		case ESTADO_SETUP:
-			sistemaCambiarOperacion(ESTADO_FALLA);
+			sistemaCambiarOperacion(ESTADO_NORMAL);
 			break;
 		case ESTADO_NORMAL:
 			sistemaTickTiempo();

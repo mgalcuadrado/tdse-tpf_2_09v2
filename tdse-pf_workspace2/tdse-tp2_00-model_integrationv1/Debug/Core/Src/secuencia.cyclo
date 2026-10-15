@@ -1,0 +1,10 @@
+../Core/Src/secuencia.c:18:14:secuenciaCrear	4
+../Core/Src/secuencia.c:37:6:secuenciaPintarSeccion	3
+../Core/Src/secuencia.c:48:13:secuenciaRestaurarCasilla	1
+../Core/Src/secuencia.c:54:6:secuenciaInsertarElemento	5
+../Core/Src/secuencia.c:77:6:secuenciaAvanzar	13
+../Core/Src/secuencia.c:132:9:secuenciaElementoActual	1
+../Core/Src/secuencia.c:137:6:secuenciaPrint	2
+../Core/Src/secuencia.c:145:6:secuenciaVaciar	2
+../Core/Src/secuencia.c:153:6:secuenciaCompleta	3
+../Core/Src/secuencia.c:163:6:secuenciaBorrar	2

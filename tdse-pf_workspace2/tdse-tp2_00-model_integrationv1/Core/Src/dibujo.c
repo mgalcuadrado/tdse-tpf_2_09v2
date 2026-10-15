@@ -1,0 +1,149 @@
+/*
+ * dibujo.c
+ *
+ * Created on: Ago 3, 2026
+ *      Author: Bauti
+ *
+*/
+
+#include <stdio.h>
+#include "dibujo.h"
+#include "matriz.h"
+#include "boton.h"
+#include "potenciometro.h"
+#include <stdlib.h>
+#include <string.h>
+#include "lcd.h"
+#include "frame_buffer.h"
+
+Dibujo_t* dibujoCrear(void) {
+	Dibujo_t* dibujo = (Dibujo_t*)malloc(sizeof(Dibujo_t));
+	if (dibujo == NULL) {
+		printf("Error al crear tablero");
+		return NULL;
+	}
+	dibujo->matriz = matrizCrear();
+	if (dibujo->matriz == NULL) {
+		printf("Error al crear tablero");
+		free(dibujo);
+		return NULL;
+	}
+
+	dibujo->color_anterior = (Casillero_t*)malloc(sizeof(Casillero_t));
+		if (dibujo->color_anterior == NULL) {
+
+			matrizBorrar(dibujo->matriz);
+			free(dibujo);
+			return NULL;
+		}
+
+	dibujo->indice_fil = 16;
+	dibujo->indice_col = 16;
+	dibujo->tam_pincel = 1;
+
+	matrizGetCasillero(dibujo->matriz, 0, 0, dibujo->color_anterior);
+	matrizLlenar(dibujo->matriz, 0, 0, 0);
+	return dibujo;
+}
+
+void dibujoBorrar(Dibujo_t* dibujo) {
+	if (dibujo == NULL) {
+		return;
+	}
+	if (dibujo->matriz != NULL){
+		matrizBorrar(dibujo->matriz);
+	}
+
+	if (dibujo->color_anterior != NULL){
+			free(dibujo->color_anterior);
+	}
+
+	free(dibujo);
+}
+
+void dibujoAvanzar(Dibujo_t* dibujo, BotonEvento_t input){
+	dibujoPintar(dibujo, dibujo->color_anterior->r, dibujo->color_anterior->g, dibujo->color_anterior->b);
+		switch (input) {
+		case BOTON_IZQUIERDA:
+			if (dibujo->indice_col / dibujo->tam_pincel > 0){
+				dibujo->indice_col -= dibujo->tam_pincel;
+			} else {
+				dibujo->indice_col = MATRIZ_COLUMNAS - dibujo->tam_pincel;
+			}
+			break;
+		case BOTON_ABAJO:
+			if ((dibujo->indice_fil / dibujo->tam_pincel) < ((MATRIZ_FILAS - 1) / dibujo->tam_pincel)){
+				dibujo->indice_fil += dibujo->tam_pincel;
+			} else {
+				dibujo->indice_fil = 0;
+			}
+			break;
+		case BOTON_DERECHA:
+			if ((dibujo->indice_col / dibujo->tam_pincel) < ((MATRIZ_COLUMNAS - 1) / dibujo->tam_pincel)){
+				dibujo->indice_col += dibujo->tam_pincel;
+			} else {
+				dibujo->indice_col = 0;
+			}
+			break;
+		case BOTON_ARRIBA:
+			if (dibujo->indice_fil / dibujo->tam_pincel > 0){
+				dibujo->indice_fil -= dibujo->tam_pincel;
+			} else {
+				dibujo->indice_fil = MATRIZ_FILAS - dibujo->tam_pincel;
+			}
+			break;
+
+
+		default:
+			//printf("Error al moverse en la matriz \n");
+			return;
+		}
+
+	matrizGetCasillero(dibujo->matriz, dibujo->indice_fil, dibujo->indice_col, dibujo->color_anterior);
+
+	//Pinta el cursor
+	if(dibujo->matriz != NULL){
+		dibujoPintar(dibujo, 250, 0, 0);
+
+	}
+
+	// StandBy
+	/*
+	uint8_t r = 0;
+	uint8_t g = 0;
+	uint8_t b = 0;
+
+	leer_potenciometros(&r, &g, &b);
+	matrizGetCasillero(dibujo->matriz, dibujo->indice_fil, dibujo->indice_col, dibujo->color_anterior);
+	dibujoPintar(dibujo, r, g, b);
+	*/
+}
+
+void dibujoReiniciar(Dibujo_t* dibujo) {
+	if (dibujo == NULL || dibujo->matriz == NULL) return;
+		matrizLlenar(dibujo->matriz, 0, 0, 0); // Apago todas las leds de la matriz
+        frameBufferUpdateAll(dibujo->matriz);
+		dibujo->indice_col = 0;
+		dibujo->indice_fil = 0;
+		if (dibujo->color_anterior != NULL) {
+			dibujo->color_anterior->r = 0;
+			dibujo->color_anterior->g = 0;
+			dibujo->color_anterior->b = 0;
+		}
+	}
+
+void dibujoPintar(Dibujo_t* dibujo, uint8_t red, uint8_t green, uint8_t blue) {
+	if (dibujo == NULL || dibujo->matriz == NULL) return;
+		uint8_t base_fil = (dibujo->indice_fil/dibujo->tam_pincel) * dibujo->tam_pincel;
+		uint8_t base_col = (dibujo->indice_col/dibujo->tam_pincel) * dibujo->tam_pincel;
+		for (uint8_t i = 0; i < dibujo->tam_pincel; i++) {
+		    for(uint8_t j = 0; j < dibujo->tam_pincel; j++) {
+		        matrizSetCasillero(dibujo->matriz, base_fil + i, base_col + j, red, green, blue);
+		    }
+		}
+        frameBufferUpdateAll(dibujo->matriz);
+
+	}
+
+
+

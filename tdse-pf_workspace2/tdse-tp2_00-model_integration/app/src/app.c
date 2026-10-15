@@ -47,6 +47,5 @@ void taskProcesar(){
 }
 void taskActuar(){
 	lcdActuar();
-	//hub75Update();
 	//mgalcuadrado ver si muevo aca el hub75Udate
-}
+}	

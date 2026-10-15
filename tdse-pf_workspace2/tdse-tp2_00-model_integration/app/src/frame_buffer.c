@@ -24,13 +24,15 @@ volatile uint32_t framebuffer[BUFFER_FILAS][BUFFER_COLUMNAS];
 
 void frameBufferInit(void){
 	frameBufferLandingScreen();
+	//frameBufferColourAll();
 }
+
 
 void frameBufferLandingScreen(void){
 for (int f = 0; f < 32; f++){
 		for (int c = 0; c < 32; c++){
 			if (matrizInicio[f][c]  == 1)
-				frameBufferUpdateCasillaColorDirecto(f, c, 255, 255, 255);
+				frameBufferUpdateCasillaColorDirecto(f, c, 255, 0, 255);
 			else frameBufferUpdateCasillaColorDirecto(f, c, 0, 0, 0);
 		}
 	}
@@ -41,7 +43,7 @@ void frameBufferColourAll(void){
    	//par de pixeles en negro: todos los pines_rgb se apagan (los pines están movidos al sector de reset)
     for (int f = 0; f < BUFFER_FILAS; f++){
         for (int c = 0; c < BUFFER_COLUMNAS; c++){
-        	framebuffer[f][c] = parpixeles_R1_R2;
+        	framebuffer[f][c] = parpixeles_blanco;
         }
     }
 }

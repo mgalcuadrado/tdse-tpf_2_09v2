@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="java.lang.Class">
+		<list key="findhistory">
+			<item value="g_app_tick_cnt"/>
+			<item value="HAL_SYSTICK_Callback"/>
+			<item value="indice_sec"/>
+			<item value="lista_sec"/>
+			<item value="lista"/>
+		</list>
+		<list key="replacehistory">
+			<item value="g_app_tick_cntt"/>
+			<item value="indiceSec"/>
+			<item value="listaSec"/>
+		</list>
+	</section>
+</section>

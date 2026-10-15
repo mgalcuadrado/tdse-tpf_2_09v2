@@ -1,0 +1,5 @@
+../Core/Src/menu_principal.c:24:6:menuPrincipalEntrar	1
+../Core/Src/menu_principal.c:32:6:menuPrincipalTick	7
+../Core/Src/menu_principal.c:57:6:menuPrincipalOpcionElegida	5
+../Core/Src/menu_principal.c:73:6:menuPrincipalCambiandoBrilloTick	7
+../Core/Src/menu_principal.c:105:6:menuPrincipalPrint	1

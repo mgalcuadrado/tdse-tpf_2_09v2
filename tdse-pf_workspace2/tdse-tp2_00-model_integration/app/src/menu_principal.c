@@ -26,6 +26,7 @@ void menuPrincipalEntrar(void) {
     seleccion[0] = '*';
     seleccion[1] = ' ';
     //hub75SetBrightness(brillo);
+    frameBufferInit();
     menuPrincipalPrint(seleccion, indiceSeleccion);
 }
 
@@ -108,10 +109,10 @@ void menuPrincipalPrint(char seleccion[3], int indice_seleccion) {
     char mensaje1[LCD_COLUMNAS];
     char mensaje2[LCD_COLUMNAS];
     char mensaje3[LCD_COLUMNAS];
-    snprintf(mensaje0, sizeof(mensaje0), "  UBA en Accion ");
+    snprintf(mensaje0, sizeof(mensaje0), /*"  UBA en Accion "*/ "    Ing-jugando!  ");
     snprintf(mensaje1, sizeof(mensaje1), "(%c) Modo Dibujo", seleccion[0]);
     snprintf(mensaje2, sizeof(mensaje2), "(%c) Modo Secuencia", seleccion[1]);
-    snprintf(mensaje3, sizeof(mensaje3), "(%c) Cambiar Brillo", seleccion[2]);
+    snprintf(mensaje3, sizeof(mensaje3), "(%c) Modo de Pruebas", seleccion[2]);
 
     lcdBufferearLinea(0, mensaje0);
     lcdBufferearLinea(1, mensaje1);
